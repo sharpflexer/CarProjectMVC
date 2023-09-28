@@ -1,4 +1,6 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Context;
+using CarProjectMVC.Models;
+using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -8,20 +10,17 @@ namespace CarProjectMVC.Controllers
     public class ReadController : Controller
     {
         ApplicationContext _context;
-        private readonly ILogger<ReadController> _logger;
+        IRequestService _requestService;
 
-        public ReadController(ApplicationContext context, ILogger<ReadController> logger)
+        public ReadController(ApplicationContext context, IRequestService requestService)
         {
             _context = context;
-            _logger = logger;
+            _requestService = requestService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            ViewData["MyData"] = _context.Cars.Include(car => car.Brand)
-                   .Include(car => car.Model)
-                   .Include(car => car.Color)
-                   .AsNoTracking().ToList();
+            ViewData["cars"] = _requestService.ReadAsync();
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

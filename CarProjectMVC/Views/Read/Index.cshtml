@@ -1,12 +1,12 @@
 ﻿@{
-    var myData = ViewData["MyData"] as List<Car>;
+    var cars = ViewData["cars"] as List<Car>;
 }
 
 <h2>Список автомобилей</h2>
 
 <table border="5" cellspacing="10" cellpadding="15">
     <tr><th>ID</th><th>Марка</th><th>Модель</th><th>Цвет</th></tr>
-    @foreach (var car in myData)
+    @foreach (var car in cars)
     {
         <tr>
             <td>@car.Id</td>

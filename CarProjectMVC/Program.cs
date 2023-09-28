@@ -1,12 +1,13 @@
-using CarProjectMVC;
+using CarProjectMVC.Context;
+using CarProjectMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(options => {
     options.UseNpgsql(connection);
     options.EnableSensitiveDataLogging();
@@ -16,6 +17,7 @@ builder.Services.AddMvc()
           options => {
               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
           });
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 var app = builder.Build();
 

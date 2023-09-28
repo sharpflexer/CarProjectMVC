@@ -1,81 +1,53 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Context;
+using CarProjectMVC.Models;
+using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Controllers
 {
     public class CreateController : Controller
     {
-        ApplicationContext _context;
+        private ApplicationContext _context;
+        private IRequestService _requestService;
 
-        public Car? Auto { get; set; }
-
-        public Microsoft.AspNetCore.Mvc.Rendering.SelectList BrandsSelect { get; private set; }
-
-        public List<Brand> Brands { get; private set; } = new();
-
-        public List<CarModel> Models { get; private set; } = new();
-
-        public List<CarColor> Colors { get; private set; } = new();
-
-        public CreateController(ApplicationContext context) 
+        public CreateController(ApplicationContext context, IRequestService requestService) 
         {
             _context = context;
-            Brands = _context.Brands.Include(b => b.Models).AsNoTracking().ToList();
-            Models = _context.Models.Include(m => m.Colors).AsNoTracking().ToList();
-            Colors = _context.Colors.Include(c => c.Models).AsNoTracking().ToList();
+            _requestService = requestService;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> UpdateAsync(int id)
-        {
-            BrandsSelect = new(Brands, nameof(Brand.Id), nameof(Brand.Name));
-            Auto = await _context.Cars.FindAsync(id);
-
-            if (Auto == null) return NotFound();
-
-            ViewData["BrandsSelect"] = BrandsSelect;
-            ViewData["Auto"] = Auto;
-
-            return View();
-        }
         [HttpPost]
         public async Task<IActionResult> PostAsync()
         {
-            Auto = new Car()
-            {
-                Brand = _context.Brands.Single(brand => brand.Id == int.Parse(HttpContext.Request.Form["BrandId"])),
-                Model = _context.Models.Single(model => model.Id == int.Parse(HttpContext.Request.Form["ModelId"])),
-                Color = _context.Colors.Single(color => color.Id == int.Parse(HttpContext.Request.Form["ColorId"])),
-            };
-            _context.Cars.Add(Auto);
-            await _context.SaveChangesAsync();
+            await _requestService.CreateAsync(HttpContext.Request.Form);
             return RedirectToAction("Index", "Read");
         }
-        public async Task<IActionResult> UpdateAsync()
-        {
-            Auto.Brand = _context.Brands.Single(brand => brand.Id == int.Parse(HttpContext.Request.Form["BrandId"]));
-            Auto.Model = _context.Models.Single(model => model.Id == int.Parse(HttpContext.Request.Form["ModelId"]));
-            Auto.Color = _context.Colors.Single(color => color.Id == int.Parse(HttpContext.Request.Form["ColorId"]));
 
-            _context.Cars.Update(Auto!);
-            await _context.SaveChangesAsync();
-            return View("Index");
-        }
         public JsonResult GetBrands()
         {
-            return new(Brands);
+            return new(_context.Brands.Include(b => b.Models).AsNoTracking());
         }
+
         public JsonResult GetModels(int id)
         {
-            return new(Brands.Single(b => b.Id.Equals(id)).Models);
+            return new(_context.Brands.Include(b => b.Models)
+                                      .AsNoTracking()
+                                      .Single(b => b.Id.Equals(id))
+                                      .Models);
         }
+        
         public JsonResult GetColors(int id)
         {
-            return new(Models.Single(m => m.Id.Equals(id)).Colors);
+            return new(_context.Models.Include(m => m.Colors)
+                                      .AsNoTracking()
+                                      .Single(m => m.Id.Equals(id))
+                                      .Colors);
         }
     }
 }

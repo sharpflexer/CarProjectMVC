@@ -8,7 +8,7 @@ namespace CarProjectMVC.Models
 
         public string Name { get; set; }
 
-        public List<CarColor> Colors { get; set; }
+        public ICollection<CarColor> Colors { get; set; }
 
     }
 }
