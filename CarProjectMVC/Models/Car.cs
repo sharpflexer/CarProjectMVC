@@ -9,6 +9,5 @@
         public CarModel Model { get; set; }
 
         public CarColor Color { get; set; }
-
     }
 }

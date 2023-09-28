@@ -6,9 +6,13 @@ namespace CarProjectMVC.Context
     public class ApplicationContext : DbContext
     {
         public DbSet<Car> Cars => Set<Car>();
+
         public DbSet<Brand> Brands => Set<Brand>();
+
         public DbSet<CarModel> Models => Set<CarModel>();
+
         public DbSet<CarColor> Colors => Set<CarColor>();
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
@@ -115,9 +119,8 @@ namespace CarProjectMVC.Context
             SaveChanges();
 
             foreach (CarColor color in Colors.ToList())
-            {
                 color.Models = Models.Where(model => model.Colors.Contains(color)).ToList();
-            }
+
             SaveChanges();
             Brands.AddRange(
                 new Brand()

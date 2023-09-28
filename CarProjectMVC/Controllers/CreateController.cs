@@ -9,14 +9,16 @@ namespace CarProjectMVC.Controllers
 {
     public class CreateController : Controller
     {
-        private ApplicationContext _context;
-        private IRequestService _requestService;
+        private readonly ApplicationContext _context;
 
-        public CreateController(ApplicationContext context, IRequestService requestService) 
+        private readonly IRequestService _requestService;
+
+        public CreateController(ApplicationContext context, IRequestService requestService)
         {
             _context = context;
             _requestService = requestService;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -41,7 +43,7 @@ namespace CarProjectMVC.Controllers
                                       .Single(b => b.Id.Equals(id))
                                       .Models);
         }
-        
+
         public JsonResult GetColors(int id)
         {
             return new(_context.Models.Include(m => m.Colors)

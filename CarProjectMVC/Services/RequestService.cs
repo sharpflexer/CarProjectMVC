@@ -6,14 +6,16 @@ namespace CarProjectMVC.Services
 {
     public class RequestService : IRequestService
     {
-        private ApplicationContext _context;
+        private readonly ApplicationContext _context;
+
         public RequestService(ApplicationContext context) 
         {
             _context = context;
         }
+
         public async Task CreateAsync(IFormCollection form)
         {
-            Car Auto = new Car()
+            Car Auto = new()
             {
                 Brand = _context.Brands.Single(brand => brand.Id == int.Parse(form["BrandId"])),
                 Model = _context.Models.Single(model => model.Id == int.Parse(form["ModelId"])),

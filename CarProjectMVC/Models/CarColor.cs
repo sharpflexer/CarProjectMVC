@@ -9,6 +9,5 @@ namespace CarProjectMVC.Models
         public string Name { get; set; }
 
         public ICollection<CarModel> Models { get; set; }
-
     }
 }

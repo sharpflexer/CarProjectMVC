@@ -9,8 +9,9 @@ namespace CarProjectMVC.Controllers
 {
     public class ReadController : Controller
     {
-        ApplicationContext _context;
-        IRequestService _requestService;
+        private readonly ApplicationContext _context;
+
+        private readonly IRequestService _requestService;
 
         public ReadController(ApplicationContext context, IRequestService requestService)
         {
@@ -18,11 +19,13 @@ namespace CarProjectMVC.Controllers
             _requestService = requestService;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult IndexAsync()
         {
             ViewData["cars"] = _requestService.Read();
+
             return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
