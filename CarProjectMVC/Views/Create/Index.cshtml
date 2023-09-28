@@ -3,15 +3,15 @@
 <form method="post" action="/Create/Post">
     <p>
         <label>Марка:</label><br />
-        <select id="brand" name="BrandId" class="form-control"> </select>
+        <select id="brand" name="Brands" class="form-control"> </select>
     </p>
     <p>
         <label>Модель:</label><br />
-        <select id="model" name="ModelId" class="form-control"></select>
+        <select id="model" name="Models" class="form-control"></select>
     </p>
     <p>
         <label>Цвет:</label><br />
-        <select id="color" name="ColorId" class="form-control"></select>
+        <select id="color" name="Colors" class="form-control"></select>
     </p>
     <input type="submit" value="Отправить" />
 </form>
@@ -20,29 +20,3 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/cascadingddl.js"></script>
 }
-
-@* @section Scripts
-    {
-    <script>
-        $(function () {
-            $("#select1").on("change", function () {
-                var brandId = $(this).val();
-                $("#select2").empty();
-                $.getJSON(`?handler=ModelsById&id=${brandId}`, (data) => {
-                    $.each(data, function (i, item) {
-                        $("#select2").append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                });
-            });
-            $("#select2").on("change", function () {
-                var modelId = $(this).val();
-                $("#select3").empty();
-                $.getJSON(`?handler=ColorsById&id=${modelId}`, (data) => {
-                    $.each(data, function (i, item) {
-                        $("#select3").append(`<option value="${item.id}">${item.name}</option>`);
-                    });
-                });
-            });
-        });
-    </script>
-} *@

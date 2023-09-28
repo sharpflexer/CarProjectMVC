@@ -5,12 +5,24 @@ namespace CarProjectMVC.Context
 {
     public class ApplicationContext : DbContext
     {
+        /// <summary>
+        /// Таблица автомобилей
+        /// </summary>
         public DbSet<Car> Cars => Set<Car>();
 
+        /// <summary>
+        /// Таблица автомобильных марок
+        /// </summary>
         public DbSet<Brand> Brands => Set<Brand>();
 
+        /// <summary>
+        /// Таблица моделей автомобилей
+        /// </summary>
         public DbSet<CarModel> Models => Set<CarModel>();
 
+        /// <summary>
+        /// Таблица расцветок автомобилей
+        /// </summary>
         public DbSet<CarColor> Colors => Set<CarColor>();
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
@@ -20,6 +32,9 @@ namespace CarProjectMVC.Context
                 FillDatabase();
         }
 
+        /// <summary>
+        /// Инициализация базы данных стартовыми данными
+        /// </summary>
         private void FillDatabase()
         {
             Colors.AddRange(

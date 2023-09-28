@@ -17,9 +17,9 @@ namespace CarProjectMVC.Services
         {
             Car Auto = new()
             {
-                Brand = _context.Brands.Single(brand => brand.Id == int.Parse(form["BrandId"])),
-                Model = _context.Models.Single(model => model.Id == int.Parse(form["ModelId"])),
-                Color = _context.Colors.Single(color => color.Id == int.Parse(form["ColorId"])),
+                Brand = _context.Brands.Single(brand => brand.Id == int.Parse(form["Brands"])),
+                Model = _context.Models.Single(model => model.Id == int.Parse(form["Models"])),
+                Color = _context.Colors.Single(color => color.Id == int.Parse(form["Colors"])),
             };
             _context.Cars.Add(Auto);
             await _context.SaveChangesAsync();

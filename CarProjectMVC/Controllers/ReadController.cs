@@ -11,6 +11,9 @@ namespace CarProjectMVC.Controllers
     {
         private readonly ApplicationContext _context;
 
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
         private readonly IRequestService _requestService;
 
         public ReadController(ApplicationContext context, IRequestService requestService)
@@ -19,6 +22,10 @@ namespace CarProjectMVC.Controllers
             _requestService = requestService;
         }
 
+        /// <summary>
+        /// Загружает список автомобилей на страницу
+        /// </summary>
+        /// <returns>Страница с данными автомобилей в таблице</returns>
         public IActionResult IndexAsync()
         {
             ViewData["cars"] = _requestService.Read();
@@ -26,6 +33,10 @@ namespace CarProjectMVC.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Показывает ошибку
+        /// </summary>
+        /// <returns>Страница с ошибкой</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
