@@ -42,29 +42,29 @@ namespace CarProjectMVC.Controllers
 
             return View();
         }
-
-        public async Task<IActionResult> OnPostAsync(int brandId, int modelId, int colorId)
+        [HttpPost]
+        public async Task<IActionResult> PostAsync()
         {
-            Auto.Brand = _context.Brands.Single(brand => brand.Id == brandId);
-            Auto.Model = _context.Models.Single(model => model.Id == modelId);
-            Auto.Color = _context.Colors.Single(color => color.Id == colorId);
+            Auto = new Car()
+            {
+                Brand = _context.Brands.Single(brand => brand.Id == int.Parse(HttpContext.Request.Form["BrandId"])),
+                Model = _context.Models.Single(model => model.Id == int.Parse(HttpContext.Request.Form["ModelId"])),
+                Color = _context.Colors.Single(color => color.Id == int.Parse(HttpContext.Request.Form["ColorId"])),
+            };
+            _context.Cars.Add(Auto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Read");
+        }
+        public async Task<IActionResult> UpdateAsync()
+        {
+            Auto.Brand = _context.Brands.Single(brand => brand.Id == int.Parse(HttpContext.Request.Form["BrandId"]));
+            Auto.Model = _context.Models.Single(model => model.Id == int.Parse(HttpContext.Request.Form["ModelId"]));
+            Auto.Color = _context.Colors.Single(color => color.Id == int.Parse(HttpContext.Request.Form["ColorId"]));
 
             _context.Cars.Update(Auto!);
             await _context.SaveChangesAsync();
             return View("Index");
         }
-
-
-        //public async Task<Microsoft.AspNetCore.Mvc.JsonResult> OnGetModelsById(int id)
-        //{
-        //    return new(Brands.Single(b => b.Id.Equals(id)).Models);
-        //}
-        //public async Task<Microsoft.AspNetCore.Mvc.JsonResult> OnGetColorsById(int id)
-        //{
-        //    var colors = Models.Single(m => m.Id.Equals(id)).Colors;
-        //    return new(colors);
-        //}
-
         public JsonResult GetBrands()
         {
             return new(Brands);

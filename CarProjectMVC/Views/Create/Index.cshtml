@@ -1,25 +1,25 @@
-﻿@{
-    var brandsSelect = ViewData["BrandsSelect"] as Microsoft.AspNetCore.Mvc.Rendering.SelectList;
-}
-
-
-
+﻿
 <h2>Добавление нового автомобиля</h2>
-<form method="post">
+<form method="post" action="/Create/Post">
     <p>
         <label>Марка:</label><br />
-        <select id="brand" class="form-control"> </select>
+        <select id="brand" name="BrandId" class="form-control"> </select>
     </p>
     <p>
         <label>Модель:</label><br />
-        <select id="model" class="form-control"></select>
+        <select id="model" name="ModelId" class="form-control"></select>
     </p>
     <p>
         <label>Цвет:</label><br />
-        <select id="color" class="form-control"></select>
+        <select id="color" name="ColorId" class="form-control"></select>
     </p>
     <input type="submit" value="Отправить" />
 </form>
+
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/cascadingddl.js"></script>
+}
 
 @* @section Scripts
     {
