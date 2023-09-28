@@ -1,0 +1,28 @@
+﻿@{
+    var myData = ViewData["MyData"] as List<Car>;
+}
+
+<h2>Список автомобилей</h2>
+
+<table border="5" cellspacing="10" cellpadding="15">
+    <tr><th>ID</th><th>Марка</th><th>Модель</th><th>Цвет</th></tr>
+    @foreach (var car in myData)
+    {
+        <tr>
+            <td>@car.Id</td>
+            <td>@car.Brand.Name</td>
+            <td>@car.Model.Name</td>
+            <td>@car.Color.Name</td>
+            <td>
+                <form method="post">
+                    <button type="submit" asp-page-handler="update" asp-route-id="@car.Id">
+                        Изменить
+                    </button>
+                    <button type="submit" asp-page-handler="delete" asp-route-id="@car.Id">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
