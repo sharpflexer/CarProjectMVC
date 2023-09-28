@@ -20,7 +20,7 @@ namespace CarProjectMVC.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            ViewData["cars"] = _requestService.ReadAsync();
+            ViewData["cars"] = _requestService.Read();
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

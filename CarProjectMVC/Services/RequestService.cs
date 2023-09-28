@@ -23,7 +23,7 @@ namespace CarProjectMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public List<Car> ReadAsync()
+        public List<Car> Read()
         {
             return _context.Cars.Include(car => car.Brand)
                .Include(car => car.Model)

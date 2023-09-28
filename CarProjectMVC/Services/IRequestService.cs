@@ -6,7 +6,7 @@ namespace CarProjectMVC.Services
     {
         public Task CreateAsync(IFormCollection form);
 
-        public List<Car> ReadAsync();
+        public List<Car> Read();
 
     }
 }
