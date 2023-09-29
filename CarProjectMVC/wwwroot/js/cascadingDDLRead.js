@@ -1,16 +1,47 @@
 ﻿$(document).ready(function () {
-    $('[id=brand]').attr('disabled', true);
-    $('[id=model]').attr('disabled', true);
-    $('[id=color]').attr('disabled', true);
+    $('.brands').attr('disabled', true);
+    $('.models').attr('disabled', true);
+    $('.colors').attr('disabled', true);
+
+    DefineTableFieldsById();
     LoadBrands();
     LoadModels();
     LoadColors();
+
+    $('.update').each(function () {
+        $(this).on('click', (function () {
+            console.log("[id=" + this.id + "]");
+            console.log($("[id=" + this.id + "]"));
+            $("[id=" + this.id + "]").each(function (i) {
+                $(this).attr('disabled', false);
+            });
+        }));
+    });
+    console.log($('.update'));
 });
 
+function DefineTableFieldsById() {
+    $(".brands").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".models").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".colors").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".update").each(function (i) {
+        $(this).attr("id", i);
+    });
+}
 
+
+function EnableEdit(update) {
+
+}
 
 function LoadBrands() {
-    var brands = $('[id=brand]');
+    var brands = $('.brands');
     for (let index = 0; index < brands.length; index++) {
         $.ajax({
             url: '/Create/GetBrands',
@@ -22,19 +53,19 @@ function LoadBrands() {
                         var option = document.createElement("option");
                         option.value = data.id;
                         option.innerHTML = data.name;
-                        brands[index].appendChild(option); 
+                        brands[index].appendChild(option);
                         if (data.id == valueToSelect) {
                             brands[index].value = data.id;
                         }
                     });
                 }
                 else {
-                    $('[id=brand]').attr('disabled', true);
-                    $('[id=model]').attr('disabled', true);
-                    $('[id=color]').attr('disabled', true);
-                    $('[id=brand]').append('<option>--Brands not available--</option>');
-                    $('[id=model]').append('<option>--Models not available--</option>');
-                    $('[id=color]').append('<option>--Colors not available--</option>');
+                    $('.brands').attr('disabled', true);
+                    $('.models').attr('disabled', true);
+                    $('.colors').attr('disabled', true);
+                    $('.brands').append('<option>--Brands not available--</option>');
+                    $('.models').append('<option>--Models not available--</option>');
+                    $('.colors').append('<option>--Colors not available--</option>');
                 }
             },
             error: function (error) {
@@ -47,37 +78,33 @@ function LoadBrands() {
 
 function LoadModels() {
 
-    var brands = $('[id=brand]');
-    var models = $('[id=model]');
-    console.log(models);
+    var brands = $('.brands');
+    var models = $('.models');
 
     for (let index = 0; index < brands.length; index++) {
         $.ajax({
             url: '/Create/GetModels?Id=' + brands[index].value,
             success: function (response) {
                 var valueToSelect = models[index].lastChild.value;
-  
-                console.log("valueToSelect = " + valueToSelect);
+
                 models[index].removeChild(models[index].lastChild);
                 if (response != null && response != undefined && response.length > 0) {
                     $.each(response, function (i, data) {
                         var option = document.createElement("option");
                         option.value = data.id;
                         option.innerHTML = data.name;
-                        models[index].appendChild(option); 
-                        console.log("data.id = " + data.id);
+                        models[index].appendChild(option);
                         if (data.id == valueToSelect) {
                             models[index].value = data.id;
-                            console.log(models[index].value);
                         }
                     });
-                    
+
                 }
                 else {
-                    $('[id=model]').attr('disabled', true);
-                    $('[id=color]').attr('disabled', true);
-                    $('[id=model]').append('<option>--Models not available--</option>');
-                    $('[id=color]').append('<option>--Colors not available--</option>');
+                    $('.models').attr('disabled', true);
+                    $('.colors').attr('disabled', true);
+                    $('.models').append('<option>--Models not available--</option>');
+                    $('.colors').append('<option>--Colors not available--</option>');
                 }
             },
             error: function (error) {
@@ -90,8 +117,8 @@ function LoadModels() {
 
 function LoadColors() {
 
-    var models = $('[id=model]');
-    var colors = $('[id=color]');
+    var models = $('.models');
+    var colors = $('.colors');
 
     for (let index = 0; index < models.length; index++) {
         $.ajax({
@@ -111,8 +138,8 @@ function LoadColors() {
                     });
                 }
                 else {
-                    $('[id=color]').attr('disabled', true);
-                    $('[id=color]').append('<option>--Colors not available--</option>');
+                    $('.colors').attr('disabled', true);
+                    $('.colors').append('<option>--Colors not available--</option>');
                 }
             },
             error: function (error) {

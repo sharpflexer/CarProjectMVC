@@ -11,20 +11,20 @@
         <tr>
             <td>@car.Id</td>
             <td>
-                <select id="brand" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
+                <select class="brands" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
             </td>
             <td>
-                <select id="model" name="Models" value="@car.Model.Id" disabled="true"><option value="@car.Model.Id">@car.Model.Name</option></select>
+                <select class="models" name="Models" value="@car.Model.Id" disabled="true"><option value="@car.Model.Id">@car.Model.Name</option></select>
             </td>
             <td>
-                <select id="color" name="Colors" value="@car.Color.Id" disabled="true"><option value="@car.Color.Id">@car.Color.Name</option></select>
+                <select class="colors" name="Colors" value="@car.Color.Id" disabled="true"><option value="@car.Color.Id">@car.Color.Name</option></select>
             </td>
             <td>
                 <form method="post">
-                    <button id="update" type="submit">
+                    <button class="update" type="button">
                         Изменить
                     </button>
-                    <button type="submit">
+                    <button type="button">
                         Удалить
                     </button>
                 </form>
