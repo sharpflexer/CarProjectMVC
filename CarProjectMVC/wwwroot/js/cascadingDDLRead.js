@@ -24,6 +24,7 @@
                             option.innerHTML = data.name;
                             model.appendChild(option);
                         });
+                        $('#' + id + ".models").change();
 
                     }
                 },
