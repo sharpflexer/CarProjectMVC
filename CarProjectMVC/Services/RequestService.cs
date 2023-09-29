@@ -1,6 +1,7 @@
 ﻿using CarProjectMVC.Context;
 using CarProjectMVC.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace CarProjectMVC.Services
 {
@@ -30,12 +31,20 @@ namespace CarProjectMVC.Services
             return _context.Cars.Include(car => car.Brand)
                .Include(car => car.Model)
                .Include(car => car.Color)
-               .AsNoTracking().ToList();
+               .AsNoTracking().OrderBy(car => car.Id).ToList();
         }
 
-        public Task UpdateAsync(IFormCollection form)
+        public async Task UpdateAsync(IFormCollection form)
         {
-            throw new NotImplementedException();
+            Car Auto = new()
+            {
+                Id = int.Parse(form["IDs"]),
+                Brand = _context.Brands.Single(brand => brand.Id == int.Parse(form["Brands"])),
+                Model = _context.Models.Single(model => model.Id == int.Parse(form["Models"])),
+                Color = _context.Colors.Single(color => color.Id == int.Parse(form["Colors"])),
+            };
+            _context.Cars.Update(Auto);
+            await _context.SaveChangesAsync();
         }
     }
 }

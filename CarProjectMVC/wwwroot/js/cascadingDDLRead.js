@@ -68,6 +68,10 @@ function DefineTableFieldsById() {
     $(".cancel").each(function (i) {
         $(this).attr("id", i);
     });
+
+    $(".id").each(function (i) {
+        $(this).attr("id", i);
+    });
 }
 
 

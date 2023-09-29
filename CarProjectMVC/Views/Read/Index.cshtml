@@ -8,9 +8,11 @@
     <tr><th>ID</th><th>Марка</th><th>Модель</th><th>Цвет</th></tr>
     @foreach (var car in cars)
     {
+        <form method="post" action="/Update/Post">
         <tr>
-            <form method="post">
-            <td>@car.Id</td>
+            <td>
+                <input class="id" name="IDs" value="@car.Id" width="20px">
+            </td>
             <td>
                 <select class="brands" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
             </td>
@@ -34,9 +36,10 @@
                     Отменить
                 </button>
             </td>
-            </form>
         </tr>
+        </form>
     }
 </table>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/cascadingddlread.js"></script>
