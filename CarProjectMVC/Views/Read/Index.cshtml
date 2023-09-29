@@ -10,15 +10,21 @@
     {
         <tr>
             <td>@car.Id</td>
-            <td>@car.Brand.Name</td>
-            <td>@car.Model.Name</td>
-            <td>@car.Color.Name</td>
+            <td>
+                <select id="brand" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
+            </td>
+            <td>
+                <select id="model" name="Models" value="@car.Model.Id" disabled="true"><option value="@car.Model.Id">@car.Model.Name</option></select>
+            </td>
+            <td>
+                <select id="color" name="Colors" value="@car.Color.Id" disabled="true"><option value="@car.Color.Id">@car.Color.Name</option></select>
+            </td>
             <td>
                 <form method="post">
-                    <button type="submit" asp-page-handler="update" asp-route-id="@car.Id">
+                    <button id="update" type="submit">
                         Изменить
                     </button>
-                    <button type="submit" asp-page-handler="delete" asp-route-id="@car.Id">
+                    <button type="submit">
                         Удалить
                     </button>
                 </form>
@@ -26,3 +32,5 @@
         </tr>
     }
 </table>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/cascadingddlread.js"></script>

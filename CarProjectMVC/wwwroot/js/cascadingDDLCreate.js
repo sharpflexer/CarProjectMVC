@@ -1,7 +1,4 @@
 ﻿$(document).ready(function () {
-    $('#brand').attr('disabled', true);
-    $('#model').attr('disabled', true);
-    $('#color').attr('disabled', true);
     LoadBrands();
 
     $('#brand').change(function () {

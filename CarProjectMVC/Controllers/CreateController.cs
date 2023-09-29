@@ -25,7 +25,6 @@ namespace CarProjectMVC.Controllers
         /// <summary>
         /// Загружает страницу, используя cascadingDDL.js
         /// </summary>
-        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
@@ -35,7 +34,6 @@ namespace CarProjectMVC.Controllers
         /// Отправляет запрос на добавление автомобиля в базу данных через IRequestService.CreateAsync().
         /// Требует заполненных списков HttpContext.Request.Form
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostAsync()
         {
