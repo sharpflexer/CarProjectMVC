@@ -8,6 +8,53 @@
     LoadModels();
     LoadColors();
 
+    $('.brands').each(function () {
+        $(this).on('change', (function () {
+            var id = this.id;
+            var value = this.value;
+            var model = $('#' + id + ".models")[0];
+            $('#' + id + ".models").empty();
+            $.ajax({
+                url: '/Create/GetModels?Id=' + value,
+                success: function (response) {
+                    if (response != null && response != undefined && response.length > 0) {
+                        $.each(response, function (i, data) {
+                            var option = document.createElement("option");
+                            option.value = data.id;
+                            option.innerHTML = data.name;
+                            model.appendChild(option);
+                        });
+
+                    }
+                },
+            });
+        }));
+    });
+
+    $('.models').each(function () {
+        $(this).on('change', (function () {
+            var id = this.id;
+            var value = this.value;
+            var color = $('#' + id + ".colors")[0];
+            $('#' + id + ".colors").empty();
+            $.ajax({
+                url: '/Create/GetColors?Id=' + value,
+                success: function (response) {
+                    if (response != null && response != undefined && response.length > 0) {
+                        $.each(response, function (i, data) {
+                            var option = document.createElement("option");
+                            option.value = data.id;
+                            option.innerHTML = data.name;
+                            color.appendChild(option);
+                        });
+
+                    }
+                },
+            });
+        }));
+    });
+
+
     $('.update').each(function () {
         $(this).on('click', (function () {
             $("[id=" + this.id + "]").each(function (i) {
@@ -21,11 +68,6 @@
         }));
     });
 
-    $('.save').each(function () {
-        $(this).on('click', (function () {
-
-        }));
-    });  
     $('.cancel').each(function () {
         $(this).on('click', (function () {
             $("[id=" + this.id + "]").each(function (i) {
@@ -41,7 +83,6 @@
             $('#' + this.id + '.delete')[0].style.display = "";
         }));
     });  
-    console.log($('.update'));
 });
 
 function DefineTableFieldsById() {
