@@ -10,17 +10,42 @@
 
     $('.update').each(function () {
         $(this).on('click', (function () {
-            console.log("[id=" + this.id + "]");
-            console.log($("[id=" + this.id + "]"));
             $("[id=" + this.id + "]").each(function (i) {
                 $(this).attr('disabled', false);
             });
+            
+            this.style.display = 'none';
+            $('#' + this.id + '.delete')[0].style.display = "none";
+            $('#' + this.id + '.save')[0].style.display = "";
+            $('#' + this.id + '.cancel')[0].style.display = "";
         }));
     });
+
+    $('.save').each(function () {
+        $(this).on('click', (function () {
+
+        }));
+    });  
+    $('.cancel').each(function () {
+        $(this).on('click', (function () {
+            $("[id=" + this.id + "]").each(function (i) {
+                $(this).attr('disabled', true);
+            });
+            
+            $('#' + this.id + '.update')[0].disabled = false;
+            $('#' + this.id + '.delete')[0].disabled = false;
+
+            this.style.display = 'none';
+            $('#' + this.id + '.save')[0].style.display = "none";
+            $('#' + this.id + '.update')[0].style.display = "";
+            $('#' + this.id + '.delete')[0].style.display = "";
+        }));
+    });  
     console.log($('.update'));
 });
 
 function DefineTableFieldsById() {
+    //selects
     $(".brands").each(function (i) {
         $(this).attr("id", i);
     });
@@ -30,7 +55,17 @@ function DefineTableFieldsById() {
     $(".colors").each(function (i) {
         $(this).attr("id", i);
     });
+    //buttons
     $(".update").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".save").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".delete").each(function (i) {
+        $(this).attr("id", i);
+    });
+    $(".cancel").each(function (i) {
         $(this).attr("id", i);
     });
 }

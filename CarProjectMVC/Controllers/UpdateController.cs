@@ -1,26 +1,29 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Controllers
 {
     public class UpdateController : Controller
     {
-        ApplicationContext _context;
-        [BindProperty]
-        public Car? Auto { get; set; }
-        public Microsoft.AspNetCore.Mvc.Rendering.SelectList BrandsSelect { get; private set; }
-        public List<Brand> Brands { get; private set; } = new();
-        public List<CarModel> Models { get; private set; } = new();
-        public List<CarColor> Colors { get; private set; } = new();
-        public UpdateController(ApplicationContext context)
-        {
-            _context = context;
-            Brands = _context.Brands.Include(b => b.Models).AsNoTracking().ToList();
-            Models = _context.Models.Include(m => m.Colors).AsNoTracking().ToList();
-            Colors = _context.Colors.Include(c => c.Models).AsNoTracking().ToList();
-        }
 
-       
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
+        private readonly IRequestService _requestService;
+
+        public UpdateController(IRequestService requestService)
+        {
+            _requestService = requestService;
+        }
+        /// <summary>
+        /// Отправляет запрос на добавление автомобиля в базу данных через IRequestService.CreateAsync().
+        /// Требует заполненных списков HttpContext.Request.Form
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> PostAsync()
+        {
+            await _requestService.UpdateAsync(HttpContext.Request.Form);
+            return RedirectToAction("Index", "Read");
+        }
     }
 }

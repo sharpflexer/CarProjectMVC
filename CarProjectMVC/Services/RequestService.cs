@@ -32,5 +32,10 @@ namespace CarProjectMVC.Services
                .Include(car => car.Color)
                .AsNoTracking().ToList();
         }
+
+        public Task UpdateAsync(IFormCollection form)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

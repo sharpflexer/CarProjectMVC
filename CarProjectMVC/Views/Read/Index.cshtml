@@ -9,6 +9,7 @@
     @foreach (var car in cars)
     {
         <tr>
+            <form method="post">
             <td>@car.Id</td>
             <td>
                 <select class="brands" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
@@ -20,15 +21,20 @@
                 <select class="colors" name="Colors" value="@car.Color.Id" disabled="true"><option value="@car.Color.Id">@car.Color.Name</option></select>
             </td>
             <td>
-                <form method="post">
-                    <button class="update" type="button">
-                        Изменить
-                    </button>
-                    <button type="button">
-                        Удалить
-                    </button>
-                </form>
+                <button class="update" type="button">
+                    Изменить
+                </button>
+                <button class="save" type="submit" style="display:none">
+                    Сохранить
+                </button>
+                <button class="delete" type="button">
+                    Удалить
+                </button>
+                <button class="cancel" type="button" style="display:none">
+                    Отменить
+                </button>
             </td>
+            </form>
         </tr>
     }
 </table>

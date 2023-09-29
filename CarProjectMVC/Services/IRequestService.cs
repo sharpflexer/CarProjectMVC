@@ -16,6 +16,6 @@ namespace CarProjectMVC.Services
         /// </summary>
         /// <returns>Список автомобилей</returns>
         public List<Car> Read();
-
+        public Task UpdateAsync(IFormCollection form);
     }
 }
