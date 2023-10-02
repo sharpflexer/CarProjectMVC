@@ -1,4 +1,5 @@
 ﻿using CarProjectMVC.Models;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Context
@@ -26,6 +27,11 @@ namespace CarProjectMVC.Context
         public DbSet<CarColor> Colors => Set<CarColor>();
 
         /// <summary>
+        /// Таблица ролей
+        /// </summary>
+        public DbSet<Role> Roles => Set<Role>();
+
+        /// <summary>
         /// Таблица пользователей
         /// </summary>
         public DbSet<User> Users => Set<User>();
@@ -33,8 +39,8 @@ namespace CarProjectMVC.Context
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            if (Database.EnsureCreated())
-                FillDatabase();
+            //if (Database.EnsureCreated())
+            //    FillDatabase();
         }
 
         /// <summary>
@@ -161,11 +167,39 @@ namespace CarProjectMVC.Context
             );
             SaveChanges();
 
-            Users.AddRange(
-                new User() { Role = "Админ" },
-                new User() { Role = "Менеджер" },
-                new User() { Role = "Пользователь" }
-            );
+            Roles.AddRange(
+                new Role()
+                {
+                    Name = "Админ",
+                    CanCreate = true,
+                    CanRead = true,
+                    CanUpdate = true,
+                    CanDelete = true
+                }, 
+                new Role()
+                {
+                    Name = "Менеджер",
+                    CanCreate = false,
+                    CanRead = true,
+                    CanUpdate = true,
+                    CanDelete = false
+                }, 
+                new Role()
+                {
+                    Name = "Пользователь",
+                    CanCreate = false,
+                    CanRead = true,
+                    CanUpdate = false,
+                    CanDelete = false
+                });
+            SaveChanges();
+
+            //Users.AddRange(
+            //    new User() { Login = "admin", Password = "admin123", Role = Roles.Single(role => role.Name == "Админ") },
+            //    new User() { Login = "manager", Password = "manager123", Role = Roles.Single(role => role.Name == "Менеджер") },
+            //    new User() { Login = "user", Password = "user123", Role = Roles.Single(role => role.Name == "Пользователь") }
+            //);
+            //SaveChanges();
         }
     }
 }
