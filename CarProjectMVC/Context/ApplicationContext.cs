@@ -25,6 +25,11 @@ namespace CarProjectMVC.Context
         /// </summary>
         public DbSet<CarColor> Colors => Set<CarColor>();
 
+        /// <summary>
+        /// Таблица пользователей
+        /// </summary>
+        public DbSet<User> Users => Set<User>();
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
@@ -155,6 +160,12 @@ namespace CarProjectMVC.Context
                 }
             );
             SaveChanges();
+
+            Users.AddRange(
+                new User() { Role = "Админ" },
+                new User() { Role = "Менеджер" },
+                new User() { Role = "Пользователь" }
+            );
         }
     }
 }
