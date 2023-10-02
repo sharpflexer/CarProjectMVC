@@ -1,4 +1,5 @@
-﻿using CarProjectMVC.Services;
+﻿using CarProjectMVC.Models;
+using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace CarProjectMVC.Controllers
         public IActionResult Index()
         {
             ClaimsPrincipal claimUser = HttpContext.User;
-            if(claimUser.Identity.IsAuthenticated)
+            if (claimUser.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Read");
             return View();
         }
@@ -28,24 +29,20 @@ namespace CarProjectMVC.Controllers
         public async Task<IActionResult> PostAsync(string username, string password)
         {
             var isSuccess = _authenticateService.AuthenticateUser(username, password);
+            return await SignInIfSucceed(username, isSuccess);
+        }
 
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
+        }
+
+        private async Task<IActionResult> SignInIfSucceed(string username, Task<User> isSuccess)
+        {
             if (isSuccess.Result != null)
             {
-                List<Claim> claims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.NameIdentifier, username),
-                    new Claim("OtherProperties", "Example Role")
-                };
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, 
-                    CookieAuthenticationDefaults.AuthenticationScheme);
-
-                AuthenticationProperties properties = new AuthenticationProperties()
-                {
-                    AllowRefresh = true,
-                };
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity), properties);
+                await _authenticateService.SignInAsync(HttpContext, username);
 
                 ViewBag.username = string.Format("Successfully logged-in", username);
                 TempData["username"] = username;
@@ -56,12 +53,6 @@ namespace CarProjectMVC.Controllers
                 ViewBag.username = string.Format("Login Failed: {0}", username);
                 return BadRequest("Логин и/или пароль не установлены");
             }
-        }
-
-        public async Task<IActionResult> LogOut()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index");
         }
     }
 }

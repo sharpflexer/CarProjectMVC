@@ -39,6 +39,12 @@ namespace CarProjectMVC.Services
                .AsNoTracking().OrderBy(car => car.Id).ToList();
         }
 
+        public Role SetDefaultRole()
+        {
+            //Ставим роль пользователя по умолчанию при регистрации
+            return _context.Roles.Single(role => role.Id == 3); 
+        }
+
         public async Task UpdateAsync(IFormCollection form)
         {
             Car Auto = new()

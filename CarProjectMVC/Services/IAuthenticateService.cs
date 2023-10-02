@@ -6,5 +6,7 @@ namespace CarProjectMVC.Services
     {
         Task<IEnumerable<User>> GetUser();
         Task<User> AuthenticateUser(string username, string passcode);
+        Task SignInAsync(HttpContext httpContext, string username);
+        void AddUser(User user);
     }
 }

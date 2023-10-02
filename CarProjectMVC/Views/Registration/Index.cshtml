@@ -1,0 +1,21 @@
+﻿@model User
+
+<body>
+    <div class="registration">
+        <h1>Register</h1>
+        <form method="post" enctype="multipart/form-data" asp-controller="Registration" asp-action="Post">
+            <p><input type="email" name="email" value="" placeholder="Email" asp-for="Email" required></p>
+            <p><input type="text" name="username" value="" placeholder="Username" asp-for="Login" required></p>
+            <p><input type="password" name="password" value="" placeholder="Password" asp-for="Password" required></p>
+            <p class="remember_me">
+                <label>
+                    <input type="checkbox" name="remember_me" id="remember_me">
+                    Remember me on this computer
+                </label>
+            </p>
+            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            <hr />
+            @ViewBag.username
+        </form>
+    </div>
+</body>

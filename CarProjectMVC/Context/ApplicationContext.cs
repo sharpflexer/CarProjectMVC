@@ -39,8 +39,8 @@ namespace CarProjectMVC.Context
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            if (Database.EnsureCreated())
-                FillDatabase();
+            //if (Database.EnsureCreated())
+            //    FillDatabase();
         }
 
         /// <summary>
@@ -195,9 +195,9 @@ namespace CarProjectMVC.Context
             SaveChanges();
 
             Users.AddRange(
-                new User() { Login = "admin", Password = "admin123", Role = Roles.Single(role => role.Name == "Админ") },
-                new User() { Login = "manager", Password = "manager123", Role = Roles.Single(role => role.Name == "Менеджер") },
-                new User() { Login = "user", Password = "user123", Role = Roles.Single(role => role.Name == "Пользователь") }
+                new User() { Email = "admin456@mail.ru", Login = "admin", Password = "admin123", Role = Roles.Single(role => role.Name == "Админ") },
+                new User() { Email = "manager456@gmail.com", Login = "manager", Password = "manager123", Role = Roles.Single(role => role.Name == "Менеджер") },
+                new User() { Email = "user456@yandex.ru", Login = "user", Password = "user123", Role = Roles.Single(role => role.Name == "Пользователь") }
             );
             SaveChanges();
         }
