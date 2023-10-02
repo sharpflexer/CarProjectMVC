@@ -10,6 +10,7 @@ namespace CarProjectMVC.Services
         /// <param name="form">Форма с данными списков Brands, Models и Colors</param>
         /// <returns></returns>
         public Task CreateAsync(IFormCollection form);
+        Task LoginAsync(IFormCollection form);
 
         /// <summary>
         /// Полуает список всех автомобилей из БД

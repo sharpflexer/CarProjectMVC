@@ -1,12 +1,14 @@
 ﻿using CarProjectMVC.Context;
 using CarProjectMVC.Models;
 using CarProjectMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CarProjectMVC.Controllers
 {
+    [Authorize]
     public class ReadController : Controller
     {
         private readonly ApplicationContext _context;
@@ -26,6 +28,7 @@ namespace CarProjectMVC.Controllers
         /// Загружает список автомобилей на страницу
         /// </summary>
         /// <returns>Страница с данными автомобилей в таблице</returns>
+        [Authorize]
         public IActionResult IndexAsync()
         {
             ViewData["cars"] = _requestService.Read();

@@ -26,6 +26,11 @@ namespace CarProjectMVC.Services
             await _context.SaveChangesAsync();
         }
 
+        public Task LoginAsync(IFormCollection form)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> Read()
         {
             return _context.Cars.Include(car => car.Brand)
