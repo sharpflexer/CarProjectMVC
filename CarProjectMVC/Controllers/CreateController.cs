@@ -1,12 +1,14 @@
 ﻿using CarProjectMVC.Context;
 using CarProjectMVC.Models;
 using CarProjectMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Controllers
 {
+    [Authorize]
     public class CreateController : Controller
     {
         private readonly ApplicationContext _context;

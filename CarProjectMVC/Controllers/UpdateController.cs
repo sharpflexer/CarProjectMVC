@@ -1,8 +1,10 @@
 ﻿using CarProjectMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Controllers
 {
+    [Authorize]
     public class UpdateController : Controller
     {
 
