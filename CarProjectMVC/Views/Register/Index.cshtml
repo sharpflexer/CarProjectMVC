@@ -2,10 +2,10 @@
 
 <body>
     <div class="registration">
-        <h1>Register</h1>
-        <form method="post" enctype="multipart/form-data" asp-controller="Registration" asp-action="Post">
+        <h1>Register new user account</h1>
+        <form method="post" enctype="multipart/form-data" asp-controller="Register" asp-action="Post">
             <p><input type="email" name="email" value="" placeholder="Email" asp-for="Email" required></p>
-            <p><input type="text" name="username" value="" placeholder="Username" asp-for="Login" required></p>
+            <p><input type="text" name="login" value="" placeholder="Username" asp-for="Login" required></p>
             <p><input type="password" name="password" value="" placeholder="Password" asp-for="Password" required></p>
             <p class="remember_me">
                 <label>
@@ -13,7 +13,7 @@
                     Remember me on this computer
                 </label>
             </p>
-            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            <p class="submit"><input type="submit" name="commit" value="Register"></p>
             <hr />
             @ViewBag.username
         </form>

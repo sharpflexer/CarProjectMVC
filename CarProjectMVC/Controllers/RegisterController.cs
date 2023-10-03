@@ -25,7 +25,7 @@ namespace CarProjectMVC.Controllers
         {
             user.Role = _requestService.SetDefaultRole();
             _authenticateService.AddUser(user);
-            return View();
+            return RedirectToAction("Index", "Login");
         }
     }
 }
