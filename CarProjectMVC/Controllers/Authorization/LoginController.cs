@@ -3,11 +3,9 @@ using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
-namespace CarProjectMVC.Controllers
+namespace CarProjectMVC.Controllers.Authorization
 {
     public class LoginController : Controller
     {

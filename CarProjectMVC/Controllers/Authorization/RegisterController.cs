@@ -2,7 +2,7 @@
 using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarProjectMVC.Controllers
+namespace CarProjectMVC.Controllers.Authorization
 {
     public class RegisterController : Controller
     {

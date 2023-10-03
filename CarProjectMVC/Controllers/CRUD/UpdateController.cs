@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarProjectMVC.Controllers
+namespace CarProjectMVC.Controllers.CRUD
 {
     [Authorize(Policy = "Update")]
     public class UpdateController : Controller

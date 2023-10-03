@@ -1,26 +1,21 @@
-﻿using CarProjectMVC.Context;
-using CarProjectMVC.Models;
+﻿using CarProjectMVC.Models;
 using CarProjectMVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace CarProjectMVC.Controllers
+namespace CarProjectMVC.Controllers.CRUD
 {
     [Authorize(Policy = "Read")]
     public class ReadController : Controller
     {
-        private readonly ApplicationContext _context;
-
         /// <summary>
         /// Сервис для отправки запросов в БД
         /// </summary>
         private readonly IRequestService _requestService;
 
-        public ReadController(ApplicationContext context, IRequestService requestService)
+        public ReadController(IRequestService requestService)
         {
-            _context = context;
             _requestService = requestService;
         }
 

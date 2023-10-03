@@ -1,7 +1,6 @@
 ﻿using CarProjectMVC.Context;
 using CarProjectMVC.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing;
 
 namespace CarProjectMVC.Services
 {
@@ -9,7 +8,7 @@ namespace CarProjectMVC.Services
     {
         private readonly ApplicationContext _context;
 
-        public RequestService(ApplicationContext context) 
+        public RequestService(ApplicationContext context)
         {
             _context = context;
         }
@@ -26,11 +25,15 @@ namespace CarProjectMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task LoginAsync(IFormCollection form)
+        public async Task DeleteAsync(IFormCollection form)
         {
-            throw new NotImplementedException();
+            Car Auto = new()
+            {
+                Id = int.Parse(form["IDs"]),
+            };
+            _context.Cars.Remove(Auto);
+            await _context.SaveChangesAsync();
         }
-
         public List<Car> Read()
         {
             return _context.Cars.Include(car => car.Brand)
@@ -42,7 +45,7 @@ namespace CarProjectMVC.Services
         public Role SetDefaultRole()
         {
             //Ставим роль пользователя по умолчанию при регистрации
-            return _context.Roles.Single(role => role.Id == 3); 
+            return _context.Roles.Single(role => role.Id == 3);
         }
 
         public async Task UpdateAsync(IFormCollection form)

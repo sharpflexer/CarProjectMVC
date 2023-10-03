@@ -8,10 +8,10 @@
     <tr><th>ID</th><th>Марка</th><th>Модель</th><th>Цвет</th></tr>
     @foreach (var car in cars)
     {
-        <form method="post" action="/Update/Post">
+        <form method="post">
         <tr>
             <td>
-                <input class="id" name="IDs" value="@car.Id" width="20px">
+                <input class="id" name="IDs" value="@car.Id" size="1" readonly="true">
             </td>
             <td>
                 <select class="brands" name="Brands" value="@car.Brand.Id" disabled="true"><option value="@car.Brand.Id">@car.Brand.Name</option></select>
@@ -26,10 +26,10 @@
                 <button class="update" type="button">
                     Изменить
                 </button>
-                <button class="save" type="submit" style="display:none">
+                <button class="save" type="submit" asp-controller="Update" asp-action="Post" style="display:none">
                     Сохранить
                 </button>
-                <button class="delete" type="button">
+                <button class="delete" type="submit" asp-controller="Delete" asp-action="Post">
                     Удалить
                 </button>
                 <button class="cancel" type="button" style="display:none">

@@ -1,9 +1,11 @@
 ﻿using CarProjectMVC.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarProjectMVC.Controllers
+namespace CarProjectMVC.Controllers.CRUD
 {
+    [Authorize(Policy = "Read")]
     public class ReadJSController : Controller
     {
         private readonly ApplicationContext _context;
