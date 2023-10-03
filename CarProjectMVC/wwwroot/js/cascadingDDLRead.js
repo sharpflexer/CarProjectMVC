@@ -15,7 +15,7 @@
             var model = $('#' + id + ".models")[0];
             $('#' + id + ".models").empty();
             $.ajax({
-                url: '/Create/GetModels?Id=' + value,
+                url: '/ReadJS/GetModels?Id=' + value,
                 success: function (response) {
                     if (response != null && response != undefined && response.length > 0) {
                         $.each(response, function (i, data) {
@@ -39,7 +39,7 @@
             var color = $('#' + id + ".colors")[0];
             $('#' + id + ".colors").empty();
             $.ajax({
-                url: '/Create/GetColors?Id=' + value,
+                url: '/ReadJS/GetColors?Id=' + value,
                 success: function (response) {
                     if (response != null && response != undefined && response.length > 0) {
                         $.each(response, function (i, data) {
@@ -125,7 +125,7 @@ function LoadBrands() {
     var brands = $('.brands');
     for (let index = 0; index < brands.length; index++) {
         $.ajax({
-            url: '/Create/GetBrands',
+            url: '/ReadJS/GetBrands',
             success: function (response) {
                 if (response != null && response != undefined && response.length > 0) {
                     var valueToSelect = brands[index].lastChild.value;
@@ -164,7 +164,7 @@ function LoadModels() {
 
     for (let index = 0; index < brands.length; index++) {
         $.ajax({
-            url: '/Create/GetModels?Id=' + brands[index].value,
+            url: '/ReadJS/GetModels?Id=' + brands[index].value,
             success: function (response) {
                 var valueToSelect = models[index].lastChild.value;
 
@@ -203,7 +203,7 @@ function LoadColors() {
 
     for (let index = 0; index < models.length; index++) {
         $.ajax({
-            url: '/Create/GetColors?Id=' + models[index].value,
+            url: '/ReadJS/GetColors?Id=' + models[index].value,
             success: function (response) {
                 if (response != null && response != undefined && response.length > 0) {
                     var valueToSelect = colors[index].lastChild.value;
