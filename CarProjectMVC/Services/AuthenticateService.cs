@@ -1,10 +1,9 @@
 ﻿using CarProjectMVC.Context;
 using CarProjectMVC.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Services
 {
@@ -31,7 +30,7 @@ namespace CarProjectMVC.Services
             return succeeded;
         }
 
-        public async Task<IEnumerable<User>> GetUser()
+        public async Task<IEnumerable<User>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }

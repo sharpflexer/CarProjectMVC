@@ -1,13 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace CarProjectMVC.Models
+﻿namespace CarProjectMVC.Models
 {
     public class CarColor
     {
+        /// <summary>
+        /// ID цвета
+        /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Наименование цвета
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Список моделей данного цвета
+        /// </summary>
         public ICollection<CarModel> Models { get; set; }
     }
 }

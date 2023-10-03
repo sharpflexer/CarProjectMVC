@@ -7,7 +7,7 @@ namespace CarProjectMVC.Services
         /// <summary>
         /// Отправляет запрос на добавление нового автомобиля в БД через ApplicationContext
         /// </summary>
-        /// <param name="form">Форма с данными списков Brands, Models и Colors</param>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
         /// <returns></returns>
         public Task CreateAsync(IFormCollection form);
 
@@ -17,10 +17,24 @@ namespace CarProjectMVC.Services
         /// <returns>Список автомобилей</returns>
         public List<Car> Read();
 
+        /// <summary>
+        /// Обновляет данные автомобиля
+        /// </summary>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
+        /// <returns></returns>
         public Task UpdateAsync(IFormCollection form);
 
+        /// <summary>
+        /// Удаляет автомобиль из БД
+        /// </summary>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
+        /// <returns></returns>
         public Task DeleteAsync(IFormCollection form);
 
+        /// <summary>
+        /// Устанавливает роль пользователя по умолчанию(при регистрации)
+        /// </summary>
+        /// <returns></returns>
         public Role SetDefaultRole();
 
     }
