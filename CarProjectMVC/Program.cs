@@ -1,10 +1,8 @@
 using CarProjectMVC.Context;
-using CarProjectMVC.Models;
-using CarProjectMVC.Services;
+using CarProjectMVC.Services.Authenticate;
+using CarProjectMVC.Services.Request;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,18 +31,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.AccessDeniedPath = "/AccessDenied/Index";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 });
-builder.Services.AddAuthorization(opts => {
+builder.Services.AddAuthorization(opts =>
+{
 
-    opts.AddPolicy("Create", policy => {
+    opts.AddPolicy("Create", policy =>
+    {
         policy.RequireClaim("CanCreate", "True");
     });
-    opts.AddPolicy("Read", policy => {
+    opts.AddPolicy("Read", policy =>
+    {
         policy.RequireClaim("CanRead", "True");
     });
-    opts.AddPolicy("Update", policy => {
+    opts.AddPolicy("Update", policy =>
+    {
         policy.RequireClaim("CanUpdate", "True");
     });
-    opts.AddPolicy("Delete", policy => {
+    opts.AddPolicy("Delete", policy =>
+    {
         policy.RequireClaim("CanDelete", "True");
     });
 });

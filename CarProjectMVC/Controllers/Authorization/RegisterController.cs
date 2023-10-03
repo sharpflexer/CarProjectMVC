@@ -1,5 +1,6 @@
 ﻿using CarProjectMVC.Models;
-using CarProjectMVC.Services;
+using CarProjectMVC.Services.Authenticate;
+using CarProjectMVC.Services.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Controllers.Authorization

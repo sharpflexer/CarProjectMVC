@@ -1,6 +1,6 @@
 ﻿using CarProjectMVC.Models;
 
-namespace CarProjectMVC.Services
+namespace CarProjectMVC.Services.Authenticate
 {
     public interface IAuthenticateService
     {
