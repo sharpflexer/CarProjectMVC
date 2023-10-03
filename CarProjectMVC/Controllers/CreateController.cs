@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Create")]
     public class CreateController : Controller
     {
         private readonly ApplicationContext _context;

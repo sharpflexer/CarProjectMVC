@@ -25,7 +25,8 @@ namespace CarProjectMVC.Services
 
         public async Task<User> AuthenticateUser(string login, string password)
         {
-            var succeeded = await _context.Users.FirstOrDefaultAsync(authUser => authUser.Login == login &&
+            var succeeded = await _context.Users.Include(user => user.Role)
+                                                .FirstOrDefaultAsync(authUser => authUser.Login == login &&
                                                                                  authUser.Password == password);
             return succeeded;
         }
@@ -35,12 +36,15 @@ namespace CarProjectMVC.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task SignInAsync(HttpContext httpContext, string username)
+        public async Task SignInAsync(HttpContext httpContext, Task<User> user)
         {
             List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, username),
-                    new Claim("OtherProperties", "Example Role")
+                    new Claim(ClaimTypes.NameIdentifier, user.Result.Login),
+                    new Claim("CanCreate", user.Result.Role.CanCreate.ToString()),
+                    new Claim("CanRead", user.Result.Role.CanRead.ToString()),
+                    new Claim("CanUpdate", user.Result.Role.CanUpdate.ToString()),
+                    new Claim("CanDelete", user.Result.Role.CanDelete.ToString())
                 };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
                 CookieAuthenticationDefaults.AuthenticationScheme);

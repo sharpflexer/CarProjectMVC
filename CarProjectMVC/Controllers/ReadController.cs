@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace CarProjectMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Read")]
     public class ReadController : Controller
     {
         private readonly ApplicationContext _context;

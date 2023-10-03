@@ -42,7 +42,7 @@ namespace CarProjectMVC.Controllers
         {
             if (isSuccess.Result != null)
             {
-                await _authenticateService.SignInAsync(HttpContext, username);
+                await _authenticateService.SignInAsync(HttpContext, isSuccess);
 
                 ViewBag.username = string.Format("Successfully logged-in", username);
                 TempData["username"] = username;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Update")]
     public class UpdateController : Controller
     {
 
