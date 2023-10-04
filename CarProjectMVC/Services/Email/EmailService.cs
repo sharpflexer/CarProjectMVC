@@ -11,7 +11,7 @@ namespace CarProjectMVC.Services.Email
             using var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress("Car WebApplication", "car.webapplication@mail.ru"));
-            emailMessage.To.Add(new MailboxAddress(user.Login, email));
+            emailMessage.To.Add(new MailboxAddress(user.Login, user.Email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
