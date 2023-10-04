@@ -1,8 +1,10 @@
-using CarProjectMVC.Context;
+using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(connection);
     options.EnableSensitiveDataLogging();
 });
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationContext>();
 builder.Services.AddMvc()
      .AddNewtonsoftJson(
           options =>
@@ -23,13 +27,20 @@ builder.Services.AddMvc()
           });
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
 {
-    options.Cookie.Name = "CarCookieMiddlewareInstance";
-    options.LoginPath = "/Login/Index";
-    options.AccessDeniedPath = "/AccessDenied/Index";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = AuthOptions.Issuer,
+        ValidAudience = AuthOptions.Audience,
+        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = false,
+    };
 });
 builder.Services.AddAuthorization(opts =>
 {
@@ -62,14 +73,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseAuthentication();
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
 
-//app.UseCors(builder => builder.AllowAnyOrigin());
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

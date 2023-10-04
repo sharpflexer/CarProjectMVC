@@ -1,10 +1,11 @@
-﻿using CarProjectMVC.Models;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
+﻿
+using CarProjectMVC.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarProjectMVC.Context
+namespace CarProjectMVC.Areas.Identity.Data
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
         /// <summary>
         /// Таблица автомобилей
@@ -42,6 +43,18 @@ namespace CarProjectMVC.Context
             //if (Database.EnsureCreated())
             //    FillDatabase();
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
+        }
+
+
+
+
 
         /// <summary>
         /// Инициализация базы данных стартовыми данными
@@ -175,7 +188,7 @@ namespace CarProjectMVC.Context
                     CanRead = true,
                     CanUpdate = true,
                     CanDelete = true
-                }, 
+                },
                 new Role()
                 {
                     Name = "Менеджер",
@@ -183,7 +196,7 @@ namespace CarProjectMVC.Context
                     CanRead = true,
                     CanUpdate = true,
                     CanDelete = false
-                }, 
+                },
                 new Role()
                 {
                     Name = "Пользователь",

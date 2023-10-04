@@ -1,4 +1,4 @@
-﻿namespace CarProjectMVC.Models
+﻿namespace CarProjectMVC.Areas.Identity.Data
 {
     public class Role
     {
@@ -20,7 +20,7 @@
         /// <summary>
         /// Право на чтение записей
         /// </summary
-        public bool CanRead {  get; set; }
+        public bool CanRead { get; set; }
 
         /// <summary>
         /// Право на обновление записей

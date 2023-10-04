@@ -1,6 +1,8 @@
-﻿namespace CarProjectMVC.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CarProjectMVC.Areas.Identity.Data
 {
-    public class User
+    public class User : IdentityUser
     {
         /// <summary>
         /// ID пользователя

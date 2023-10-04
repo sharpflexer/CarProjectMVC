@@ -1,8 +1,11 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Authenticate;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace CarProjectMVC.Controllers.Authorization
@@ -39,9 +42,12 @@ namespace CarProjectMVC.Controllers.Authorization
         /// Результат валидации пользователя
         /// </returns>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string username, string password)
+        public async Task<object> PostAsync(string username, string password)
         {
             var isSuccess = _authenticateService.AuthenticateUser(username, password);
+
+
+
             return await SignInIfSucceed(username, isSuccess);
         }
 
@@ -51,7 +57,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <returns>Перенаправление на страницу входа</returns>
         public async Task<IActionResult> LogOut()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
             return RedirectToAction("Index");
         }
 
@@ -71,21 +77,43 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
         /// </list>
         /// </returns>
-        private async Task<IActionResult> SignInIfSucceed(string username, Task<User> isSuccess)
+        private async Task<object> SignInIfSucceed(string username, Task<User> isSuccess)
         {
             if (isSuccess.Result != null)
             {
-                await _authenticateService.SignInAsync(HttpContext, isSuccess);
+                object jwt = GetToken(isSuccess.Result);
 
                 ViewBag.username = string.Format("Successfully logged-in", username);
                 TempData["username"] = username;
-                return RedirectToAction("Index", "Read");
+                return RedirectToAction("Index", "Read", jwt);
+                // return jwt;
             }
             else
             {
                 ViewBag.username = string.Format("Login Failed: {0}", username);
                 return BadRequest("Логин и/или пароль не установлены");
             }
+        }
+
+        public object GetToken(User user)
+        {
+            List<Claim> claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Login),
+                    new Claim("CanCreate", user.Role.CanCreate.ToString()),
+                    new Claim("CanRead", user.Role.CanRead.ToString()),
+                    new Claim("CanUpdate", user.Role.CanUpdate.ToString()),
+                    new Claim("CanDelete", user.Role.CanDelete.ToString())
+                };
+
+            var jwt = new JwtSecurityToken(
+                issuer: AuthOptions.Issuer,
+                audience: AuthOptions.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }

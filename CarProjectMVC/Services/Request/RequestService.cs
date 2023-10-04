@@ -1,4 +1,4 @@
-﻿using CarProjectMVC.Context;
+﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Models;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,5 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.Models;
 
 namespace CarProjectMVC.Services.Request
 {

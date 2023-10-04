@@ -1,4 +1,4 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Areas.Identity.Data;
 using MailKit.Net.Smtp;
 using MimeKit;
 

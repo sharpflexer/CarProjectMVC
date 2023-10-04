@@ -1,4 +1,4 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Areas.Identity.Data;
 
 namespace CarProjectMVC.Services.Authenticate
 {
@@ -17,14 +17,6 @@ namespace CarProjectMVC.Services.Authenticate
         /// <param name="passcode">Пароль</param>
         /// <returns></returns>
         Task<User> AuthenticateUser(string username, string passcode);
-
-        /// <summary>
-        /// Авторизует пользователя в приложении
-        /// </summary>
-        /// <param name="httpContext">Информация о запросе</param>
-        /// <param name="user">Аккаунт пользователя, прошедший валидацию</param>
-        /// <returns></returns>
-        Task SignInAsync(HttpContext httpContext, Task<User> user);
 
         /// <summary>
         /// Добавляет пользователя в БД при регистрации

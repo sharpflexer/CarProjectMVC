@@ -1,4 +1,4 @@
-﻿using CarProjectMVC.Models;
+﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
 using Microsoft.AspNetCore.Mvc;

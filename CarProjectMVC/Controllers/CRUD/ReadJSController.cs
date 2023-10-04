@@ -1,4 +1,4 @@
-﻿using CarProjectMVC.Context;
+﻿using CarProjectMVC.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
