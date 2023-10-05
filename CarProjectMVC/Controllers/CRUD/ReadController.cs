@@ -23,9 +23,9 @@ namespace CarProjectMVC.Controllers.CRUD
         /// Загружает список автомобилей на страницу
         /// </summary>
         /// <returns>Страница с данными автомобилей в таблице</returns>
-        [Authorize]
         public IActionResult IndexAsync()
         {
+
             ViewData["cars"] = _requestService.Read();
 
             return View();
