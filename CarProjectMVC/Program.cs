@@ -2,7 +2,10 @@ using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
+using CarProjectMVC.Services.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,7 +21,11 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationContext>();
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationContext>()
+    .AddUserManager<UserManager<User>>()
+    .AddSignInManager<SignInManager<User>>();
+
 builder.Services.AddMvc()
      .AddNewtonsoftJson(
           options =>
@@ -27,6 +34,7 @@ builder.Services.AddMvc()
           });
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
 {
@@ -44,7 +52,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 builder.Services.AddAuthorization(opts =>
 {
-
+    opts.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
     opts.AddPolicy("Create", policy =>
     {
         policy.RequireClaim("CanCreate", "True");
@@ -73,8 +83,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();

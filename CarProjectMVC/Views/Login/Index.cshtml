@@ -1,18 +1,54 @@
 ﻿<body>
     <div class="login">
         <h1>Login to Web App</h1>
-        <form method="post" enctype="multipart/form-data" asp-controller="Login" asp-action="Post">
-            <p><input type="text" name="username" value="" placeholder="Username" required></p>
-            <p><input type="password" name="password" value="" placeholder="Password" required></p>
+        <form method="post" enctype="multipart/form-data">
+            <p><input id="username" type="text" name="username" value="" placeholder="Username" required></p>
+            <p><input id="password" type="password" name="password" value="" placeholder="Password" required></p>
             <p class="remember_me">
                 <label>
                     <input type="checkbox" name="remember_me" id="remember_me">
                     Remember me on this computer
                 </label>
             </p>
-            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            <p id="submitLogin"class="submit"><input type="submit" name="commit" value="Login"></p>
             <hr />
             @ViewBag.username
         </form>
     </div>
 </body>
+<script>
+    var tokenKey = "accessToken";
+    // при нажатии на кнопку отправки формы идет запрос к /login для получения токена
+    document.getElementById("submitLogin").addEventListener("click", async e => {
+        e.preventDefault();
+        // отправляет запрос и получаем ответ
+
+        const formData = new FormData();
+        formData.append("username", document.getElementById("username").value);
+        formData.append("password", document.getElementById("password").value);
+
+
+        const response = await fetch("/Login/Token", {
+            method: "POST",
+            headers: { "Accept": "application/json"},
+            body: formData
+        });
+        const data = await response.json();
+
+        console.log(response);
+        console.log(data);
+        // если запрос прошел нормально
+        if (response.ok === true) {
+            // получаем данные
+            
+            // сохраняем в хранилище sessionStorage токен доступа
+            sessionStorage.setItem(tokenKey, data);
+            console.log(tokenKey);
+            console.log(data);
+            
+            window.location.replace("http://localhost:5000/Read/Index");
+        }
+        else  // если произошла ошибка, получаем код статуса
+            console.log("Status: ", response.status);
+    });
+</script>
