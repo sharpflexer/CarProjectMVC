@@ -1,7 +1,7 @@
 ﻿<body>
     <div class="login">
         <h1>Login to Web App</h1>
-        <form method="post" enctype="multipart/form-data" asp-controller="Read" asp-action="Index">
+        <form id="submitForm" method="post" enctype="multipart/form-data" asp-controller="Read" asp-action="Index" h>
             <p><input id="username" type="text" name="username" value="" placeholder="Username" required></p>
             <p><input id="password" type="password" name="password" value="" placeholder="Password" required></p>
             <p class="remember_me">
@@ -30,7 +30,7 @@
 
         const response = await fetch("/Login/Token", {
             method: "POST",
-            headers: { "Accept": "application/json"},
+            headers: { "Accept": "application/json" },
             body: formData
         });
         const data = await response.json();
@@ -40,46 +40,68 @@
         // если запрос прошел нормально
         if (response.ok === true) {
             // получаем данные
-            
+
             // сохраняем в хранилище sessionStorage токен доступа
             sessionStorage.setItem(tokenKey, data);
             console.log(tokenKey);
             console.log(data);
-            
 
             const token = sessionStorage.getItem(tokenKey);
-            const redirectUrl = "https://localhost:7020/Read/Index";
-            console.log(token);
+           // const redirectUrl = "https://localhost:7020/Login/RedirectToRead";
+            createCookie('Authorization', 'Bearer ' + token);
+            window.location.href = "/Read/Index";
+            //     console.log(token);
+            //     const headers = {
+            //         "Accept": "application/json",
+            //         "Authorization": "Bearer " + token
+            //        };
 
-            const headers = {
-                "Accept": "application/json",
-                "Authorization": "Bearer ${token}"
-               };
+            //     const page = await fetch(redirectUrl, {
+            //     method: "GET",
+            //     headers: headers,
+            //     })
+            //     .then(function (html) {
+            //         // Initialize the DOM parser
+            //         var parser = new DOMParser();
 
-            fetch(redirectUrl, {
-            method: "GET",
-            headers: headers,
-            })
-            .then((response) => {
-                // Обработайте ответ
-                if (response.status === 200) {
-                    // Успешный ответ
-                    return response.json();
-                } else {
-                    // Обработка ошибок
-                    throw new Error("Request failed");
-                }
-            })
-            .then((data) => {
-                // Обработайте данные из ответа
-                console.log(data);
-            })
-            .catch((error) => {
-                // Обработайте ошибки
-                console.error(error);
-            });
+            //         // Parse the text
+            //         var doc = parser.parseFromString(html, "text/html");
+
+            //         var docArticle = doc.querySelector('article').innerHTML;
+
+            //         console.log(doc);
+            //     })
+
+            // }
+
         }
-        else  // если произошла ошибка, получаем код статуса
-            console.log("Status: ", response.status);
+
+        function createCookie(name, value, days) {
+            var expires;
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toGMTString();
+            }
+            else {
+                expires = "";
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function getCookie(c_name) {
+            if (document.cookie.length > 0) {
+                c_start = document.cookie.indexOf(c_name + "=");
+                if (c_start != -1) {
+                    c_start = c_start + c_name.length + 1;
+                    c_end = document.cookie.indexOf(";", c_start);
+                    if (c_end == -1) {
+                        c_end = document.cookie.length;
+                    }
+                    return unescape(document.cookie.substring(c_start, c_end));
+                }
+            }
+            return "";
+        }
     });
 </script>

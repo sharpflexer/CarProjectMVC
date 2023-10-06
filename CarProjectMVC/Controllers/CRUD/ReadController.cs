@@ -27,7 +27,6 @@ namespace CarProjectMVC.Controllers.CRUD
         {
 
             ViewData["cars"] = _requestService.Read();
-
             return View();
         }
 

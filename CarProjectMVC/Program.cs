@@ -32,6 +32,7 @@ builder.Services.AddMvc()
           {
               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
           });
+builder.Services.AddSession();
 builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -82,7 +83,17 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSession();
+app.Use(async (context, next) =>
+{
+    var JWToken = context.Request.Cookies["Authorization"];
+    if (!string.IsNullOrEmpty(JWToken))
+    {
+        context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+    }
 
+    await next();
+});
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHttpsRedirection();

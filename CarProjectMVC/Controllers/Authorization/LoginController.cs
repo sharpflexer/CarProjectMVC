@@ -51,6 +51,15 @@ namespace CarProjectMVC.Controllers.Authorization
             return accessToken;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> RedirectToRead()
+        {
+            var keys = HttpContext.Session.Keys;
+            var redirect = RedirectToAction("Index", "Read");
+            return redirect;
+        }
+
         /// <summary>
         /// Производит выход пользователя из аккаунта
         /// </summary>
