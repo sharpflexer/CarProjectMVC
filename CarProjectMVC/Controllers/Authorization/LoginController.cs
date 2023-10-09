@@ -1,7 +1,5 @@
 ﻿using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Token;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -66,7 +64,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <returns>Перенаправление на страницу входа</returns>
         public async Task<IActionResult> LogOut()
         {
-            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+            HttpContext.Response.Cookies.Delete("Authorization");
             return RedirectToAction("Index");
         }
 
