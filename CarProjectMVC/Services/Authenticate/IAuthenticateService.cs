@@ -23,5 +23,6 @@ namespace CarProjectMVC.Services.Authenticate
         /// </summary>
         /// <param name="user">Аккаунт нового пользователя</param>
         void AddUser(User user);
+        void Revoke(string? username);
     }
 }

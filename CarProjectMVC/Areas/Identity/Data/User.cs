@@ -28,5 +28,10 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// Роль пользователя, дает права на различные действия с таблицей
         /// </summary>
         public Role Role { get; set; }
+
+        /// <summary>
+        /// Токен для обновления Access Token
+        /// </summary>
+        public string? RefreshToken { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CarProjectMVC.Services.Authenticate;
+﻿using CarProjectMVC.JWT;
+using CarProjectMVC.Services.Authenticate;
+using CarProjectMVC.Services.Request;
 using CarProjectMVC.Services.Token;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -7,18 +9,24 @@ namespace CarProjectMVC.Controllers.Authorization
 {
     public class LoginController : Controller
     {
-        /// <summary>
-        /// Сервис для отправки запросов в БД
-        /// </summary>
         private readonly IAuthenticateService _authenticateService;
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IAuthenticateService authenticateService, ITokenService tokenService, IConfiguration configuration)
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
+        private readonly IRequestService _requestService;
+
+        public LoginController(IAuthenticateService authenticateService,
+                               ITokenService tokenService,
+                               IConfiguration configuration,
+                               IRequestService requestService)
         {
             _authenticateService = authenticateService;
             _tokenService = tokenService;
             _configuration = configuration;
+            _requestService = requestService;
         }
 
         /// <summary>
@@ -42,13 +50,20 @@ namespace CarProjectMVC.Controllers.Authorization
         /// Результат валидации пользователя
         /// </returns>
         [HttpPost]
-        public async Task<object> Token(string username, string password)
+        public async Task<IActionResult> Token(string username, string password)
         {
-            var isSuccess = await _authenticateService.AuthenticateUser(username, password);
-            var accessToken = _tokenService.CreateToken(isSuccess);
-            return accessToken;
-        }
+            var user = await _authenticateService.AuthenticateUser(username, password);
+            var accessToken = _tokenService.CreateToken(user);
+            var refreshToken = _tokenService.CreateRefreshToken();
 
+            user.RefreshToken = refreshToken;
+            _requestService.AddRefreshToken(user);
+            return Ok(new JwtToken
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            });
+        }
 
         [HttpGet]
         public async Task<IActionResult> RedirectToRead()
@@ -64,7 +79,8 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <returns>Перенаправление на страницу входа</returns>
         public async Task<IActionResult> LogOut()
         {
-            HttpContext.Response.Cookies.Delete("Authorization");
+            var username = User.Identity.Name;
+            _authenticateService.Revoke(username);
             return RedirectToAction("Index");
         }
 

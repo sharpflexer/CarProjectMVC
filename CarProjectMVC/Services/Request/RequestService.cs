@@ -13,6 +13,12 @@ namespace CarProjectMVC.Services.Request
             _context = context;
         }
 
+        public void AddRefreshToken(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+
         public async Task CreateAsync(IFormCollection form)
         {
             Car Auto = new()

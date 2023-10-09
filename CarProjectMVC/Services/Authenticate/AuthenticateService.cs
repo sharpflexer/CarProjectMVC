@@ -30,5 +30,13 @@ namespace CarProjectMVC.Services.Authenticate
         {
             return await _context.Users.ToListAsync();
         }
+
+        public void Revoke(string? username)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            user.RefreshToken = null;
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
     }
 }

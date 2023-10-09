@@ -13,7 +13,7 @@ namespace CarProjectMVC.Services.Request
         public Task CreateAsync(IFormCollection form);
 
         /// <summary>
-        /// Полуает список всех автомобилей из БД
+        /// Получает список всех автомобилей из БД
         /// </summary>
         /// <returns>Список автомобилей</returns>
         public List<Car> Read();
@@ -38,5 +38,11 @@ namespace CarProjectMVC.Services.Request
         /// <returns></returns>
         public Role SetDefaultRole();
 
+        /// <summary>
+        /// Добавляет Refresh Token в таблицу User
+        /// </summary>
+        /// <param name="user">Аккаунт пользователя</param>
+        /// <param name="refreshToken">Токен для обновления access token</param>
+        public void AddRefreshToken(User user);
     }
 }
