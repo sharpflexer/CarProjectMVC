@@ -2,6 +2,7 @@
 using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
 using CarProjectMVC.Services.Token;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -77,10 +78,13 @@ namespace CarProjectMVC.Controllers.Authorization
         /// Производит выход пользователя из аккаунта
         /// </summary>
         /// <returns>Перенаправление на страницу входа</returns>
+        [Authorize]
         public async Task<IActionResult> LogOut()
         {
-            var username = User.Identity.Name;
-            _authenticateService.Revoke(username);
+            HttpContext.Response.Cookies.Delete("Authorization");
+            HttpContext.Response.Cookies.Delete("Refresh");
+            var refreshCookie = HttpContext.Request.Cookies["Refresh"];
+            _authenticateService.Revoke(refreshCookie);
             return RedirectToAction("Index");
         }
 

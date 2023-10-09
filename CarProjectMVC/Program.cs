@@ -40,6 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
+
         ValidIssuer = AuthOptions.Issuer,
         ValidAudience = AuthOptions.Audience,
         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),

@@ -31,9 +31,12 @@ namespace CarProjectMVC.Services.Authenticate
             return await _context.Users.ToListAsync();
         }
 
-        public void Revoke(string? username)
+        public void Revoke(string refreshCookie)
         {
-            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            string[] cookieParams = refreshCookie.Split(";");
+            string refreshToken = cookieParams[0];
+
+            var user = _context.Users.SingleOrDefault(u => u.RefreshToken == refreshToken);
             user.RefreshToken = null;
             _context.Users.Update(user);
             _context.SaveChanges();
