@@ -1,5 +1,6 @@
 ﻿namespace CarProjectMVC.Models
 {
+    //TODO: Пробник
     public class Brand
     {
         /// <summary>
