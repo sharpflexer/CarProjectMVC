@@ -40,8 +40,8 @@ public static class JwtBearerExtensions
         var expire = configuration.GetSection("Jwt:Expire").Get<int>();
 
         var token = new JwtSecurityToken(
-            configuration[AuthOptions.Issuer],
-            configuration[AuthOptions.Audience],
+            AuthOptions.Issuer,
+            AuthOptions.Audience,
             claims,
             expires: DateTime.UtcNow.AddMinutes(expire),
             signingCredentials: configuration.CreateSigningCredentials()

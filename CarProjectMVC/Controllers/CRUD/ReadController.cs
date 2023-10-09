@@ -25,6 +25,7 @@ namespace CarProjectMVC.Controllers.CRUD
         /// <returns>Страница с данными автомобилей в таблице</returns>
         public IActionResult IndexAsync()
         {
+            var auth = HttpContext.Request.Headers["Authorization"];
 
             ViewData["cars"] = _requestService.Read();
             return View();

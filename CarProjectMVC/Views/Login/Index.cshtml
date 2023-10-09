@@ -18,15 +18,13 @@
 </body>
 <script>
     var tokenKey = "accessToken";
-    // при нажатии на кнопку отправки формы идет запрос к /login для получения токена
+
     document.getElementById("submitLogin").addEventListener("click", async e => {
         e.preventDefault();
-        // отправляет запрос и получаем ответ
 
         const formData = new FormData();
         formData.append("username", document.getElementById("username").value);
         formData.append("password", document.getElementById("password").value);
-
 
         const response = await fetch("/Login/Token", {
             method: "POST",
@@ -35,44 +33,9 @@
         });
         const data = await response.json();
 
-        console.log(response);
-        console.log(data);
-        // если запрос прошел нормально
         if (response.ok === true) {
-            // получаем данные
-
-            // сохраняем в хранилище sessionStorage токен доступа
-            sessionStorage.setItem(tokenKey, data);
-            console.log(tokenKey);
-            console.log(data);
-
-            const token = sessionStorage.getItem(tokenKey);
-           // const redirectUrl = "https://localhost:7020/Login/RedirectToRead";
-            createCookie('Authorization', 'Bearer ' + token);
+            createCookie('Authorization', 'Bearer ' + data, 1);
             window.location.href = "/Read/Index";
-            //     console.log(token);
-            //     const headers = {
-            //         "Accept": "application/json",
-            //         "Authorization": "Bearer " + token
-            //        };
-
-            //     const page = await fetch(redirectUrl, {
-            //     method: "GET",
-            //     headers: headers,
-            //     })
-            //     .then(function (html) {
-            //         // Initialize the DOM parser
-            //         var parser = new DOMParser();
-
-            //         // Parse the text
-            //         var doc = parser.parseFromString(html, "text/html");
-
-            //         var docArticle = doc.querySelector('article').innerHTML;
-
-            //         console.log(doc);
-            //     })
-
-            // }
 
         }
 
@@ -81,12 +44,13 @@
             if (days) {
                 var date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toGMTString();
+                expires = "; expires=" + date.toGMTString() + "; ";
             }
             else {
                 expires = "";
             }
-            document.cookie = name + "=" + value + expires + "; path=/";
+            var cookieString = encodeURIComponent(name) + "=" + encodeURIComponent(value) + encodeURIComponent(expires) + "path=/";
+            document.cookie = cookieString;
         }
 
         function getCookie(c_name) {

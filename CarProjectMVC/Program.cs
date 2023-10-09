@@ -4,7 +4,6 @@ using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
 using CarProjectMVC.Services.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,17 +44,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = AuthOptions.Audience,
         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
 
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = false,
         ValidateIssuerSigningKey = false,
     };
 });
 builder.Services.AddAuthorization(opts =>
 {
-    opts.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build();
+    //opts.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+    //                .RequireAuthenticatedUser()
+    //                .Build();
     opts.AddPolicy("Create", policy =>
     {
         policy.RequireClaim("CanCreate", "True");
@@ -86,14 +85,18 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.Use(async (context, next) =>
 {
-    var JWToken = context.Request.Cookies["Authorization"];
-    if (!string.IsNullOrEmpty(JWToken))
+    string? jwtTokenCookie = context.Request.Cookies["Authorization"];
+
+    if (!jwtTokenCookie.IsNullOrEmpty())
     {
-        context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+        string[] cookieParams = jwtTokenCookie.Split(";");
+        string jwtToken = cookieParams[0];
+        context.Request.Headers.Add("Authorization", jwtToken);
     }
 
     await next();
 });
+app.UseCors();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
