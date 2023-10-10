@@ -1,4 +1,5 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.Services.Request;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Services.Authenticate
@@ -6,10 +7,12 @@ namespace CarProjectMVC.Services.Authenticate
     public class AuthenticateService : IAuthenticateService
     {
         private readonly ApplicationContext _context;
+        private readonly IRequestService _requestService;
 
-        public AuthenticateService(ApplicationContext context)
+        public AuthenticateService(ApplicationContext context, IRequestService requestService)
         {
             _context = context;
+            _requestService = requestService;
         }
 
         public void AddUser(User user)
@@ -36,7 +39,7 @@ namespace CarProjectMVC.Services.Authenticate
             string[] cookieParams = refreshCookie.Split(";");
             string refreshToken = cookieParams[0];
 
-            var user = _context.Users.SingleOrDefault(u => u.RefreshToken == refreshToken);
+            var user = _requestService.GetUserByToken(refreshToken);
             user.RefreshToken = null;
             _context.Users.Update(user);
             _context.SaveChanges();

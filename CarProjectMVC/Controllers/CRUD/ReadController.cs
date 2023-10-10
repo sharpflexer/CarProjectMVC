@@ -25,8 +25,6 @@ namespace CarProjectMVC.Controllers.CRUD
         /// <returns>Страница с данными автомобилей в таблице</returns>
         public IActionResult IndexAsync()
         {
-            var auth = HttpContext.Request.Headers["Authorization"];
-
             ViewData["cars"] = _requestService.Read();
             return View();
         }
@@ -39,6 +37,31 @@ namespace CarProjectMVC.Controllers.CRUD
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
+        /// Устанавливает Access Token статус expired истекшим
+        /// </summary>
+        /// <returns>Страницу Read</returns>
+        public async Task<IActionResult> Expire()
+        {
+            var auth = HttpContext.Request.Cookies["Authorization"];
+            var authParts = auth?.Split(';');
+            var newAuth = authParts[0] + "; expires=" + TimeSpan.FromSeconds(1).ToString() + ";" + authParts[2];
+            var jwtToken = authParts[0];
+
+            HttpContext.Response.Cookies.Delete("Authorization");
+            HttpContext.Response.Cookies.Append(
+            "Authorization",
+            jwtToken,
+            new CookieOptions()
+            {
+                Expires = DateTime.UtcNow,
+                Path = "/"
+            }
+        );
+
+            return RedirectToAction("Index");
         }
     }
 }

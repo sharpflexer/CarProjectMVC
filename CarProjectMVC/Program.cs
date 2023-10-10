@@ -47,9 +47,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = false,
+        ClockSkew = TimeSpan.Zero
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+                context.Response.Redirect("/Auth/Refresh");
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
 });
 builder.Services.AddAuthorization(opts =>
 {
@@ -87,7 +102,11 @@ app.UseSession();
 app.Use(async (context, next) =>
 {
     string? jwtTokenCookie = context.Request.Cookies["Authorization"];
+    //string? jwtRefreshCookie = context.Request.Cookies["Refresh"];
+    //if (!jwtRefreshCookie.IsNullOrEmpty() && )
+    //{
 
+    //}
     if (!jwtTokenCookie.IsNullOrEmpty())
     {
         string[] cookieParams = jwtTokenCookie.Split(";");

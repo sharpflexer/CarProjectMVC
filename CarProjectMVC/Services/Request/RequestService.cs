@@ -40,6 +40,13 @@ namespace CarProjectMVC.Services.Request
             _context.Cars.Remove(Auto);
             await _context.SaveChangesAsync();
         }
+
+        public User GetUserByToken(string refreshToken)
+        {
+            var user = _context.Users.Include(user => user.Role).SingleOrDefault(u => u.RefreshToken == refreshToken);
+            return user;
+        }
+
         public List<Car> Read()
         {
             return _context.Cars.Include(car => car.Brand)
@@ -64,6 +71,12 @@ namespace CarProjectMVC.Services.Request
                 Color = _context.Colors.Single(color => color.Id == int.Parse(form["Colors"])),
             };
             _context.Cars.Update(Auto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
     }

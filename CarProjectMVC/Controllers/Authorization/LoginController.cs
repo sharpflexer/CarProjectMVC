@@ -1,5 +1,4 @@
-﻿using CarProjectMVC.JWT;
-using CarProjectMVC.Services.Authenticate;
+﻿using CarProjectMVC.Services.Authenticate;
 using CarProjectMVC.Services.Request;
 using CarProjectMVC.Services.Token;
 using Microsoft.AspNetCore.Authorization;
@@ -42,30 +41,6 @@ namespace CarProjectMVC.Controllers.Authorization
             return View();
         }
 
-        /// <summary>
-        /// Проверяет данные пользователя для входа
-        /// </summary>
-        /// <param name="username">Имя пользователя</param>
-        /// <param name="password">Пароль</param>
-        /// <returns>
-        /// Результат валидации пользователя
-        /// </returns>
-        [HttpPost]
-        public async Task<IActionResult> Token(string username, string password)
-        {
-            var user = await _authenticateService.AuthenticateUser(username, password);
-            var accessToken = _tokenService.CreateToken(user);
-            var refreshToken = _tokenService.CreateRefreshToken();
-
-            user.RefreshToken = refreshToken;
-            _requestService.AddRefreshToken(user);
-            return Ok(new JwtToken
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            });
-        }
-
         [HttpGet]
         public async Task<IActionResult> RedirectToRead()
         {
@@ -104,6 +79,8 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
         /// </list>
         /// </returns>
+        /// 
+
         private async Task<object> SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
         {
             if (isSuccess != null)

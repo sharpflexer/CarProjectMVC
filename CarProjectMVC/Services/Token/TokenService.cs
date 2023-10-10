@@ -1,6 +1,7 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Extensions;
 using CarProjectMVC.JWT;
+using CarProjectMVC.Services.Request;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,18 +11,18 @@ namespace CarProjectMVC.Services.Token
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IRequestService _requestService;
 
-        public TokenService(IConfiguration configuration)
+        public TokenService(IRequestService requestService)
         {
-            _configuration = configuration;
+            _requestService = requestService;
         }
 
         public string CreateToken(User user)
         {
             var token = user
                 .CreateClaims()
-                .CreateJwtToken(_configuration);
+                .CreateJwtToken();
             var tokenHandler = new JwtSecurityTokenHandler();
 
             return tokenHandler.WriteToken(token);
@@ -45,7 +46,7 @@ namespace CarProjectMVC.Services.Token
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                ValidateLifetime = false
+                ValidateLifetime = true
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
@@ -54,6 +55,23 @@ namespace CarProjectMVC.Services.Token
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 throw new SecurityTokenException("Invalid token");
             return principal;
+        }
+
+        public JwtToken CreateNewToken(JwtToken oldToken)
+        {
+            User user = _requestService.GetUserByToken(oldToken.RefreshToken);
+
+            var newAccessToken = "Bearer " + CreateToken(user);
+            var newRefreshToken = CreateRefreshToken();
+
+            user.RefreshToken = newRefreshToken;
+            _requestService.UpdateUser(user);
+
+            return new JwtToken
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
         }
     }
 }

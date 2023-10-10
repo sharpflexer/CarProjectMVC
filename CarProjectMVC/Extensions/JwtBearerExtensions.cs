@@ -1,17 +1,19 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.JWT;
-using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace CarProjectMVC.Extensions;
 
 public static class JwtBearerExtensions
 {
+    /// <summary>
+    /// Создает свойства пользователя
+    /// </summary>
+    /// <param name="user">Аккаунт пользователя</param>
+    /// <returns>Свойства пользователя</returns>
     public static List<Claim> CreateClaims(this User user)
     {
 
@@ -27,68 +29,22 @@ public static class JwtBearerExtensions
         return claims;
     }
 
-    public static SigningCredentials CreateSigningCredentials(this IConfiguration configuration)
+    /// <summary>
+    /// Создает JWT-токен
+    /// </summary>
+    /// <param name="claims">Свойства пользователя</param>
+    /// <returns>JWT-токен</returns>
+    public static JwtSecurityToken CreateJwtToken(this IEnumerable<Claim> claims)
     {
-        return new SigningCredentials(
-            AuthOptions.GetSymmetricSecurityKey(),
-            SecurityAlgorithms.HmacSha256
-        );
-    }
-
-    public static JwtSecurityToken CreateJwtToken(this IEnumerable<Claim> claims, IConfiguration configuration)
-    {
-        var expire = configuration.GetSection("Jwt:Expire").Get<int>();
 
         var token = new JwtSecurityToken(
             AuthOptions.Issuer,
             AuthOptions.Audience,
             claims,
-            expires: DateTime.UtcNow.AddMinutes(expire),
-            signingCredentials: configuration.CreateSigningCredentials()
+            expires: DateTime.UtcNow.AddSeconds(30),
+            signingCredentials: AuthOptions.CreateSigningCredentials()
         );
         return token;
-    }
 
-    public static JwtSecurityToken CreateToken(this IConfiguration configuration, List<Claim> authClaims)
-    {
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!));
-        var tokenValidityInMinutes = configuration.GetSection("Jwt:TokenValidityInMinutes").Get<int>();
-
-        var token = new JwtSecurityToken(
-            issuer: configuration["Jwt:Issuer"],
-            audience: configuration["Jwt:Audience"],
-            expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
-            claims: authClaims,
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-        );
-
-        return token;
-    }
-
-    public static string GenerateRefreshToken(this IConfiguration configuration)
-    {
-        var randomNumber = new byte[64];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
-    }
-
-    public static ClaimsPrincipal? GetPrincipalFromExpiredToken(this IConfiguration configuration, string? token)
-    {
-        var tokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false,
-            ValidateIssuer = false,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)),
-            ValidateLifetime = false
-        };
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            throw new SecurityTokenException("Invalid token");
-
-        return principal;
     }
 }

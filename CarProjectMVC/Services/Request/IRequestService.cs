@@ -44,5 +44,7 @@ namespace CarProjectMVC.Services.Request
         /// <param name="user">Аккаунт пользователя</param>
         /// <param name="refreshToken">Токен для обновления access token</param>
         public void AddRefreshToken(User user);
+        User GetUserByToken(string refreshToken);
+        Task UpdateUser(User user);
     }
 }

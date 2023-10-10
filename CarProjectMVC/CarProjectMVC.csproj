@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <Folder Include="Context\" />
+    <Folder Include="Services\Interface\" />
+    <Folder Include="Services\Implementations\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
 

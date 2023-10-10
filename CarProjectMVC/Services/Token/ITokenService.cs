@@ -1,4 +1,5 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.JWT;
 using System.Security.Claims;
 
 namespace CarProjectMVC.Services.Token
@@ -10,5 +11,6 @@ namespace CarProjectMVC.Services.Token
         public string CreateRefreshToken();
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+        JwtToken CreateNewToken(JwtToken tokenApiModel);
     }
 }
