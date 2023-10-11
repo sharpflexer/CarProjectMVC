@@ -1,6 +1,6 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 
-namespace CarProjectMVC.Services.Authenticate
+namespace CarProjectMVC.Services.Interfaces
 {
     public interface IAuthenticateService
     {

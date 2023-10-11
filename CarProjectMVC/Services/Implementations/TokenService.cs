@@ -1,13 +1,13 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Extensions;
 using CarProjectMVC.JWT;
-using CarProjectMVC.Services.Request;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace CarProjectMVC.Services.Token
+namespace CarProjectMVC.Services.Implementations
 {
     public class TokenService : ITokenService
     {

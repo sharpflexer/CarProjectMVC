@@ -1,6 +1,6 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 
-namespace CarProjectMVC.Services.Email
+namespace CarProjectMVC.Services.Interfaces
 {
     public interface IEmailService
     {

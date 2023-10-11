@@ -1,7 +1,7 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Models;
 
-namespace CarProjectMVC.Services.Request
+namespace CarProjectMVC.Services.Interfaces
 {
     public interface IRequestService
     {

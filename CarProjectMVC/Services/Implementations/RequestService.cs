@@ -2,7 +2,7 @@
 using CarProjectMVC.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarProjectMVC.Services.Request
+namespace CarProjectMVC.Services.Implementations
 {
     public class RequestService : IRequestService
     {

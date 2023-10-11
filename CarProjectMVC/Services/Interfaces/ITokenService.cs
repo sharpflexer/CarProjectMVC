@@ -2,7 +2,7 @@
 using CarProjectMVC.JWT;
 using System.Security.Claims;
 
-namespace CarProjectMVC.Services.Token
+namespace CarProjectMVC.Services.Interfaces
 {
     public interface ITokenService
     {

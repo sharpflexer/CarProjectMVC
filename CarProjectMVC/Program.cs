@@ -1,8 +1,7 @@
 using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.JWT;
-using CarProjectMVC.Services.Authenticate;
-using CarProjectMVC.Services.Request;
-using CarProjectMVC.Services.Token;
+using CarProjectMVC.Services.Implementations;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +57,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
             {
                 context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
-                context.Response.Redirect("/Auth/Refresh");
             }
 
             return Task.CompletedTask;
@@ -68,9 +66,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 builder.Services.AddAuthorization(opts =>
 {
-    //opts.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-    //                .RequireAuthenticatedUser()
-    //                .Build();
     opts.AddPolicy("Create", policy =>
     {
         policy.RequireClaim("CanCreate", "True");
@@ -99,23 +94,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseSession();
-app.Use(async (context, next) =>
-{
-    string? jwtTokenCookie = context.Request.Cookies["Authorization"];
-    //string? jwtRefreshCookie = context.Request.Cookies["Refresh"];
-    //if (!jwtRefreshCookie.IsNullOrEmpty() && )
-    //{
+//app.Use(async (context, next) =>
+//{
+//    string? jwtTokenCookie = context.Request.Cookies["Authorization"];
+//    if (!jwtTokenCookie.IsNullOrEmpty())
+//    {
+//        string[] cookieParams = jwtTokenCookie.Split(";");
+//        string jwtToken = cookieParams[0];
+//        context.Request.Headers.Add("Authorization", jwtToken);
+//    }
 
-    //}
-    if (!jwtTokenCookie.IsNullOrEmpty())
-    {
-        string[] cookieParams = jwtTokenCookie.Split(";");
-        string jwtToken = cookieParams[0];
-        context.Request.Headers.Add("Authorization", jwtToken);
-    }
-
-    await next();
-});
+//    await next();
+//});
 app.UseCors();
 app.UseDefaultFiles();
 app.UseStaticFiles();

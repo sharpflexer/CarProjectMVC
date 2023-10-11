@@ -2,7 +2,7 @@
 using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace CarProjectMVC.Services.Email
+namespace CarProjectMVC.Services.Implementations
 {
     public class EmailService : IEmailService
     {

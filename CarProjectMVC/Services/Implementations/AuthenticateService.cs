@@ -1,8 +1,8 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.Services.Request;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarProjectMVC.Services.Authenticate
+namespace CarProjectMVC.Services.Implementations
 {
     public class AuthenticateService : IAuthenticateService
     {
