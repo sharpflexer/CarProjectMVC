@@ -3,6 +3,7 @@ using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Implementations;
 using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -94,18 +95,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseSession();
-//app.Use(async (context, next) =>
-//{
-//    string? jwtTokenCookie = context.Request.Cookies["Authorization"];
-//    if (!jwtTokenCookie.IsNullOrEmpty())
-//    {
-//        string[] cookieParams = jwtTokenCookie.Split(";");
-//        string jwtToken = cookieParams[0];
-//        context.Request.Headers.Add("Authorization", jwtToken);
-//    }
-
-//    await next();
-//});
+app.Use(async (context, next) =>
+{
+    //string? jwtTokenCookie = context.Request.Cookies["Authorization"];
+    //if (!jwtTokenCookie.IsNullOrEmpty())
+    //{
+    //    string[] cookieParams = jwtTokenCookie.Split(";");
+    //    string jwtToken = cookieParams[0];
+    //    context.Request.Headers.Add("Authorization", jwtToken);
+    //}
+    var url = context.Request.GetDisplayUrl();
+    await next();
+});
 app.UseCors();
 app.UseDefaultFiles();
 app.UseStaticFiles();

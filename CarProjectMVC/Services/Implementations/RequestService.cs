@@ -1,5 +1,6 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Models;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Services.Implementations

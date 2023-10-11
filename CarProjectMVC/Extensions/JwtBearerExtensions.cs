@@ -41,7 +41,7 @@ public static class JwtBearerExtensions
             AuthOptions.Issuer,
             AuthOptions.Audience,
             claims,
-            expires: DateTime.UtcNow.AddSeconds(30),
+            expires: DateTime.Now.AddSeconds(30),
             signingCredentials: AuthOptions.CreateSigningCredentials()
         );
         return token;
