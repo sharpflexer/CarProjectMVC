@@ -2,9 +2,16 @@
     navigator.serviceWorker.register("/authenticationhandler.js");
 }
 const channelTokenBroadcast = new BroadcastChannel('channelToken');
-const channelRefreshBroadcast = new BroadcastChannel('channelRefresh');
 
 var tokenKey = "accessToken";
+window.onload = function () {
+    if (localStorage.getItem("AccessToken") != undefined
+        && getCookie("Refresh") != undefined) {
+        var accessToken = localStorage.getItem("AccessToken");
+        channelTokenBroadcast.postMessage({ accessToken: accessToken });
+        window.location.href = "/Read/Index";
+    }
+}
 
 document.getElementById("submitLogin").addEventListener("click", async e => {
     e.preventDefault();
@@ -18,29 +25,46 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
         headers: { "Accept": "application/json" },
         body: formData
     });
-    const data = await response.json();
+    var data = await response.text();
+    var data = data.replace(new RegExp("\"", 'g'), "");
 
     if (response.ok === true) {
-        /*        localStorage.setItem('AccessToken', JSON.stringify('Bearer ' + data.accessToken));*/
-        var accessToken = "Bearer " + data.accessToken;
+        var accessToken = "Bearer " + data;
+
+        localStorage.setItem('AccessToken', accessToken);
+
         channelTokenBroadcast.postMessage({ accessToken: accessToken });
-        channelRefreshBroadcast.postMessage({ refreshToken: data.refreshToken });
-        createCookie('Refresh', data.refreshToken, 1);
+
         window.location.href = "/Read/Index";
 
     }
-
-    function createCookie(name, value, days) {
-        var expires;
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toGMTString() + "; ";
-        }
-        else {
-            expires = "";
-        }
-        var cookieString = encodeURIComponent(name) + "=" + encodeURIComponent(value) + encodeURIComponent(expires) + "path=/";
-        document.cookie = cookieString;
-    }
 });
+
+function createCookie(name, value, days) {
+    var expires;
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString() + "; ";
+    }
+    else {
+        expires = "";
+    }
+    var cookieString = encodeURIComponent(name) + "=" + encodeURIComponent(value) + encodeURIComponent(expires) + "path=/;httpOnly=true";
+    document.cookie = cookieString;
+}
+
+function getCookie(c_name) {
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) {
+                c_end = document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
+    }
+    return "";
+}

@@ -54,7 +54,6 @@ namespace CarProjectMVC.Controllers.Authorization
         [Authorize]
         public async Task<IActionResult> LogOut()
         {
-            HttpContext.Response.Cookies.Delete("Authorization");
             HttpContext.Response.Cookies.Delete("Refresh");
             var refreshCookie = HttpContext.Request.Cookies["Refresh"];
             _authenticateService.Revoke(refreshCookie);

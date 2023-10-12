@@ -33,12 +33,12 @@ namespace CarProjectMVC.Controllers.Authorization
             var refreshToken = _tokenService.CreateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            _requestService.AddRefreshToken(user);
-            return Ok(new JwtToken
+            HttpContext.Response.Cookies.Append("Refresh", refreshToken, new CookieOptions()
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
+                HttpOnly = true
             });
+            _requestService.AddRefreshToken(user);
+            return Ok(accessToken);
         }
 
         /// <summary>
@@ -50,25 +50,23 @@ namespace CarProjectMVC.Controllers.Authorization
         public IActionResult Refresh()
         {
 
-            JwtToken oldToken = GetOldJwtToken(HttpContext.Request.Headers);
+            JwtToken oldToken = GetOldJwtToken(HttpContext.Request);
 
             if (oldToken.RefreshToken is null)
                 return BadRequest("Invalid client request");
 
             JwtToken newToken = _tokenService.CreateNewToken(oldToken);
-
-            HttpContext.Response.Cookies.Delete("Authorization");
-            HttpContext.Response.Cookies.Delete("Refresh");
-            HttpContext.Response.Cookies.Append("Authorization", newToken.AccessToken);
-            HttpContext.Response.Cookies.Append("Refresh", newToken.RefreshToken);
-
-            return Ok(newToken);
+            HttpContext.Response.Cookies.Append("Refresh", newToken.RefreshToken, new CookieOptions()
+            {
+                HttpOnly = true
+            });
+            return Ok(newToken.AccessToken);
         }
 
-        private static JwtToken GetOldJwtToken(IHeaderDictionary headers)
+        private static JwtToken GetOldJwtToken(HttpRequest request)
         {
-            string oldAccessToken = headers["Authorization"].ToString().Split(" ")[0];
-            string oldRefreshToken = headers["Refresh"].ToString();
+            string oldAccessToken = request.Headers["Authorization"].ToString().Split(" ")[0];
+            string oldRefreshToken = request.Cookies["Refresh"].Split(";")[0];
 
             return new JwtToken
             {
