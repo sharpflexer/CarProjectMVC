@@ -50,7 +50,7 @@ namespace CarProjectMVC.Controllers.Authorization
         public IActionResult Refresh()
         {
 
-            JwtToken oldToken = GetOldJwtToken(HttpContext.Request.Cookies);
+            JwtToken oldToken = GetOldJwtToken(HttpContext.Request.Headers);
 
             if (oldToken.RefreshToken is null)
                 return BadRequest("Invalid client request");
@@ -62,13 +62,13 @@ namespace CarProjectMVC.Controllers.Authorization
             HttpContext.Response.Cookies.Append("Authorization", newToken.AccessToken);
             HttpContext.Response.Cookies.Append("Refresh", newToken.RefreshToken);
 
-            return RedirectToAction("Index", "Login");
+            return Ok(newToken);
         }
 
-        private static JwtToken GetOldJwtToken(IRequestCookieCollection cookies)
+        private static JwtToken GetOldJwtToken(IHeaderDictionary headers)
         {
-            string oldAccessToken = cookies["Authorization"].Split(";")[0];
-            string oldRefreshToken = cookies["Refresh"].Split(";")[0]; ;
+            string oldAccessToken = headers["Authorization"].ToString().Split(" ")[0];
+            string oldRefreshToken = headers["Refresh"].ToString();
 
             return new JwtToken
             {

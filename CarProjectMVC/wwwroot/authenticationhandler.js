@@ -17,18 +17,39 @@ self.addEventListener("fetch", event => {
         event.request.url.match('^.*(\/Update).*$') ||
         event.request.url.match('^.*(\/Delete).*$') ||
         event.request.url.match('^.*(\/ReadJS).*$')) {
-        console.log('WORKER: Fetching', event.request);
-        event.respondWith(
-            customHeaderRequestFetch(event, accessToken, refreshToken)
-                .catch(function (r) {
-                    response = r;
-                    console.log(response);
-                    if (response.status == 401)
-                        window.location.href = "/Login/Index";
-                })
-        );           
+
+        event.respondWith((async () => {
+            const response =
+                await customHeaderRequestFetch(event, accessToken, refreshToken);
+            if (response.status == 401) {
+                if (response.headers.get("IS-TOKEN-EXPIRED") == "true") {
+                    console.log("401 trying to refresh");
+                    var jwtResponse = await fetch("/Auth/Refresh", {
+                        headers: {
+                            Authentication: accessToken,
+                            Refresh: refreshToken
+                        }
+                    });
+                    console.log(jwtResponse);
+                    var jwtToken = await jwtResponse.json();
+                    console.log(jwtToken);
+
+                    accessToken = jwtToken.accessToken;
+                    refreshToken = jwtToken.refreshToken;
+                    return await customHeaderRequestFetch(event, accessToken, refreshToken);
+                }
+                else {
+                    console.log("401 redirect to login");
+                    return await fetch("/Login/Index");
+                }
+            }
+            return response;
+        })());
+        //event.respondWith(
+        //    customHeaderRequestFetch(event, accessToken, refreshToken)
+        //);
+        console.log("reponse with succeed");
     }
-    console.log(self.serviceWorker);
 
 });
 
