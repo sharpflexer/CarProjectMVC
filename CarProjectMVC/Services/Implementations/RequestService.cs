@@ -54,7 +54,7 @@ namespace CarProjectMVC.Services.Implementations
 
         public User GetUserByToken(string refreshToken)
         {
-            var user = _context.Users.Include(user => user.Role).SingleOrDefault(u => u.RefreshToken == refreshToken);
+            User? user = _context.Users.Include(user => user.Role).SingleOrDefault(u => u.RefreshToken == refreshToken);
             return user;
         }
 

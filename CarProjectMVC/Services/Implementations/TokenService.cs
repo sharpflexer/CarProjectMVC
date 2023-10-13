@@ -28,33 +28,31 @@ namespace CarProjectMVC.Services.Implementations
 
         public string CreateToken(User user)
         {
-            var token = user
+            JwtSecurityToken token = user
                 .CreateClaims()
                 .CreateJwtToken();
-            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
 
             return tokenHandler.WriteToken(token);
         }
 
         public string CreateRefreshToken()
         {
-            var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            byte[] randomNumber = new byte[32];
+            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         public JwtToken CreateNewToken(JwtToken oldToken)
         {
             User user = _requestService.GetUserByToken(oldToken.RefreshToken);
 
-            var newAccessToken = "Bearer " + CreateToken(user);
-            var newRefreshToken = CreateRefreshToken();
+            string newAccessToken = "Bearer " + CreateToken(user);
+            string newRefreshToken = CreateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
-            _requestService.UpdateUser(user);
+            _ = _requestService.UpdateUser(user);
 
             return new JwtToken
             {
