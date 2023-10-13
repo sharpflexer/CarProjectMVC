@@ -1,6 +1,8 @@
-﻿using CarProjectMVC.JWT;
+﻿using CarProjectMVC.Exceptions;
+using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
@@ -48,9 +50,9 @@ namespace CarProjectMVC.Controllers.Authorization
         [HttpPost]
         public async Task<IActionResult> Token(string username, string password)
         {
-            var user = await _authenticateService.AuthenticateUser(username, password);
-            var accessToken = _tokenService.CreateToken(user);
-            var refreshToken = _tokenService.CreateRefreshToken();
+            Areas.Identity.Data.User user = await _authenticateService.AuthenticateUser(username, password);
+            string accessToken = _tokenService.CreateToken(user);
+            string refreshToken = _tokenService.CreateRefreshToken();
 
             user.RefreshToken = refreshToken;
             HttpContext.Response.Cookies.Append("Refresh", refreshToken, new CookieOptions()
@@ -70,7 +72,17 @@ namespace CarProjectMVC.Controllers.Authorization
         [HttpGet]
         public IActionResult Refresh()
         {
-            JwtToken oldToken = GetOldJwtToken(HttpContext.Request);
+            JwtToken oldToken;
+
+            try
+            {
+                oldToken = TryGetOldJwtToken(HttpContext.Request);
+            }
+            catch (TokenNotExistException e)
+            {
+                HttpContext.Response.Headers.Append("TOKEN-NOT-EXIST", "true");
+                return BadRequest(e.Message);
+            }
 
             if (oldToken.RefreshToken is null)
             {
@@ -91,10 +103,17 @@ namespace CarProjectMVC.Controllers.Authorization
         /// </summary>
         /// <param name="request">HTTP-запрос</param>
         /// <returns>Устаревший токен</returns>
-        private static JwtToken GetOldJwtToken(HttpRequest request)
+        private static JwtToken TryGetOldJwtToken(HttpRequest request)
         {
             string oldAccessToken = request.Headers["Authorization"].ToString().Split(" ")[0];
-            string oldRefreshToken = request.Cookies["Refresh"].Split(";")[0];
+
+            string? oldRefreshCookie = request.Cookies["Refresh"];
+            if (oldRefreshCookie.IsNullOrEmpty())
+            {
+                throw new TokenNotExistException("Cookies do not contain Refresh Token");
+            }
+
+            string oldRefreshToken = oldRefreshCookie.Split(";")[0];
 
             return new JwtToken
             {

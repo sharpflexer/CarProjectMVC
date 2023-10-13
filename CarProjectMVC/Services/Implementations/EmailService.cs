@@ -26,7 +26,6 @@ namespace CarProjectMVC.Services.Implementations
             await client.ConnectAsync("smtp.mail.ru", 25, false);
             await client.AuthenticateAsync("car.webapplication@mail.ru", "nifariankek322!");
             await client.SendAsync(emailMessage);
-
             await client.DisconnectAsync(true);
         }
     }
