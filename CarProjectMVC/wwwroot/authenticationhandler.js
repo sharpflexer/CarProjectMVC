@@ -6,6 +6,37 @@ channelTokenBroadcast.onmessage = function (event) {
 }
 
 self.addEventListener("fetch", event => {
+    if (event.request.url.match('^.*(\/Login).*$')) {
+        event.respondWith((async () => {
+            if (accessToken != undefined) {
+                var accessResponse = await fetch("/Read/Index", {
+                    headers: {
+                        Authentication: accessToken,
+                    }
+                });
+                console.log("access response = " + accessResponse.status);
+                if (accessResponse.status == 401) {
+                    if (accessResponse.headers.get("IS-TOKEN-EXPIRED") == "true") {
+                        console.log("401 trying to refresh");
+                        var jwtResponse = await fetch("/Auth/Refresh", {
+                            headers: {
+                                Authentication: accessToken,
+                            }
+                        });
+                        accessToken = await jwtResponse.text();
+
+                        return await customHeaderRequestFetch(event, accessToken);
+                    }
+                    else {
+                        console.log("401 bad tokens revoke");
+                        return await fetch("/Login/Index");
+                    }
+                }
+                return accessResponse;
+            }
+
+        })());
+    }
     if (event.request.url.match('^.*(\/Read).*$') ||
         event.request.url.match('^.*(\/Create).*$') ||
         event.request.url.match('^.*(\/Update).*$') ||
