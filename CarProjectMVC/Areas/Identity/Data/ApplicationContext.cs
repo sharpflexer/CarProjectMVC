@@ -1,5 +1,6 @@
 ﻿
 using CarProjectMVC.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,13 +50,25 @@ namespace CarProjectMVC.Areas.Identity.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            if (Database.EnsureCreated())
-                FillDatabase();
+            //Database.EnsureDeleted();
+            //if (Database.EnsureCreated())
+            //{
+            //    FillDatabase();
+            //}
         }
         //TODO: Прочитать про ModelBuilder и добавить summary
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<User>().ToTable("Users");
+            builder.Entity<Role>().ToTable("Roles");
+            builder.Ignore<IdentityUserClaim<string>>();
+            builder.Ignore<IdentityUserToken<string>>();
+            builder.Ignore<IdentityUserClaim<string>>();
+            builder.Ignore<IdentityUserLogin<string>>();
+            builder.Ignore<IdentityRoleClaim<string>>();
+            builder.Ignore<IdentityUserRole<string>>();
+            builder.Ignore<IdentityRole<string>>();
         }
 
         /// <summary>
@@ -160,7 +173,9 @@ namespace CarProjectMVC.Areas.Identity.Data
             SaveChanges();
 
             foreach (CarColor color in Colors.ToList())
+            {
                 color.Models = Models.Where(model => model.Colors.Contains(color)).ToList();
+            }
 
             SaveChanges();
             Brands.AddRange(
