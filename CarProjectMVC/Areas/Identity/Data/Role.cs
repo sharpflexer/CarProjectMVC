@@ -1,5 +1,8 @@
 ﻿namespace CarProjectMVC.Areas.Identity.Data
 {
+    /// <summary>
+    /// Роль пользователя
+    /// </summary>
     public class Role
     {
         /// <summary>

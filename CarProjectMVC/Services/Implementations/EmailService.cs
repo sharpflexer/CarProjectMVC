@@ -5,6 +5,9 @@ using MimeKit;
 
 namespace CarProjectMVC.Services.Implementations
 {
+    /// <summary>
+    /// Сервис для отправки Email-сообщений пользователю
+    /// </summary>
     public class EmailService : IEmailService
     {
         public async Task SendEmailAsync(User user, string subject, string message)

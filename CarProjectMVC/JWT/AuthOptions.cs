@@ -3,6 +3,9 @@ using System.Text;
 
 namespace CarProjectMVC.JWT
 {
+    /// <summary>
+    /// Настройки аутентификации JWT токена
+    /// </summary>
     public class AuthOptions
     {
         /// <summary>

@@ -4,12 +4,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
+    /// <summary>
+    /// Контроллер для получения и обновления токенов
+    /// </summary>
     public class AuthController : Controller
     {
+        /// <summary>
+        /// Сервис для работы с JWT токенами
+        /// </summary>
         private readonly ITokenService _tokenService;
+
+        /// <summary>
+        /// Сервис для аутентификации пользователей
+        /// </summary>
         private readonly IAuthenticateService _authenticateService;
+
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
         private readonly IRequestService _requestService;
 
+        /// <summary>
+        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД
+        /// </summary>
+        /// <param name="tokenService">Сервис для работы с JWT токенами</param>
+        /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
         public AuthController(ITokenService tokenService, IAuthenticateService authenticateService, IRequestService requestService)
         {
             _tokenService = tokenService;
@@ -38,6 +58,7 @@ namespace CarProjectMVC.Controllers.Authorization
                 HttpOnly = true
             });
             _requestService.AddRefreshToken(user);
+
             return Ok(accessToken);
         }
 
@@ -49,20 +70,27 @@ namespace CarProjectMVC.Controllers.Authorization
         [HttpGet]
         public IActionResult Refresh()
         {
-
             JwtToken oldToken = GetOldJwtToken(HttpContext.Request);
 
             if (oldToken.RefreshToken is null)
+            {
                 return BadRequest("Invalid client request");
+            }
 
             JwtToken newToken = _tokenService.CreateNewToken(oldToken);
             HttpContext.Response.Cookies.Append("Refresh", newToken.RefreshToken, new CookieOptions()
             {
                 HttpOnly = true
             });
+
             return Ok(newToken.AccessToken);
         }
 
+        /// <summary>
+        /// Получает устаревший токен из запроса
+        /// </summary>
+        /// <param name="request">HTTP-запрос</param>
+        /// <returns>Устаревший токен</returns>
         private static JwtToken GetOldJwtToken(HttpRequest request)
         {
             string oldAccessToken = request.Headers["Authorization"].ToString().Split(" ")[0];

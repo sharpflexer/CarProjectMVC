@@ -7,6 +7,9 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace CarProjectMVC.Extensions;
 
+/// <summary>
+/// Класс с расширениями для JWT токена
+/// </summary>
 public static class JwtBearerExtensions
 {
     /// <summary>

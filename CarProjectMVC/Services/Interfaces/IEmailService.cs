@@ -2,6 +2,9 @@
 
 namespace CarProjectMVC.Services.Interfaces
 {
+    /// <summary>
+    /// Интерфейс сервиса для отправки Email-сообщений пользователю
+    /// </summary>
     public interface IEmailService
     {
         /// <summary>

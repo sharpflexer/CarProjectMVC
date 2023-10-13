@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Areas.Identity.Data
 {
+    /// <summary>
+    /// Контекст для взаимодействия с БД
+    /// </summary>
     public class ApplicationContext : IdentityDbContext<User>
     {
         /// <summary>
@@ -37,24 +40,23 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// </summary>
         public DbSet<User> Users => Set<User>();
 
+        /// <summary>
+        /// Инициализирует контекст настройками. 
+        /// Создаёт базу данных при её отсутствии
+        /// и, в случае создания, заполняет данными
+        /// </summary>
+        /// <param name="options">Настройки контекста</param>
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            //if (Database.EnsureCreated())
-            //    FillDatabase();
+            if (Database.EnsureCreated())
+                FillDatabase();
         }
-
+        //TODO: Прочитать про ModelBuilder и добавить summary
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
-
-
-
-
 
         /// <summary>
         /// Инициализация базы данных стартовыми данными

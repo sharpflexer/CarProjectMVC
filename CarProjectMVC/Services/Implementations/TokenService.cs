@@ -2,17 +2,25 @@
 using CarProjectMVC.Extensions;
 using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Interfaces;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace CarProjectMVC.Services.Implementations
 {
+    /// <summary>
+    /// Сервис для работы с JWT токенами
+    /// </summary>
     public class TokenService : ITokenService
     {
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
         private readonly IRequestService _requestService;
 
+        /// <summary>
+        /// Инициализирует IRequestService
+        /// </summary>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
         public TokenService(IRequestService requestService)
         {
             _requestService = requestService;
@@ -36,25 +44,6 @@ namespace CarProjectMVC.Services.Implementations
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             }
-        }
-
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-        {
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateAudience = true,
-                ValidateIssuer = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                ValidateLifetime = true
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException("Invalid token");
-            return principal;
         }
 
         public JwtToken CreateNewToken(JwtToken oldToken)

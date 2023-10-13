@@ -3,6 +3,9 @@ using CarProjectMVC.Models;
 
 namespace CarProjectMVC.Services.Interfaces
 {
+    /// <summary>
+    /// Интерфейс сервиса для отправки запросов в БД
+    /// </summary>
     public interface IRequestService
     {
         /// <summary>
@@ -44,7 +47,30 @@ namespace CarProjectMVC.Services.Interfaces
         /// <param name="user">Аккаунт пользователя</param>
         /// <param name="refreshToken">Токен для обновления access token</param>
         public void AddRefreshToken(User user);
+
+        /// <summary>
+        /// Добавляет пользователя в БД при регистрации
+        /// </summary>
+        /// <param name="user">Аккаунт нового пользователя</param>
+        void AddUser(User user);
+
+        /// <summary>
+        /// Получает список всех пользователей из БД
+        /// </summary>
+        /// <returns>Список пользователей</returns>
+        Task<IEnumerable<User>> GetUsers();
+
+        /// <summary>
+        /// Ищет пользователя по RefreshToken
+        /// </summary>
+        /// <param name="refreshToken">Токен обновления</param>
+        /// <returns>Найденный пользователь</returns>
         User GetUserByToken(string refreshToken);
+
+        /// <summary>
+        /// Обновляет пользователя в таблице
+        /// </summary>
+        /// <param name="user">Пользователь для обновления</param>
         Task UpdateUser(User user);
     }
 }

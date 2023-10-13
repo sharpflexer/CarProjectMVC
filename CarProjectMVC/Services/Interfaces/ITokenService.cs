@@ -1,16 +1,31 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.JWT;
-using System.Security.Claims;
 
 namespace CarProjectMVC.Services.Interfaces
 {
+    /// <summary>
+    /// Интерфейс сервиса для работы с JWT токенами
+    /// </summary>
     public interface ITokenService
     {
+        /// <summary>
+        /// Создаёт Access Token
+        /// </summary>
+        /// <param name="user">Пользователь для которого создаётся токен</param>
+        /// <returns>Access Token</returns>
         public string CreateToken(User user);
 
+        /// <summary>
+        /// Создаёт Refresh Token
+        /// </summary>
+        /// <returns>Refresh Token</returns>
         public string CreateRefreshToken();
 
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
-        JwtToken CreateNewToken(JwtToken tokenApiModel);
+        /// <summary>
+        /// Обновляет устаревший токен 
+        /// </summary>
+        /// <param name="oldToken">Устаревший токен</param>
+        /// <returns>Новый токен</returns>
+        JwtToken CreateNewToken(JwtToken oldToken);
     }
 }

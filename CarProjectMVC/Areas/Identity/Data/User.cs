@@ -2,6 +2,9 @@
 
 namespace CarProjectMVC.Areas.Identity.Data
 {
+    /// <summary>
+    /// Пользователь
+    /// </summary>
     public class User : IdentityUser
     {
         /// <summary>

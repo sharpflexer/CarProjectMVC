@@ -5,25 +5,38 @@ using System.Security.Claims;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
+    /// <summary>
+    /// Контроллер для аутентификации и авторизации пользователя
+    /// </summary>
     public class LoginController : Controller
     {
-        private readonly IAuthenticateService _authenticateService;
+        /// <summary>
+        /// Сервис для работы с JWT токенами
+        /// </summary>
         private readonly ITokenService _tokenService;
-        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Сервис для аутентификации пользователей
+        /// </summary>
+        private readonly IAuthenticateService _authenticateService;
 
         /// <summary>
         /// Сервис для отправки запросов в БД
         /// </summary>
         private readonly IRequestService _requestService;
 
+        /// <summary>
+        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД
+        /// </summary>
+        /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
+        /// <param name="tokenService">Сервис для работы с JWT токенами</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
         public LoginController(IAuthenticateService authenticateService,
                                ITokenService tokenService,
-                               IConfiguration configuration,
                                IRequestService requestService)
         {
             _authenticateService = authenticateService;
             _tokenService = tokenService;
-            _configuration = configuration;
             _requestService = requestService;
         }
 
@@ -37,14 +50,6 @@ namespace CarProjectMVC.Controllers.Authorization
             if (claimUser.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Read");
             return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> RedirectToRead()
-        {
-            var keys = HttpContext.Session.Keys;
-            var redirect = RedirectToAction("Index", "Read");
-            return redirect;
         }
 
         /// <summary>
@@ -76,8 +81,6 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
         /// </list>
         /// </returns>
-        /// 
-
         private async Task<object> SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
         {
             if (isSuccess != null)

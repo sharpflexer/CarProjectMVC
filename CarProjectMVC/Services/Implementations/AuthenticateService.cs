@@ -1,48 +1,44 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Services.Implementations
 {
+    /// <summary>
+    /// Сервис для аутентификации пользователей
+    /// </summary>
     public class AuthenticateService : IAuthenticateService
     {
-        private readonly ApplicationContext _context;
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
         private readonly IRequestService _requestService;
 
-        public AuthenticateService(ApplicationContext context, IRequestService requestService)
+        /// <summary>
+        /// Инициализирует сервис requestService
+        /// </summary>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        public AuthenticateService(IRequestService requestService)
         {
-            _context = context;
             _requestService = requestService;
-        }
-
-        public void AddUser(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
         }
 
         public async Task<User> AuthenticateUser(string login, string password)
         {
-            var succeeded = await _context.Users.Include(user => user.Role)
-                                                .FirstOrDefaultAsync(authUser => authUser.Login == login &&
+            var users = await _requestService.GetUsers();
+            var currentUser = users.FirstOrDefault(authUser => authUser.Login == login &&
                                                                                  authUser.Password == password);
-            return succeeded;
+            return currentUser;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public void Revoke(string cookieToRevoke)
         {
-            return await _context.Users.ToListAsync();
-        }
-
-        public void Revoke(string refreshCookie)
-        {
-            string[] cookieParams = refreshCookie.Split(";");
+            string[] cookieParams = cookieToRevoke.Split(";");
             string refreshToken = cookieParams[0];
 
             var user = _requestService.GetUserByToken(refreshToken);
             user.RefreshToken = null;
-            _context.Users.Update(user);
-            _context.SaveChanges();
+
+            _requestService.UpdateUser(user);
         }
     }
 }

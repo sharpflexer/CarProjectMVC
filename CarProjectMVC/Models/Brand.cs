@@ -1,5 +1,8 @@
 ﻿namespace CarProjectMVC.Models
 {
+    /// <summary>
+    /// Марка автомобиля
+    /// </summary>
     public class Brand
     {
         /// <summary>

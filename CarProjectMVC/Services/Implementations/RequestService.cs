@@ -5,10 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarProjectMVC.Services.Implementations
 {
+    /// <summary>
+    /// Сервис для отправки запросов в БД
+    /// </summary>
     public class RequestService : IRequestService
     {
+        /// <summary>
+        /// Контекст для взаимодействия с БД
+        /// </summary>
         private readonly ApplicationContext _context;
 
+        /// <summary>
+        /// Инициализирует ApplicationContext
+        /// </summary>
+        /// <param name="context">Контекст для взаимодействия с БД</param>
         public RequestService(ApplicationContext context)
         {
             _context = context;
@@ -79,6 +89,16 @@ namespace CarProjectMVC.Services.Implementations
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
+        }
+
+        public void AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _context.Users.Include(user => user.Role).ToListAsync();
         }
     }
 }

@@ -2,27 +2,23 @@
 
 namespace CarProjectMVC.Services.Interfaces
 {
+    /// <summary>
+    /// Интерфейс сервиса для аутентификации пользователей
+    /// </summary>
     public interface IAuthenticateService
     {
         /// <summary>
-        /// Получает список всех пользователей из БД
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<User>> GetUsers();
-
-        /// <summary>
         /// Проводит аутентификацию пользователя по логину и паролю
         /// </summary>
-        /// <param name="username">Логин</param>
-        /// <param name="passcode">Пароль</param>
+        /// <param name="login">Логин</param>
+        /// <param name="password">Пароль</param>
         /// <returns></returns>
-        Task<User> AuthenticateUser(string username, string passcode);
+        Task<User> AuthenticateUser(string login, string password);
 
         /// <summary>
-        /// Добавляет пользователя в БД при регистрации
+        /// Удаляет куки
         /// </summary>
-        /// <param name="user">Аккаунт нового пользователя</param>
-        void AddUser(User user);
-        void Revoke(string refreshCookie);
+        /// <param name="cookieToRevoke">Строка куки, которое нужно очистить</param>
+        void Revoke(string cookieToRevoke);
     }
 }
