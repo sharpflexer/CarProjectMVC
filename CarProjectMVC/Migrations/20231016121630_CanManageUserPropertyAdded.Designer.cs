@@ -3,6 +3,7 @@ using System;
 using CarProjectMVC.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarProjectMVC.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231016121630_CanManageUserPropertyAdded")]
+    partial class CanManageUserPropertyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace CarProjectMVC.Migrations
 
                     b.HasIndex("ModelsId");
 
-                    b.ToTable("CarColorCarModel", (string)null);
+                    b.ToTable("CarColorCarModel");
                 });
 
             modelBuilder.Entity("CarProjectMVC.Areas.Identity.Data.Role", b =>
@@ -164,7 +167,7 @@ namespace CarProjectMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("CarProjectMVC.Models.Car", b =>
@@ -192,7 +195,7 @@ namespace CarProjectMVC.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("CarProjectMVC.Models.CarColor", b =>
@@ -209,7 +212,7 @@ namespace CarProjectMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors", (string)null);
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("CarProjectMVC.Models.CarModel", b =>
@@ -231,7 +234,7 @@ namespace CarProjectMVC.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models", (string)null);
+                    b.ToTable("Models");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

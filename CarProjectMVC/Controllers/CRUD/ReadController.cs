@@ -6,6 +6,9 @@ using System.Diagnostics;
 
 namespace CarProjectMVC.Controllers.CRUD
 {
+    /// <summary>
+    /// Контроллер для просмотра списка автомобилей
+    /// </summary>
     [Authorize(Policy = "Read")]
     public class ReadController : Controller
     {
@@ -14,6 +17,10 @@ namespace CarProjectMVC.Controllers.CRUD
         /// </summary>
         private readonly IRequestService _requestService;
 
+        /// <summary>
+        /// Инициализирует контроллер сервисом для отправки запросов в БД
+        /// </summary>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
         public ReadController(IRequestService requestService)
         {
             _requestService = requestService;

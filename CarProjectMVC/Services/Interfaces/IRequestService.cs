@@ -72,5 +72,23 @@ namespace CarProjectMVC.Services.Interfaces
         /// </summary>
         /// <param name="user">Пользователь для обновления</param>
         Task UpdateUser(User user);
+
+        /// <summary>
+        /// Удаляет пользователя из таблицы
+        /// </summary>
+        /// <param name="form">Данные пользователя</param>
+        Task DeleteUsersAsync(IFormCollection form);
+
+        /// <summary>
+        /// Обновляет пользователя в таблице
+        /// </summary>
+        /// <param name="form">Данные пользователя</param>
+        Task UpdateUsersAsync(IFormCollection form);
+
+        /// <summary>
+        /// Получает список всех возможных ролей пользователей
+        /// </summary>
+        /// <returns>Список всех ролей</returns>
+        Task<IEnumerable<Role>> GetRolesAsync();
     }
 }

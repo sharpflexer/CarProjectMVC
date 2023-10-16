@@ -10,7 +10,8 @@ self.addEventListener("fetch", event => {
         event.request.url.match('^.*(\/Create).*$') ||
         event.request.url.match('^.*(\/Update).*$') ||
         event.request.url.match('^.*(\/Delete).*$') ||
-        event.request.url.match('^.*(\/ReadJS).*$')) {
+        event.request.url.match('^.*(\/ReadJS).*$') ||
+        event.request.url.match('^.*(\/Users).*$')) {
 
         event.respondWith((async () => {
             const response =

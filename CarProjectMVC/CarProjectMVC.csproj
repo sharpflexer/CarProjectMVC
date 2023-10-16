@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Roles\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
 

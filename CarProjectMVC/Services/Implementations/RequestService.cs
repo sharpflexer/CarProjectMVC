@@ -101,5 +101,51 @@ namespace CarProjectMVC.Services.Implementations
         {
             return await _context.Users.Include(user => user.Role).ToListAsync();
         }
+
+        public async Task DeleteUsersAsync(IFormCollection form)
+        {
+            User user = new()
+            {
+                Id = int.Parse(form["ID"]),
+                Email = form["Email"],
+                Login = form["Login"],
+                Password = form["Password"],
+                Role = _context.Roles.Single(color => color.Id == int.Parse(form["Roles"]))
+            };
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateUsersAsync(IFormCollection form)
+        {
+            User user = new()
+            {
+                Id = int.Parse(form["ID"]),
+                Email = form["Email"],
+                Login = form["Login"],
+                Password = form["Password"],
+                Role = _context.Roles.Single(color => color.Id == int.Parse(form["Roles"]))
+            };
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<IEnumerable<Role>> GetRolesAsync()
+        {
+            List<Role> roles = await _context.Roles.ToListAsync();
+
+            return roles;
+            //return roles.Select(role => new SelectListItem
+            //{
+            //    Value = role.Id.ToString(),
+            //    Text = role.Name
+            //});
+
+        }
     }
 }

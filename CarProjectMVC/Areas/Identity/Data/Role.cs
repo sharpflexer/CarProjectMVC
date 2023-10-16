@@ -13,7 +13,7 @@
         /// <summary>
         /// Название роли
         /// </summary>
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Право на создание записей
@@ -34,5 +34,10 @@
         /// Право на удаление записей
         /// </summary
         public bool CanDelete { get; set; }
+
+        /// <summary>
+        /// Право на чтение и изменение данных пользователей
+        /// </summary>
+        public bool CanManageUsers { get; set; }
     }
 }

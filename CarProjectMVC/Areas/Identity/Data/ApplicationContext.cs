@@ -50,11 +50,11 @@ namespace CarProjectMVC.Areas.Identity.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            //Database.EnsureDeleted();
-            //if (Database.EnsureCreated())
-            //{
-            //    FillDatabase();
-            //}
+            Database.EnsureDeleted();
+            if (Database.EnsureCreated())
+            {
+                FillDatabase();
+            }
         }
         //TODO: Прочитать про ModelBuilder и добавить summary
         protected override void OnModelCreating(ModelBuilder builder)
@@ -204,15 +204,17 @@ namespace CarProjectMVC.Areas.Identity.Data
                     CanCreate = true,
                     CanRead = true,
                     CanUpdate = true,
-                    CanDelete = true
+                    CanDelete = true,
+                    CanManageUsers = true
                 },
                 new Role()
                 {
                     Name = "Менеджер",
-                    CanCreate = false,
+                    CanCreate = true,
                     CanRead = true,
                     CanUpdate = true,
-                    CanDelete = false
+                    CanDelete = true,
+                    CanManageUsers = false
                 },
                 new Role()
                 {
@@ -220,7 +222,8 @@ namespace CarProjectMVC.Areas.Identity.Data
                     CanCreate = false,
                     CanRead = true,
                     CanUpdate = false,
-                    CanDelete = false
+                    CanDelete = false,
+                    CanManageUsers = false
                 });
             SaveChanges();
 
