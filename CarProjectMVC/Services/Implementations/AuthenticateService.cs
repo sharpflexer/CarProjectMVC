@@ -24,18 +24,16 @@ namespace CarProjectMVC.Services.Implementations
 
         public async Task<User> AuthenticateUser(string login, string password)
         {
-            var users = await _requestService.GetUsers();
-            var currentUser = users.FirstOrDefault(authUser => authUser.Login == login &&
-                                                                                 authUser.Password == password);
+            IEnumerable<User> users = await _requestService.GetUsers();
+            User? currentUser = users.FirstOrDefault(authUser => authUser.Login == login &&
+            authUser.Password == password);
+
             return currentUser;
         }
 
         public void Revoke(string cookieToRevoke)
         {
-            string[] cookieParams = cookieToRevoke.Split(";");
-            string refreshToken = cookieParams[0];
-
-            var user = _requestService.GetUserByToken(refreshToken);
+            User user = _requestService.GetUserByToken(cookieToRevoke);
             user.RefreshToken = null;
 
             _requestService.UpdateUser(user);

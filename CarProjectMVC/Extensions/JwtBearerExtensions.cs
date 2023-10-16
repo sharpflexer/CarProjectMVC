@@ -20,10 +20,10 @@ public static class JwtBearerExtensions
     public static List<Claim> CreateClaims(this User user)
     {
 
-        var claims = new List<Claim>
+        List<Claim> claims = new()
         {
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
+            new(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString(CultureInfo.InvariantCulture)),
             new Claim("CanCreate", user.Role.CanCreate.ToString()),
             new Claim("CanRead", user.Role.CanRead.ToString()),
             new Claim("CanUpdate", user.Role.CanUpdate.ToString()),
@@ -40,11 +40,11 @@ public static class JwtBearerExtensions
     public static JwtSecurityToken CreateJwtToken(this IEnumerable<Claim> claims)
     {
 
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new(
             AuthOptions.Issuer,
             AuthOptions.Audience,
             claims,
-            expires: DateTime.Now.AddSeconds(30),
+            expires: DateTime.Now.AddMinutes(99),
             signingCredentials: AuthOptions.CreateSigningCredentials()
         );
         return token;

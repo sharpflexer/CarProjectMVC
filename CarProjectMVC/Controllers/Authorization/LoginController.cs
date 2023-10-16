@@ -1,7 +1,5 @@
 ﻿using CarProjectMVC.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
@@ -25,15 +23,12 @@ namespace CarProjectMVC.Controllers.Authorization
         /// </summary>
         private readonly IRequestService _requestService;
 
-        /// <summary>
-        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД
-        /// </summary>
         /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
         /// <param name="tokenService">Сервис для работы с JWT токенами</param>
         /// <param name="requestService">Сервис для отправки запросов в БД</param>
         public LoginController(IAuthenticateService authenticateService,
-                               ITokenService tokenService,
-                               IRequestService requestService)
+            ITokenService tokenService,
+            IRequestService requestService)
         {
             _authenticateService = authenticateService;
             _tokenService = tokenService;
@@ -46,23 +41,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// </summary>
         public IActionResult Index()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            if (claimUser.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Read");
             return View();
-        }
-
-        /// <summary>
-        /// Производит выход пользователя из аккаунта
-        /// </summary>
-        /// <returns>Перенаправление на страницу входа</returns>
-        [Authorize]
-        public async Task<IActionResult> LogOut()
-        {
-            HttpContext.Response.Cookies.Delete("Refresh");
-            var refreshCookie = HttpContext.Request.Cookies["Refresh"];
-            _authenticateService.Revoke(refreshCookie);
-            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -81,7 +60,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
         /// </list>
         /// </returns>
-        private async Task<object> SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
+        private object SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
         {
             if (isSuccess != null)
             {

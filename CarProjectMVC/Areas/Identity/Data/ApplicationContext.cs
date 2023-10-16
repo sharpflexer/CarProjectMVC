@@ -50,7 +50,9 @@ namespace CarProjectMVC.Areas.Identity.Data
         : base(options)
         {
             if (Database.EnsureCreated())
+            {
                 FillDatabase();
+            }
         }
         //TODO: Прочитать про ModelBuilder и добавить summary
         protected override void OnModelCreating(ModelBuilder builder)
@@ -160,7 +162,9 @@ namespace CarProjectMVC.Areas.Identity.Data
             SaveChanges();
 
             foreach (CarColor color in Colors.ToList())
+            {
                 color.Models = Models.Where(model => model.Colors.Contains(color)).ToList();
+            }
 
             SaveChanges();
             Brands.AddRange(

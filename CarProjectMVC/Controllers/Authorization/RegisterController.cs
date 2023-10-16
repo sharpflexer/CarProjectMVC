@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarProjectMVC.Controllers.Authorization
 {
     /// <summary>
-    /// Контроллер для регстрации пользователей
+    /// Контроллер для регистрации пользователей
     /// </summary>
     public class RegisterController : Controller
     {
@@ -38,7 +38,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <param name="user">Зарегистрированный пользователь</param>
         /// <returns>Перенаправление на страницу входа</returns>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(User user)
+        public IActionResult Post(User user)
         {
             user.Role = _requestService.SetDefaultRole();
             _requestService.AddUser(user);

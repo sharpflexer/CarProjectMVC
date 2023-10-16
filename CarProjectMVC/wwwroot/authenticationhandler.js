@@ -6,11 +6,13 @@ channelTokenBroadcast.onmessage = function (event) {
 }
 
 self.addEventListener("fetch", event => {
-    if (event.request.url.match('^.*(\/Read).*$') ||
-        event.request.url.match('^.*(\/Create).*$') ||
-        event.request.url.match('^.*(\/Update).*$') ||
-        event.request.url.match('^.*(\/Delete).*$') ||
-        event.request.url.match('^.*(\/ReadJS).*$')) {
+    if (!event.request.url.match('^.*(\/LogOut).*$')) {
+        channelTokenBroadcast.postMessage({ item: "AccessToken" });
+    }
+
+    if (!event.request.url.match('^.*(\/Login).*$') &&
+        !event.request.url.match('^.*(\/Auth).*$') &&
+        event.request.url.match('^.*(localhost:7020).*$')) {
 
         event.respondWith((async () => {
             const response =
@@ -21,7 +23,8 @@ self.addEventListener("fetch", event => {
                     var jwtResponse = await fetch("/Auth/Refresh", {
                         headers: {
                             Authentication: accessToken,
-                        }
+                        },
+                        credentials: "include"
                     });
                     accessToken = await jwtResponse.text();
 
@@ -51,7 +54,7 @@ function customHeaderRequestFetch(event, token) {
 
     const newRequest = new Request(event.request, {
         mode: 'same-origin',
-        credentials: 'omit',
+        credentials: 'include',
         headers: headers
     })
     return fetch(newRequest);
