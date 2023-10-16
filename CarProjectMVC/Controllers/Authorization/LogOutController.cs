@@ -15,8 +15,6 @@ namespace CarProjectMVC.Controllers.Authorization
         /// Сервис для аутентификации пользователей
         /// </summary>
         private readonly IAuthenticateService _authenticateService;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LogOutController> _logger;
 
         /// <summary>
         /// Инициализирует контроллер сервисом аутентификации
@@ -25,8 +23,6 @@ namespace CarProjectMVC.Controllers.Authorization
         public LogOutController(IAuthenticateService authenticateService, SignInManager<User> signInManager, ILogger<LogOutController> logger)
         {
             _authenticateService = authenticateService;
-            _signInManager = signInManager;
-            _logger = logger;
         }
 
         /// <summary>
