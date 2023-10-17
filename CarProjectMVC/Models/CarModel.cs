@@ -13,7 +13,12 @@
         /// <summary>
         /// Наименование модели
         /// </summary>
-        public string Name { get; set; }
+        public required string Name { get; set; }
+
+        /// <summary>
+        /// ID марки автомобиля
+        /// </summary>
+        public int BrandId { get; set; }
 
         /// <summary>
         /// Цвета, доступные для данной модели

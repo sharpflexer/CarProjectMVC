@@ -1,4 +1,5 @@
 ﻿using CarProjectMVC.Exceptions;
+using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

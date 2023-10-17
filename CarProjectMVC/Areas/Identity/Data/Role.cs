@@ -1,15 +1,12 @@
-﻿namespace CarProjectMVC.Areas.Identity.Data
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CarProjectMVC.Areas.Identity.Data
 {
     /// <summary>
     /// Роль пользователя
     /// </summary>
-    public class Role
+    public class Role : IdentityRole<int>
     {
-        /// <summary>
-        /// ID роли
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Название роли
         /// </summary>

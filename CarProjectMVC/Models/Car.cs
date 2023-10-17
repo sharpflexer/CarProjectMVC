@@ -11,6 +11,21 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// ID марки автомобиля
+        /// </summary>
+        public int BrandId { get; set; }
+
+        /// <summary>
+        /// ID модели автомобиля
+        /// </summary>
+        public int ModelId { get; set; }
+
+        /// <summary>
+        /// ID цвета автомобиля
+        /// </summary>
+        public int ColorId { get; set; }
+
+        /// <summary>
         /// Марка автомобиля
         /// </summary>
         public Brand Brand { get; set; }

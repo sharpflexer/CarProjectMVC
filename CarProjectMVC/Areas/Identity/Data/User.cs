@@ -5,13 +5,8 @@ namespace CarProjectMVC.Areas.Identity.Data
     /// <summary>
     /// Пользователь
     /// </summary>
-    public class User : IdentityUser
+    public class User : IdentityUser<int>
     {
-        /// <summary>
-        /// ID пользователя
-        /// </summary>
-        public new int Id { get; set; }
-
         /// <summary>
         /// Email пользователя, указанный при регистрации
         /// </summary>
@@ -30,7 +25,12 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// <summary>
         /// Роль пользователя, дает права на различные действия с таблицей
         /// </summary> 
-        public required Role Role { get; set; }
+        public required int RoleId { get; set; }
+
+        /// <summary>
+        /// Роль пользователя, дает права на различные действия с таблицей
+        /// </summary> 
+        public Role Role { get; set; }
 
         /// <summary>
         /// Токен для обновления Access Token
