@@ -1,24 +1,38 @@
-﻿using CarProjectMVC.Services.Authenticate;
-using CarProjectMVC.Services.Token;
+﻿using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
+    /// <summary>
+    /// Контроллер для аутентификации и авторизации пользователя
+    /// </summary>
     public class LoginController : Controller
     {
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для работы с JWT токенами
+        /// </summary>
+        private readonly ITokenService _tokenService;
+
+        /// <summary>
+        /// Сервис для аутентификации пользователей
         /// </summary>
         private readonly IAuthenticateService _authenticateService;
-        private readonly ITokenService _tokenService;
-        private readonly IConfiguration _configuration;
 
-        public LoginController(IAuthenticateService authenticateService, ITokenService tokenService, IConfiguration configuration)
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
+        private readonly IRequestService _requestService;
+
+        /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
+        /// <param name="tokenService">Сервис для работы с JWT токенами</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        public LoginController(IAuthenticateService authenticateService,
+            ITokenService tokenService,
+            IRequestService requestService)
         {
             _authenticateService = authenticateService;
             _tokenService = tokenService;
-            _configuration = configuration;
+            _requestService = requestService;
         }
 
         /// <summary>
@@ -27,45 +41,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// </summary>
         public IActionResult Index()
         {
-            ClaimsPrincipal claimUser = HttpContext.User;
-            if (claimUser.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Read");
             return View();
-        }
-
-        /// <summary>
-        /// Проверяет данные пользователя для входа
-        /// </summary>
-        /// <param name="username">Имя пользователя</param>
-        /// <param name="password">Пароль</param>
-        /// <returns>
-        /// Результат валидации пользователя
-        /// </returns>
-        [HttpPost]
-        public async Task<object> Token(string username, string password)
-        {
-            var isSuccess = await _authenticateService.AuthenticateUser(username, password);
-            var accessToken = _tokenService.CreateToken(isSuccess);
-            return accessToken;
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> RedirectToRead()
-        {
-            var keys = HttpContext.Session.Keys;
-            var redirect = RedirectToAction("Index", "Read");
-            return redirect;
-        }
-
-        /// <summary>
-        /// Производит выход пользователя из аккаунта
-        /// </summary>
-        /// <returns>Перенаправление на страницу входа</returns>
-        public async Task<IActionResult> LogOut()
-        {
-            HttpContext.Response.Cookies.Delete("Authorization");
-            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -84,7 +60,7 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
         /// </list>
         /// </returns>
-        private async Task<object> SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
+        private object SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)
         {
             if (isSuccess != null)
             {

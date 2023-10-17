@@ -1,5 +1,8 @@
 ﻿namespace CarProjectMVC.Models
 {
+    /// <summary>
+    /// Цвет автомобиля
+    /// </summary>
     public class CarColor
     {
         /// <summary>

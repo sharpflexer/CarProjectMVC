@@ -1,31 +1,47 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.Services.Authenticate;
-using CarProjectMVC.Services.Request;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarProjectMVC.Controllers.Authorization
 {
+    /// <summary>
+    /// Контроллер для регистрации пользователей
+    /// </summary>
     public class RegisterController : Controller
     {
-        private readonly IAuthenticateService _authenticateService;
+        /// <summary>
+        /// Сервис для отправки запросов в БД
+        /// </summary>
         private readonly IRequestService _requestService;
 
-        public RegisterController(IAuthenticateService authenticateService, IRequestService requestService)
+        /// <summary>
+        /// Инициализирует контроллер сервисом запросов в БД
+        /// </summary>
+        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        public RegisterController(IRequestService requestService)
         {
-            _authenticateService = authenticateService;
             _requestService = requestService;
         }
 
+        /// <summary>
+        /// Отображает страницу для регистрации
+        /// </summary>
+        /// <returns>Страница для регистрации</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Добавляет зарегистрированного пользователя в БД
+        /// </summary>
+        /// <param name="user">Зарегистрированный пользователь</param>
+        /// <returns>Перенаправление на страницу входа</returns>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(User user)
+        public IActionResult Post(User user)
         {
             user.Role = _requestService.SetDefaultRole();
-            _authenticateService.AddUser(user);
+            _requestService.AddUser(user);
             return RedirectToAction("Index", "Login");
         }
     }

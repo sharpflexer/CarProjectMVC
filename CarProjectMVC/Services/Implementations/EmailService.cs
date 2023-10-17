@@ -1,14 +1,18 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace CarProjectMVC.Services.Email
+namespace CarProjectMVC.Services.Implementations
 {
+    /// <summary>
+    /// Сервис для отправки Email-сообщений пользователю
+    /// </summary>
     public class EmailService : IEmailService
     {
         public async Task SendEmailAsync(User user, string subject, string message)
         {
-            using var emailMessage = new MimeMessage();
+            using MimeMessage emailMessage = new();
 
             emailMessage.From.Add(new MailboxAddress("Car WebApplication", "car.webapplication@mail.ru"));
             emailMessage.To.Add(new MailboxAddress(user.Login, user.Email));
@@ -18,14 +22,11 @@ namespace CarProjectMVC.Services.Email
                 Text = message
             };
 
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync("smtp.mail.ru", 25, false);
-                await client.AuthenticateAsync("car.webapplication@mail.ru", "nifariankek322!");
-                await client.SendAsync(emailMessage);
-
-                await client.DisconnectAsync(true);
-            }
+            using SmtpClient client = new();
+            await client.ConnectAsync("smtp.mail.ru", 25, false);
+            await client.AuthenticateAsync("car.webapplication@mail.ru", "nifariankek322!");
+            await client.SendAsync(emailMessage);
+            await client.DisconnectAsync(true);
         }
     }
 }

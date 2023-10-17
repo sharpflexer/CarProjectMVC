@@ -1,5 +1,5 @@
 ﻿using CarProjectMVC.Models;
-using CarProjectMVC.Services.Request;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -25,8 +25,6 @@ namespace CarProjectMVC.Controllers.CRUD
         /// <returns>Страница с данными автомобилей в таблице</returns>
         public IActionResult IndexAsync()
         {
-            var auth = HttpContext.Request.Headers["Authorization"];
-
             ViewData["cars"] = _requestService.Read();
             return View();
         }

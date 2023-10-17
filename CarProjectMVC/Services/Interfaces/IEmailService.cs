@@ -1,7 +1,10 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 
-namespace CarProjectMVC.Services.Email
+namespace CarProjectMVC.Services.Interfaces
 {
+    /// <summary>
+    /// Интерфейс сервиса для отправки Email-сообщений пользователю
+    /// </summary>
     public interface IEmailService
     {
         /// <summary>

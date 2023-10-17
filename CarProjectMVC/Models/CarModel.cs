@@ -1,5 +1,8 @@
 ﻿namespace CarProjectMVC.Models
 {
+    /// <summary>
+    /// Модель автомобиля
+    /// </summary>
     public class CarModel
     {
         /// <summary>

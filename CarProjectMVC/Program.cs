@@ -1,14 +1,12 @@
 using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.JWT;
-using CarProjectMVC.Services.Authenticate;
-using CarProjectMVC.Services.Request;
-using CarProjectMVC.Services.Token;
+using CarProjectMVC.Services.Implementations;
+using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -40,21 +38,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
+
         ValidIssuer = AuthOptions.Issuer,
         ValidAudience = AuthOptions.Audience,
         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
 
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = false,
+        ClockSkew = TimeSpan.Zero
     };
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
 });
 builder.Services.AddAuthorization(opts =>
 {
-    //opts.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-    //                .RequireAuthenticatedUser()
-    //                .Build();
     opts.AddPolicy("Create", policy =>
     {
         policy.RequireClaim("CanCreate", "True");
@@ -73,29 +83,19 @@ builder.Services.AddAuthorization(opts =>
     });
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.UseSession();
+
 app.Use(async (context, next) =>
 {
-    string? jwtTokenCookie = context.Request.Cookies["Authorization"];
-
-    if (!jwtTokenCookie.IsNullOrEmpty())
-    {
-        string[] cookieParams = jwtTokenCookie.Split(";");
-        string jwtToken = cookieParams[0];
-        context.Request.Headers.Add("Authorization", jwtToken);
-    }
-
     await next();
 });
+app.UseSession();
 app.UseCors();
 app.UseDefaultFiles();
 app.UseStaticFiles();
