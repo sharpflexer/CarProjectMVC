@@ -84,13 +84,13 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// <param name="builder"></param>
         private static void IgnoreUselessTables(ModelBuilder builder)
         {
-            builder.Ignore<IdentityUserClaim<string>>();
-            builder.Ignore<IdentityUserToken<string>>();
-            builder.Ignore<IdentityUserClaim<string>>();
-            builder.Ignore<IdentityUserLogin<string>>();
-            builder.Ignore<IdentityRoleClaim<string>>();
-            builder.Ignore<IdentityUserRole<string>>();
-            builder.Ignore<IdentityRole<string>>();
+            builder.Ignore<IdentityUserClaim<int>>();
+            builder.Ignore<IdentityUserToken<int>>();
+            builder.Ignore<IdentityUserClaim<int>>();
+            builder.Ignore<IdentityUserLogin<int>>();
+            builder.Ignore<IdentityRoleClaim<int>>();
+            builder.Ignore<IdentityUserRole<int>>();
+            builder.Ignore<IdentityRole<int>>();
         }
 
         /// <summary>

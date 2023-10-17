@@ -5,14 +5,6 @@ if ("serviceWorker" in navigator) {
 const channelTokenBroadcast = new BroadcastChannel('channelToken');
 
 var tokenKey = "accessToken";
-window.onload = function () {
-    if (localStorage.getItem("AccessToken") != undefined
-        && getCookie("Refresh") != undefined) {
-        var accessToken = localStorage.getItem("AccessToken");
-        channelTokenBroadcast.postMessage({ accessToken: accessToken });
-        window.location.href = "/Read/Index";
-    }
-}
 
 document.getElementById("submitLogin").addEventListener("click", async e => {
     e.preventDefault();
