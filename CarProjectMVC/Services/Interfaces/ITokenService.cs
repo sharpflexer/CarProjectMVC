@@ -1,5 +1,5 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.Models;
+using CarProjectMVC.JWT;
 
 namespace CarProjectMVC.Services.Interfaces
 {
