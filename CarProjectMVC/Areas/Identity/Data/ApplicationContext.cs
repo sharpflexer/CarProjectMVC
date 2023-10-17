@@ -50,11 +50,11 @@ namespace CarProjectMVC.Areas.Identity.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            Database.EnsureDeleted();
-            if (Database.EnsureCreated())
-            {
-                FillDatabase();
-            }
+            //Database.EnsureDeleted();
+            //if (Database.EnsureCreated())
+            //{
+            //    FillDatabase();
+            //}
         }
         //TODO: Прочитать про ModelBuilder и добавить summary
         protected override void OnModelCreating(ModelBuilder builder)

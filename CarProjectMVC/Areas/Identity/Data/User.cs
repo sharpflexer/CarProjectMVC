@@ -10,7 +10,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// <summary>
         /// ID пользователя
         /// </summary>
-        public int Id { get; set; }
+        public new int Id { get; set; }
 
         /// <summary>
         /// Email пользователя, указанный при регистрации

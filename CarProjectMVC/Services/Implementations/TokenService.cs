@@ -60,5 +60,10 @@ namespace CarProjectMVC.Services.Implementations
                 RefreshToken = newRefreshToken
             };
         }
+
+        public JwtToken CreateNewToken(JwtToken oldToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
