@@ -1,4 +1,4 @@
-﻿namespace CarProjectMVC.JWT
+﻿namespace CarProjectMVC.Models
 {
     /// <summary>
     /// JWT токен для аутентификации

@@ -1,5 +1,4 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.JWT;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

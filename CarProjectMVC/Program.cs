@@ -1,5 +1,4 @@
 using CarProjectMVC.Areas.Identity.Data;
-using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Implementations;
 using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

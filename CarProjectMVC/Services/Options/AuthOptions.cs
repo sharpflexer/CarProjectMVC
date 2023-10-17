@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace CarProjectMVC.JWT
+namespace CarProjectMVC.Services.Options
 {
     /// <summary>
     /// Настройки аутентификации JWT токена
@@ -26,8 +26,10 @@ namespace CarProjectMVC.JWT
         /// <summary>
         /// </summary>
         /// <returns>Ключ безопасности, который применяется для генерации токена</returns>
-        public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        public static SymmetricSecurityKey GetSymmetricSecurityKey()
+        {
+            return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        }
 
         /// <summary>
         /// Создаёт подпись токена 
