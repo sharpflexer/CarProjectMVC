@@ -70,7 +70,7 @@ namespace CarProjectMVC.Services.Implementations
         public Role SetDefaultRole()
         {
             //Ставим роль пользователя по умолчанию при регистрации.
-            return _context.Roles.Single(role => role.Id == 3);
+            return _context.Roles.Single(role => role.Name == "Пользователь");
         }
 
         public async Task UpdateAsync(IFormCollection form)
@@ -97,6 +97,7 @@ namespace CarProjectMVC.Services.Implementations
             _context.Users.Add(user);
             _context.SaveChanges();
         }
+
         public async Task<IEnumerable<User>> GetUsers()
         {
             return await _context.Users.Include(user => user.Role).ToListAsync();
