@@ -40,7 +40,7 @@ namespace CarProjectMVC.Controllers.Authorization
         [HttpPost]
         public async Task<IActionResult> PostAsync(User user)
         {
-            user.Role = _requestService.SetDefaultRole();
+            user.Role = _requestService.GetDefaultRole();
             _requestService.AddUser(user);
             return RedirectToAction("Index", "Login");
         }

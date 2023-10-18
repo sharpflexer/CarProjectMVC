@@ -10,6 +10,12 @@ namespace CarProjectMVC.Services.Implementations
     /// </summary>
     public class EmailService : IEmailService
     {
+        /// <summary>
+        /// Отправляет письмо для подтверждения регистрации.
+        /// </summary>
+        /// <param name="user">Аккаунт нового пользователя.</param>
+        /// <param name="subject">Тема письма.</param>
+        /// <param name="message">Сообщение.</param>
         public async Task SendEmailAsync(User user, string subject, string message)
         {
             using MimeMessage emailMessage = new();

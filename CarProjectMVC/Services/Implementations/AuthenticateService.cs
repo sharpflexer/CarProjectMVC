@@ -22,6 +22,12 @@ namespace CarProjectMVC.Services.Implementations
             _requestService = requestService;
         }
 
+        /// <summary>
+        /// Проводит аутентификацию пользователя по логину и паролю.
+        /// </summary>
+        /// <param name="login">Логин.</param>
+        /// <param name="password">Пароль.</param>
+        /// <returns>Аутентифицированный пользователь.</returns>
         public async Task<User> AuthenticateUser(string login, string password)
         {
             var users = await _requestService.GetUsers();
@@ -30,6 +36,10 @@ namespace CarProjectMVC.Services.Implementations
             return currentUser;
         }
 
+        /// <summary>
+        /// Удаляет куки.
+        /// </summary>
+        /// <param name="cookieToRevoke">Строка куки, которое нужно очистить.</param>
         public void Revoke(string cookieToRevoke)
         {
             string[] cookieParams = cookieToRevoke.Split(";");

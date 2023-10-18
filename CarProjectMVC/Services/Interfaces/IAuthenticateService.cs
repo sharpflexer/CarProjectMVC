@@ -12,7 +12,7 @@ namespace CarProjectMVC.Services.Interfaces
         /// </summary>
         /// <param name="login">Логин.</param>
         /// <param name="password">Пароль.</param>
-        /// <returns></returns>
+        /// <returns>Аутентифицированный пользователь.</returns>
         Task<User> AuthenticateUser(string login, string password);
 
         /// <summary>
