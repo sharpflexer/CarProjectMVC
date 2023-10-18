@@ -98,6 +98,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// </summary>
         private void FillDatabase(ModelBuilder builder)
         {
+
             #region Марки
             builder.Entity<Brand>().HasData(
                 new Brand() { Id = 1, Name = "Audi" },
