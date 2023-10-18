@@ -32,6 +32,7 @@ namespace CarProjectMVC.Controllers.CRUD
         {
             ViewData["users"] = await _requestService.GetUsers();
             ViewBag.Roles = await _requestService.GetRolesAsync();
+
             return View();
         }
 
@@ -43,6 +44,7 @@ namespace CarProjectMVC.Controllers.CRUD
         public async Task<IActionResult> Update()
         {
             await _requestService.UpdateUsersAsync(HttpContext.Request.Form);
+
             return RedirectToAction("Index");
         }
 
@@ -54,6 +56,7 @@ namespace CarProjectMVC.Controllers.CRUD
         public async Task<IActionResult> Delete()
         {
             await _requestService.DeleteUsersAsync(HttpContext.Request.Form);
+
             return RedirectToAction("Index");
         }
     }
