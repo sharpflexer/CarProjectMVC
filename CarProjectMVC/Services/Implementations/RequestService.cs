@@ -132,22 +132,11 @@ namespace CarProjectMVC.Services.Implementations
             await _context.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<IEnumerable<Role>> GetRolesAsync()
         {
             List<Role> roles = await _context.Roles.ToListAsync();
 
             return roles;
-            //return roles.Select(role => new SelectListItem
-            //{
-            //    Value = role.Id.ToString(),
-            //    Text = role.Name
-            //});
-
         }
     }
 }
