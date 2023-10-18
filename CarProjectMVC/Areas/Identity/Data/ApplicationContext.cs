@@ -72,7 +72,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// вместо автоматически созданных "AspNet..." таблиц.
         /// </summary>
         /// <param name="builder">Конструктор БД.</param>
-        private static void AssignAspNetTables(ModelBuilder builder)
+        private void AssignAspNetTables(ModelBuilder builder)
         {
             builder.Entity<User>().ToTable("Users");
             builder.Entity<Role>().ToTable("Roles");
@@ -82,7 +82,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// Игнорирует ненужные таблицы при создании БД.
         /// </summary>
         /// <param name="builder">Конструктор БД.</param>
-        private static void IgnoreUselessTables(ModelBuilder builder)
+        private void IgnoreUselessTables(ModelBuilder builder)
         {
             builder.Ignore<IdentityUserClaim<int>>();
             builder.Ignore<IdentityUserToken<int>>();
@@ -96,7 +96,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         /// <summary>
         /// Инициализация базы данных стартовыми данными.
         /// </summary>
-        private static void FillDatabase(ModelBuilder builder)
+        private void FillDatabase(ModelBuilder builder)
         {
             #region Марки
             builder.Entity<Brand>().HasData(
