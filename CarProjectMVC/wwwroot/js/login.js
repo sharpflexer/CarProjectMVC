@@ -3,6 +3,9 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/authenticationhandler.js");
 }
 const channelTokenBroadcast = new BroadcastChannel('channelToken');
+channelTokenBroadcast.onmessage = function (event) {
+    localStorage.removeItem(event.data.item);
+}
 
 var tokenKey = "accessToken";
 
@@ -24,7 +27,7 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
     if (response.ok === true) {
         var accessToken = "Bearer " + data;
 
-        localStorage.setItem('AccessToken', accessToken);
+        localStorage.setItem(tokenKey, accessToken);
 
         channelTokenBroadcast.postMessage({ accessToken: accessToken });
 

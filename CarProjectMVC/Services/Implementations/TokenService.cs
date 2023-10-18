@@ -1,6 +1,6 @@
 ﻿using CarProjectMVC.Areas.Identity.Data;
 using CarProjectMVC.Extensions;
-using CarProjectMVC.JWT;
+using CarProjectMVC.Models;
 using CarProjectMVC.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;

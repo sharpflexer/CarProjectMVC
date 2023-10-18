@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace CarProjectMVC.JWT
+namespace CarProjectMVC.Services.Options
 {
     /// <summary>
     /// Настройки аутентификации JWT токена.
