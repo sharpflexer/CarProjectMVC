@@ -1,7 +1,9 @@
 using CarProjectMVC.Areas.Identity.Data;
+using CarProjectMVC.JWT;
 using CarProjectMVC.Services.Implementations;
 using CarProjectMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -80,6 +82,10 @@ builder.Services.AddAuthorization(opts =>
     opts.AddPolicy("Delete", policy =>
     {
         policy.RequireClaim("CanDelete", "True");
+    });
+    opts.AddPolicy("Users", policy =>
+    {
+        policy.RequireClaim("CanManageUsers", "True");
     });
 });
 

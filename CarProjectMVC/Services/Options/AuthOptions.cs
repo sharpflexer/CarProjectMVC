@@ -4,37 +4,35 @@ using System.Text;
 namespace CarProjectMVC.Services.Options
 {
     /// <summary>
-    /// Настройки аутентификации JWT токена
+    /// Настройки аутентификации JWT токена.
     /// </summary>
     public class AuthOptions
     {
         /// <summary>
-        /// Издатель токена
+        /// Издатель токена.
         /// </summary>
         public const string Issuer = "http://localhost:5000";
 
         /// <summary>
-        /// Потребитель токена
+        /// Потребитель токена.
         /// </summary>
         public const string Audience = "http://localhost:5001";
 
         /// <summary>
-        /// Ключ для создания токена
+        /// Ключ для создания токена.
         /// </summary>
         private const string key = "carsupersecret_secretkey!123";
 
         /// <summary>
         /// </summary>
-        /// <returns>Ключ безопасности, который применяется для генерации токена</returns>
-        public static SymmetricSecurityKey GetSymmetricSecurityKey()
-        {
-            return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-        }
+        /// <returns>Ключ безопасности, который применяется для генерации токена.</returns>
+        public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
         /// <summary>
-        /// Создаёт подпись токена 
+        /// Создаёт подпись токена. 
         /// </summary>
-        /// <returns>Подпись токена</returns>
+        /// <returns>Подпись токена.</returns>
         public static SigningCredentials CreateSigningCredentials()
         {
             return new SigningCredentials(

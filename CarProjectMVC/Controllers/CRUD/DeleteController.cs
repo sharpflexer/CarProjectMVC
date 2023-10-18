@@ -16,7 +16,7 @@ namespace CarProjectMVC.Controllers.CRUD
 
         /// <summary>
         /// Отправляет запрос на удаление автомобиля в базу данных через IRequestService.DeleteAsync().
-        /// Требует заполненных списков HttpContext.Request.Form
+        /// Требует заполненных списков HttpContext.Request.Form.
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> PostAsync()

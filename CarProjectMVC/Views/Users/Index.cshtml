@@ -1,0 +1,47 @@
+﻿@using CarProjectMVC.Areas.Identity.Data;
+
+@{
+    var users = ViewData["users"] as List<User>;
+}
+
+<h2>Список пользователей</h2>
+
+<table cellspacing="10" cellpadding="15">
+    <tr><th>ID</th><th>Почта</th><th>Логин</th><th>Пароль</th><th>Роль</th></tr>
+    @foreach (var user in users)
+    {
+        <form method="post">
+        <tr>
+            <td>
+                <input name="ID" value="@user.Id" size="1" readonly="true">
+            </td>
+            <td>
+                <input name="Email" value="@user.Email" disabled="true">
+            </td>
+            <td>
+                <input name="Login" value="@user.Login" disabled="true">
+            </td>
+            <td>
+                <input name="Password" value="@user.Password" disabled="true">
+            </td>
+            <td>
+                <select name="Roles" value="@user.Role.Id" asp-items="@(new SelectList(ViewBag.Roles, "Id", "Name", user.Role.Id))" disabled="true"></select>
+            </td>
+            <td>
+                <button class="update" type="button">
+                    Изменить
+                </button>
+                <button class="save" type="submit" asp-controller="Users" asp-action="Update" style="display:none">
+                    Сохранить
+                </button>
+                <button class="delete" type="submit" asp-controller="Users" asp-action="Delete">
+                    Удалить
+                </button>
+                <button class="cancel" type="button" style="display:none">
+                    Отменить
+                </button>
+            </td>
+        </tr>
+        </form>
+    }
+</table>

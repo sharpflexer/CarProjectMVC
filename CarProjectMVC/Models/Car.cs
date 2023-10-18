@@ -1,27 +1,42 @@
 ﻿namespace CarProjectMVC.Models
 {
     /// <summary>
-    /// Автомобиль
+    /// Автомобиль.
     /// </summary>
     public class Car
     {
         /// <summary>
-        /// ID автомобиля
+        /// Идентификатор автомобиля.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Марка автомобиля
+        /// Идентификатор марки автомобиля.
+        /// </summary>
+        public int BrandId { get; set; }
+
+        /// <summary>
+        /// Идентификатор модели автомобиля.
+        /// </summary>
+        public int ModelId { get; set; }
+
+        /// <summary>
+        /// Идентификатор цвета автомобиля.
+        /// </summary>
+        public int ColorId { get; set; }
+
+        /// <summary>
+        /// Марка автомобиля.
         /// </summary>
         public Brand Brand { get; set; }
 
         /// <summary>
-        /// Модель автомобиля
+        /// Модель автомобиля.
         /// </summary>
         public CarModel Model { get; set; }
 
         /// <summary>
-        /// Цвет автомобиля
+        /// Цвет автомобиля.
         /// </summary>
         public CarColor Color { get; set; }
     }

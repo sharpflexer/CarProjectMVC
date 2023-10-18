@@ -4,73 +4,88 @@ using CarProjectMVC.Models;
 namespace CarProjectMVC.Services.Interfaces
 {
     /// <summary>
-    /// Интерфейс сервиса для отправки запросов в БД
+    /// Интерфейс сервиса для отправки запросов в БД.
     /// </summary>
     public interface IRequestService
     {
         /// <summary>
-        /// Отправляет запрос на добавление нового автомобиля в БД через ApplicationContext
+        /// Отправляет запрос на добавление нового автомобиля в БД через ApplicationContext.
         /// </summary>
-        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
-        /// <returns></returns>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors.</param>
         public Task CreateAsync(IFormCollection form);
 
         /// <summary>
-        /// Получает список всех автомобилей из БД
+        /// Получает список всех автомобилей из БД.
         /// </summary>
-        /// <returns>Список автомобилей</returns>
+        /// <returns>Список автомобилей.</returns>
         public List<Car> Read();
 
         /// <summary>
-        /// Обновляет данные автомобиля
+        /// Обновляет данные автомобиля.
         /// </summary>
-        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
-        /// <returns></returns>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors.</param>
         public Task UpdateAsync(IFormCollection form);
 
         /// <summary>
-        /// Удаляет автомобиль из БД
+        /// Удаляет автомобиль из БД.
         /// </summary>
-        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors</param>
-        /// <returns></returns>
+        /// <param name="form">Форма с данными списков IDs, Brands, Models и Colors.</param>
         public Task DeleteAsync(IFormCollection form);
 
         /// <summary>
-        /// Устанавливает роль пользователя по умолчанию(при регистрации)
+        /// Получает роль пользователя по умолчанию(при регистрации).
         /// </summary>
-        /// <returns></returns>
-        public Role SetDefaultRole();
+        /// <returns>Роль по умолчанию</returns>
+        public Role GetDefaultRole();
 
         /// <summary>
-        /// Добавляет Refresh Token в таблицу User
+        /// Добавляет Refresh Token в таблицу User.
         /// </summary>
-        /// <param name="user">Аккаунт пользователя</param>
-        /// <param name="refreshToken">Токен для обновления access token</param>
+        /// <param name="user">Аккаунт пользователя.</param>
+        /// <param name="refreshToken">Токен для обновления access token.</param>
         public void AddRefreshToken(User user);
 
         /// <summary>
-        /// Добавляет пользователя в БД при регистрации
+        /// Добавляет пользователя в БД при регистрации.
         /// </summary>
-        /// <param name="user">Аккаунт нового пользователя</param>
-        void AddUser(User user);
+        /// <param name="user">Аккаунт нового пользователя.</param>
+        Task AddUserAsync(User user);
 
         /// <summary>
-        /// Получает список всех пользователей из БД
+        /// Получает список всех пользователей из БД.
         /// </summary>
-        /// <returns>Список пользователей</returns>
+        /// <returns>Список пользователей.</returns>
         Task<IEnumerable<User>> GetUsers();
 
         /// <summary>
-        /// Ищет пользователя по RefreshToken
+        /// Ищет пользователя по RefreshToken.
         /// </summary>
-        /// <param name="refreshToken">Токен обновления</param>
-        /// <returns>Найденный пользователь</returns>
+        /// <param name="refreshToken">Токен обновления.</param>
+        /// <returns>Найденный пользователь.</returns>
         User GetUserByToken(string refreshToken);
 
         /// <summary>
-        /// Обновляет пользователя в таблице
+        /// Обновляет пользователя в таблице.
         /// </summary>
-        /// <param name="user">Пользователь для обновления</param>
+        /// <param name="user">Пользователь для обновления.</param>
         Task UpdateUser(User user);
+
+        /// <summary>
+        /// Удаляет пользователя из таблицы.
+        /// </summary>
+        /// <param name="form">Данные пользователя.</param>
+        Task DeleteUsersAsync(IFormCollection form);
+
+        /// <summary>
+        /// Обновляет пользователя в таблице.
+        /// </summary>
+        /// <param name="form">Данные пользователя.</param>
+        Task UpdateUsersAsync(IFormCollection form);
+
+        /// <summary>
+        /// Получает список всех возможных ролей пользователей.
+        /// </summary>
+        /// <returns>Список всех ролей.</returns>
+        Task<IEnumerable<Role>> GetRolesAsync();
     }
 }

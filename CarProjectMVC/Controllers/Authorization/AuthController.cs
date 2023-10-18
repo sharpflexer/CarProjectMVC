@@ -7,31 +7,31 @@ using Microsoft.IdentityModel.Tokens;
 namespace CarProjectMVC.Controllers.Authorization
 {
     /// <summary>
-    /// Контроллер для получения и обновления токенов
+    /// Контроллер для получения и обновления токенов.
     /// </summary>
     public class AuthController : Controller
     {
         /// <summary>
-        /// Сервис для работы с JWT токенами
+        /// Сервис для работы с JWT токенами.
         /// </summary>
         private readonly ITokenService _tokenService;
 
         /// <summary>
-        /// Сервис для аутентификации пользователей
+        /// Сервис для аутентификации пользователей.
         /// </summary>
         private readonly IAuthenticateService _authenticateService;
 
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для отправки запросов в БД.
         /// </summary>
         private readonly IRequestService _requestService;
 
         /// <summary>
-        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД
+        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД.
         /// </summary>
-        /// <param name="tokenService">Сервис для работы с JWT токенами</param>
-        /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
-        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        /// <param name="tokenService">Сервис для работы с JWT токенами.</param>
+        /// <param name="authenticateService">Сервис для аутентификации пользователей.</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД.</param>
         public AuthController(ITokenService tokenService, IAuthenticateService authenticateService, IRequestService requestService)
         {
             _tokenService = tokenService;
@@ -40,12 +40,12 @@ namespace CarProjectMVC.Controllers.Authorization
         }
 
         /// <summary>
-        /// Проверяет данные пользователя для входа
+        /// Проверяет данные пользователя для входа.
         /// </summary>
-        /// <param name="username">Имя пользователя</param>
-        /// <param name="password">Пароль</param>
+        /// <param name="username">Имя пользователя.</param>
+        /// <param name="password">Пароль.</param>
         /// <returns>
-        /// Результат валидации пользователя
+        /// Результат валидации пользователя.
         /// </returns>
         [HttpPost]
         public async Task<IActionResult> Token(string username, string password)
@@ -65,10 +65,10 @@ namespace CarProjectMVC.Controllers.Authorization
         }
 
         /// <summary>
-        /// Обновляет токен
+        /// Обновляет токен.
         /// </summary>
-        /// <param name="oldToken">Токен, который требуется заменить</param>
-        /// <returns>Результат обновления</returns>
+        /// <param name="oldToken">Токен, который требуется заменить.</param>
+        /// <returns>Результат обновления.</returns>
         [HttpGet]
         public IActionResult Refresh()
         {
@@ -99,10 +99,10 @@ namespace CarProjectMVC.Controllers.Authorization
         }
 
         /// <summary>
-        /// Получает устаревший токен из запроса
+        /// Получает устаревший токен из запроса.
         /// </summary>
-        /// <param name="request">HTTP-запрос</param>
-        /// <returns>Устаревший токен</returns>
+        /// <param name="request">HTTP-запрос.</param>
+        /// <returns>Устаревший токен.</returns>
         private static JwtToken TryGetOldJwtToken(HttpRequest request)
         {
             string oldAccessToken = request.Headers["Authorization"].ToString().Split(" ")[0];

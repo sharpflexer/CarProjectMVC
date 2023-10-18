@@ -1,22 +1,22 @@
 ﻿namespace CarProjectMVC.Models
 {
     /// <summary>
-    /// Марка автомобиля
+    /// Марка автомобиля.
     /// </summary>
     public class Brand
     {
         /// <summary>
-        /// ID марки
+        /// Идентификатор марки.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Наименование марки авто
+        /// Наименование марки авто.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Модели данной марки
+        /// Модели данной марки.
         /// </summary>
         public ICollection<CarModel> Models { get; set; }
     }

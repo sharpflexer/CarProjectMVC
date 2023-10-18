@@ -7,15 +7,7 @@ channelTokenBroadcast.onmessage = function (event) {
     localStorage.removeItem(event.data.item);
 }
 
-var tokenKey = "AccessToken";
-window.onload = function () {
-    if (localStorage.getItem("AccessToken") != undefined
-        && getCookie("Refresh") != undefined) {
-        var accessToken = localStorage.getItem(tokenKey);
-        channelTokenBroadcast.postMessage({ accessToken: accessToken });
-        window.location.href = "/Read/Index";
-    }
-}
+var tokenKey = "accessToken";
 
 document.getElementById("submitLogin").addEventListener("click", async e => {
     e.preventDefault();

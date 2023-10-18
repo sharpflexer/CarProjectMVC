@@ -1,38 +1,40 @@
-﻿namespace CarProjectMVC.Areas.Identity.Data
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CarProjectMVC.Areas.Identity.Data
 {
     /// <summary>
-    /// Роль пользователя
+    /// Роль пользователя.
     /// </summary>
-    public class Role
+    public class Role : IdentityRole<int>
     {
         /// <summary>
-        /// ID роли
+        /// Название роли.
         /// </summary>
-        public int Id { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
-        /// Название роли
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Право на создание записей
+        /// Право на создание записей.
         /// </summary>
         public bool CanCreate { get; set; }
 
         /// <summary>
-        /// Право на чтение записей
+        /// Право на чтение записей.
         /// </summary
         public bool CanRead { get; set; }
 
         /// <summary>
-        /// Право на обновление записей
+        /// Право на обновление записей.
         /// </summary
         public bool CanUpdate { get; set; }
 
         /// <summary>
-        /// Право на удаление записей
+        /// Право на удаление записей.
         /// </summary
         public bool CanDelete { get; set; }
+
+        /// <summary>
+        /// Право на чтение и изменение данных пользователей.
+        /// </summary>
+        public bool CanManageUsers { get; set; }
     }
 }

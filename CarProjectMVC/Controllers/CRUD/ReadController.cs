@@ -6,23 +6,30 @@ using System.Diagnostics;
 
 namespace CarProjectMVC.Controllers.CRUD
 {
+    /// <summary>
+    /// Контроллер для просмотра списка автомобилей.
+    /// </summary>
     [Authorize(Policy = "Read")]
     public class ReadController : Controller
     {
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для отправки запросов в БД.
         /// </summary>
         private readonly IRequestService _requestService;
 
+        /// <summary>
+        /// Инициализирует контроллер сервисом для отправки запросов в БД.
+        /// </summary>
+        /// <param name="requestService">Сервис для отправки запросов в БД.</param>
         public ReadController(IRequestService requestService)
         {
             _requestService = requestService;
         }
 
         /// <summary>
-        /// Загружает список автомобилей на страницу
+        /// Загружает список автомобилей на страницу.
         /// </summary>
-        /// <returns>Страница с данными автомобилей в таблице</returns>
+        /// <returns>Страница с данными автомобилей в таблице.</returns>
         public IActionResult IndexAsync()
         {
             ViewData["cars"] = _requestService.Read();
@@ -30,9 +37,9 @@ namespace CarProjectMVC.Controllers.CRUD
         }
 
         /// <summary>
-        /// Показывает ошибку
+        /// Показывает ошибку.
         /// </summary>
-        /// <returns>Страница с ошибкой</returns>
+        /// <returns>Страница с ошибкой.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

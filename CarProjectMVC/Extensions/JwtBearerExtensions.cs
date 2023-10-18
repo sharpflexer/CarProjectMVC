@@ -7,15 +7,15 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 namespace CarProjectMVC.Extensions;
 
 /// <summary>
-/// Класс с расширениями для JWT токена
+/// Класс с расширениями для JWT токена.
 /// </summary>
 public static class JwtBearerExtensions
 {
     /// <summary>
-    /// Создает свойства пользователя
+    /// Создает свойства пользователя.
     /// </summary>
-    /// <param name="user">Аккаунт пользователя</param>
-    /// <returns>Свойства пользователя</returns>
+    /// <param name="user">Аккаунт пользователя.</param>
+    /// <returns>Свойства пользователя.</returns>
     public static List<Claim> CreateClaims(this User user)
     {
 
@@ -26,16 +26,17 @@ public static class JwtBearerExtensions
             new Claim("CanCreate", user.Role.CanCreate.ToString()),
             new Claim("CanRead", user.Role.CanRead.ToString()),
             new Claim("CanUpdate", user.Role.CanUpdate.ToString()),
-            new Claim("CanDelete", user.Role.CanDelete.ToString())
+            new Claim("CanDelete", user.Role.CanDelete.ToString()),
+            new Claim("CanManageUsers", user.Role.CanManageUsers.ToString())
         };
         return claims;
     }
 
     /// <summary>
-    /// Создает JWT-токен
+    /// Создает JWT-токен.
     /// </summary>
-    /// <param name="claims">Свойства пользователя</param>
-    /// <returns>JWT-токен</returns>
+    /// <param name="claims">Свойства пользователя.</param>
+    /// <returns>JWT-токен.</returns>
     public static JwtSecurityToken CreateJwtToken(this IEnumerable<Claim> claims)
     {
 
