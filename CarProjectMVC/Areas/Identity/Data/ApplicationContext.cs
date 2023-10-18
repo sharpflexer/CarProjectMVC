@@ -63,7 +63,7 @@ namespace CarProjectMVC.Areas.Identity.Data
             AssignAspNetTables(builder);
             IgnoreUselessTables(builder);
 
-            //Инициализация базы данных стартовыми данными.
+            // Инициализация базы данных стартовыми данными.
             FillDatabase(builder);
         }
 
