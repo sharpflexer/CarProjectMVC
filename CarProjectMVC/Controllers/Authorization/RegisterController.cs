@@ -41,7 +41,7 @@ namespace CarProjectMVC.Controllers.Authorization
         public async Task<IActionResult> PostAsync(User user)
         {
             user.Role = _requestService.GetDefaultRole();
-            _requestService.AddUser(user);
+            _requestService.AddUserAsync(user);
             return RedirectToAction("Index", "Login");
         }
     }

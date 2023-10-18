@@ -49,7 +49,7 @@ namespace CarProjectMVC.Services.Interfaces
         /// Добавляет пользователя в БД при регистрации.
         /// </summary>
         /// <param name="user">Аккаунт нового пользователя.</param>
-        void AddUser(User user);
+        Task AddUserAsync(User user);
 
         /// <summary>
         /// Получает список всех пользователей из БД.

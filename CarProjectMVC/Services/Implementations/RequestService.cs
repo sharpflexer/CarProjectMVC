@@ -131,10 +131,10 @@ namespace CarProjectMVC.Services.Implementations
         /// Добавляет пользователя в БД при регистрации.
         /// </summary>
         /// <param name="user">Аккаунт нового пользователя.</param>
-        public void AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
