@@ -53,7 +53,10 @@ namespace CarProjectMVC.Areas.Identity.Data
             Database.EnsureCreated();
         }
 
-        //TODO: Прочитать про ModelBuilder и добавить summary.
+        /// <summary>
+        /// Настраивает и инициализирует данными БД при ее создании.
+        /// </summary>
+        /// <param name="builder"></param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
