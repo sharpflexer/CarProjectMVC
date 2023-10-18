@@ -8,17 +8,17 @@ namespace CarProjectMVC.Models
     public class CarModelCarColor
     {
         /// <summary>
-        /// ID связи.
+        /// Идентификатор связи.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// ID модели.
+        /// Идентификатор модели.
         /// </summary>
         public int ModelId { get; set; }
 
         /// <summary>
-        /// ID цвета.
+        /// Идентификатор цвета.
         /// </summary>
         public int ColorId { get; set; }
     }

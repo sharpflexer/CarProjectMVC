@@ -6,7 +6,7 @@
     public class CarColor
     {
         /// <summary>
-        /// ID цвета.
+        /// Идентификатор цвета.
         /// </summary>
         public int Id { get; set; }
 

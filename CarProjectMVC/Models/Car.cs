@@ -6,22 +6,22 @@
     public class Car
     {
         /// <summary>
-        /// ID автомобиля.
+        /// Идентификатор автомобиля.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// ID марки автомобиля.
+        /// Идентификатор марки автомобиля.
         /// </summary>
         public int BrandId { get; set; }
 
         /// <summary>
-        /// ID модели автомобиля.
+        /// Идентификатор модели автомобиля.
         /// </summary>
         public int ModelId { get; set; }
 
         /// <summary>
-        /// ID цвета автомобиля.
+        /// Идентификатор цвета автомобиля.
         /// </summary>
         public int ColorId { get; set; }
 

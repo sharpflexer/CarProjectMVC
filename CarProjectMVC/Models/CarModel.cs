@@ -6,7 +6,7 @@
     public class CarModel
     {
         /// <summary>
-        /// ID модели автомобиля.
+        /// Идентификатор модели автомобиля.
         /// </summary>
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@
         public required string Name { get; set; }
 
         /// <summary>
-        /// ID марки автомобиля.
+        /// Идентификатор марки автомобиля.
         /// </summary>
         public int BrandId { get; set; }
 

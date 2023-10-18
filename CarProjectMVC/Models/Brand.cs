@@ -6,7 +6,7 @@
     public class Brand
     {
         /// <summary>
-        /// ID марки.
+        /// Идентификатор марки.
         /// </summary>
         public int Id { get; set; }
 
