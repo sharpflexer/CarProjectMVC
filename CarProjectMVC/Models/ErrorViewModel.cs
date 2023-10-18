@@ -1,17 +1,17 @@
 namespace CarProjectMVC.Models
 {
     /// <summary>
-    /// Ошибка
+    /// Ошибка.
     /// </summary>
     public class ErrorViewModel
     {
         /// <summary>
-        /// ID запроса
+        /// ID запроса.
         /// </summary>
         public string? RequestId { get; set; }
 
         /// <summary>
-        /// Статус отображения ID запроса
+        /// Статус отображения ID запроса.
         /// </summary>
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }

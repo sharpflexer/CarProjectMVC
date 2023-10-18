@@ -4,19 +4,19 @@ using CarProjectMVC.Services.Interfaces;
 namespace CarProjectMVC.Services.Implementations
 {
     /// <summary>
-    /// Сервис для аутентификации пользователей
+    /// Сервис для аутентификации пользователей.
     /// </summary>
     public class AuthenticateService : IAuthenticateService
     {
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для отправки запросов в БД.
         /// </summary>
         private readonly IRequestService _requestService;
 
         /// <summary>
-        /// Инициализирует сервис requestService
+        /// Инициализирует сервис requestService.
         /// </summary>
-        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД.</param>
         public AuthenticateService(IRequestService requestService)
         {
             _requestService = requestService;

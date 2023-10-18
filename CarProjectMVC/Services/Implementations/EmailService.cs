@@ -6,7 +6,7 @@ using MimeKit;
 namespace CarProjectMVC.Services.Implementations
 {
     /// <summary>
-    /// Сервис для отправки Email-сообщений пользователю
+    /// Сервис для отправки Email-сообщений пользователю.
     /// </summary>
     public class EmailService : IEmailService
     {

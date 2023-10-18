@@ -8,19 +8,19 @@ using System.Security.Cryptography;
 namespace CarProjectMVC.Services.Implementations
 {
     /// <summary>
-    /// Сервис для работы с JWT токенами
+    /// Сервис для работы с JWT токенами.
     /// </summary>
     public class TokenService : ITokenService
     {
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для отправки запросов в БД.
         /// </summary>
         private readonly IRequestService _requestService;
 
         /// <summary>
         /// Инициализирует IRequestService
         /// </summary>
-        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД.</param>
         public TokenService(IRequestService requestService)
         {
             _requestService = requestService;

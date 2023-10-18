@@ -6,31 +6,31 @@ using System.Security.Claims;
 namespace CarProjectMVC.Controllers.Authorization
 {
     /// <summary>
-    /// Контроллер для аутентификации и авторизации пользователя
+    /// Контроллер для аутентификации и авторизации пользователя.
     /// </summary>
     public class LoginController : Controller
     {
         /// <summary>
-        /// Сервис для работы с JWT токенами
+        /// Сервис для работы с JWT токенами.
         /// </summary>
         private readonly ITokenService _tokenService;
 
         /// <summary>
-        /// Сервис для аутентификации пользователей
+        /// Сервис для аутентификации пользователей.
         /// </summary>
         private readonly IAuthenticateService _authenticateService;
 
         /// <summary>
-        /// Сервис для отправки запросов в БД
+        /// Сервис для отправки запросов в БД.
         /// </summary>
         private readonly IRequestService _requestService;
 
         /// <summary>
-        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД
+        /// Инициализирует контроллер сервисами токенов, аутентификации и запросов в БД.
         /// </summary>
-        /// <param name="authenticateService">Сервис для аутентификации пользователей</param>
-        /// <param name="tokenService">Сервис для работы с JWT токенами</param>
-        /// <param name="requestService">Сервис для отправки запросов в БД</param>
+        /// <param name="authenticateService">Сервис для аутентификации пользователей.</param>
+        /// <param name="tokenService">Сервис для работы с JWT токенами.</param>
+        /// <param name="requestService">Сервис для отправки запросов в БД.</param>
         public LoginController(IAuthenticateService authenticateService,
                                ITokenService tokenService,
                                IRequestService requestService)
@@ -42,7 +42,7 @@ namespace CarProjectMVC.Controllers.Authorization
 
         /// <summary>
         /// Загружает страницу входа, если юзер не авторизован 
-        /// или страницу с таблицей, если авторизован
+        /// или страницу с таблицей, если авторизован.
         /// </summary>
         public IActionResult Index()
         {
@@ -53,9 +53,9 @@ namespace CarProjectMVC.Controllers.Authorization
         }
 
         /// <summary>
-        /// Производит выход пользователя из аккаунта
+        /// Производит выход пользователя из аккаунта.
         /// </summary>
-        /// <returns>Перенаправление на страницу входа</returns>
+        /// <returns>Перенаправление на страницу входа.</returns>
         [Authorize]
         public async Task<IActionResult> LogOut()
         {
@@ -68,17 +68,17 @@ namespace CarProjectMVC.Controllers.Authorization
         /// <summary>
         /// Выполняет авторизацию и перенаправляет на страницу с таблицей, 
         /// если пользователь прошел аутентификацию
-        /// или возвращает сообщение, если не прошел
+        /// или возвращает сообщение, если не прошел.
         /// </summary>
-        /// <param name="username">Имя пользователя</param>
-        /// <param name="isSuccess">Результат проверки</param>
+        /// <param name="username">Имя пользователя.</param>
+        /// <param name="isSuccess">Результат проверки.</param>
         /// <returns>
         /// <list type="bullet|number|table">
         /// <listheader>
-        /// <description>Новое представление, в зависимости от результата входа</description>
+        /// <description>Новое представление, в зависимости от результата входа.</description>
         /// </listheader>
-        /// <item><term>Успешный вход</term><description> /Read/Index</description></item>
-        /// <item><term>Неудачный вход</term><description> BadRequest</description></item>
+        /// <item><term>Успешный вход</term><description> /Read/Index.</description></item>
+        /// <item><term>Неудачный вход</term><description> BadRequest.</description></item>
         /// </list>
         /// </returns>
         private async Task<object> SignInIfSucceed(string username, Areas.Identity.Data.User isSuccess)

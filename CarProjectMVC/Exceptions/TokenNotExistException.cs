@@ -3,7 +3,7 @@
 namespace CarProjectMVC.Exceptions
 {
     /// <summary>
-    /// Исключение, означающее что сервер не смог обнаружить необходимый токен для аутентификации
+    /// Исключение, означающее что сервер не смог обнаружить необходимый токен для аутентификации.
     /// </summary>
     [Serializable]
     internal class TokenNotExistException : Exception

@@ -102,13 +102,6 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.Use(async (context, next) =>
 {
-    //string? jwtTokenCookie = context.Request.Cookies["Authorization"];
-    //if (!jwtTokenCookie.IsNullOrEmpty())
-    //{
-    //    string[] cookieParams = jwtTokenCookie.Split(";");
-    //    string jwtToken = cookieParams[0];
-    //    context.Request.Headers.Add("Authorization", jwtToken);
-    //}
     string url = context.Request.GetDisplayUrl();
     await next();
 });

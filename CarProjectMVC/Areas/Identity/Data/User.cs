@@ -3,37 +3,37 @@
 namespace CarProjectMVC.Areas.Identity.Data
 {
     /// <summary>
-    /// Пользователь
+    /// Пользователь.
     /// </summary>
     public class User : IdentityUser<int>
     {
         /// <summary>
-        /// Email пользователя, указанный при регистрации
+        /// Email пользователя, указанный при регистрации.
         /// </summary>
         public required string Email { get; set; }
 
         /// <summary>
-        /// Логин для входа
+        /// Логин для входа.
         /// </summary>
         public required string Login { get; set; }
 
         /// <summary>
-        /// Пароль для входа
+        /// Пароль для входа.
         /// </summary>
         public required string Password { get; set; }
 
         /// <summary>
-        /// Роль пользователя, дает права на различные действия с таблицей
+        /// Роль пользователя, дает права на различные действия с таблицей.
         /// </summary> 
         public required int RoleId { get; set; }
 
         /// <summary>
-        /// Роль пользователя, дает права на различные действия с таблицей
+        /// Роль пользователя, дает права на различные действия с таблицей.
         /// </summary> 
         public Role Role { get; set; }
 
         /// <summary>
-        /// Токен для обновления Access Token
+        /// Токен для обновления Access Token.
         /// </summary>
         public string? RefreshToken { get; set; }
     }

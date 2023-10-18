@@ -6,19 +6,19 @@ using Microsoft.EntityFrameworkCore;
 namespace CarProjectMVC.Services.Implementations
 {
     /// <summary>
-    /// Сервис для отправки запросов в БД
+    /// Сервис для отправки запросов в БД.
     /// </summary>
     public class RequestService : IRequestService
     {
         /// <summary>
-        /// Контекст для взаимодействия с БД
+        /// Контекст для взаимодействия с БД.
         /// </summary>
         private readonly ApplicationContext _context;
 
         /// <summary>
-        /// Инициализирует ApplicationContext
+        /// Инициализирует ApplicationContext.
         /// </summary>
-        /// <param name="context">Контекст для взаимодействия с БД</param>
+        /// <param name="context">Контекст для взаимодействия с БД.</param>
         public RequestService(ApplicationContext context)
         {
             _context = context;
@@ -69,7 +69,7 @@ namespace CarProjectMVC.Services.Implementations
 
         public Role SetDefaultRole()
         {
-            //Ставим роль пользователя по умолчанию при регистрации
+            //Ставим роль пользователя по умолчанию при регистрации.
             return _context.Roles.Single(role => role.Id == 3);
         }
 

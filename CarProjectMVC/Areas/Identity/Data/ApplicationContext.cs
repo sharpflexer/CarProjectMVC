@@ -7,71 +7,68 @@ using Microsoft.EntityFrameworkCore;
 namespace CarProjectMVC.Areas.Identity.Data
 {
     /// <summary>
-    /// Контекст для взаимодействия с БД
+    /// Контекст для взаимодействия с БД.
     /// </summary>
     public class ApplicationContext : IdentityDbContext<User, Role, int>
     {
         /// <summary>
-        /// Таблица автомобилей
+        /// Таблица автомобилей.
         /// </summary>
         public DbSet<Car> Cars => Set<Car>();
 
         /// <summary>
-        /// Таблица автомобильных марок
+        /// Таблица автомобильных марок.
         /// </summary>
         public DbSet<Brand> Brands => Set<Brand>();
 
         /// <summary>
-        /// Таблица моделей автомобилей
+        /// Таблица моделей автомобилей.
         /// </summary>
         public DbSet<CarModel> Models => Set<CarModel>();
 
         /// <summary>
-        /// Таблица расцветок автомобилей
+        /// Таблица расцветок автомобилей.
         /// </summary>
         public DbSet<CarColor> Colors => Set<CarColor>();
 
         /// <summary>
-        /// Таблица ролей
+        /// Таблица ролей.
         /// </summary>
         public DbSet<Role> Roles => Set<Role>();
 
         /// <summary>
-        /// Таблица пользователей
+        /// Таблица пользователей.
         /// </summary>
         public DbSet<User> Users => Set<User>();
 
         /// <summary>
         /// Инициализирует контекст настройками. 
         /// Создаёт базу данных при её отсутствии
-        /// и, в случае создания, заполняет данными
+        /// и, в случае создания, заполняет данными.
         /// </summary>
-        /// <param name="options">Настройки контекста</param>
+        /// <param name="options">Настройки контекста.</param>
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            //if (Database.EnsureCreated())
-            //{
-            //    FillDatabase();
-            //}
+            Database.EnsureCreated();
         }
 
-        //TODO: Прочитать про ModelBuilder и добавить summary
+        //TODO: Прочитать про ModelBuilder и добавить summary.
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             AssignAspNetTables(builder);
             IgnoreUselessTables(builder);
 
-            //Инициализация базы данных стартовыми данными
+            //Инициализация базы данных стартовыми данными.
             FillDatabase(builder);
         }
 
         /// <summary>
         /// Привязывает сущности к уже существующим таблицам, 
-        /// вместо автоматически созданных "AspNet..." таблиц
+        /// вместо автоматически созданных "AspNet..." таблиц.
         /// </summary>
-        /// <param name="builder">Конструктор БД</param>
+        /// <param name="builder">Конструктор БД.</param>
         private static void AssignAspNetTables(ModelBuilder builder)
         {
             builder.Entity<User>().ToTable("Users");
@@ -79,9 +76,9 @@ namespace CarProjectMVC.Areas.Identity.Data
         }
 
         /// <summary>
-        /// Игнорирует ненужные таблицы при создании БД
+        /// Игнорирует ненужные таблицы при создании БД.
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">Конструктор БД.</param>
         private static void IgnoreUselessTables(ModelBuilder builder)
         {
             builder.Ignore<IdentityUserClaim<int>>();
@@ -94,7 +91,7 @@ namespace CarProjectMVC.Areas.Identity.Data
         }
 
         /// <summary>
-        /// Инициализация базы данных стартовыми данными
+        /// Инициализация базы данных стартовыми данными.
         /// </summary>
         private static void FillDatabase(ModelBuilder builder)
         {
