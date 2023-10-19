@@ -12,7 +12,7 @@ self.addEventListener("fetch", event => {
 
     if (!event.request.url.match('^.*(\/Login).*$') &&
         !event.request.url.match('^.*(\/Auth).*$') &&
-        event.request.url.match('^.*(localhost:7020).*$')) {
+        event.request.url.match('^.*(localhost).*$')) {
 
         event.respondWith((async () => {
             const response =

@@ -3,6 +3,7 @@ using CarProjectMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace CarProjectMVC.Areas.Identity.Data
 {
@@ -50,7 +51,10 @@ namespace CarProjectMVC.Areas.Identity.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         {
-            Database.EnsureCreated();
+            if (Database.EnsureCreated())
+            {
+                FillDatabase();
+            }
         }
 
         /// <summary>
@@ -62,9 +66,6 @@ namespace CarProjectMVC.Areas.Identity.Data
             base.OnModelCreating(builder);
             AssignAspNetTables(builder);
             IgnoreUselessTables(builder);
-
-            // Инициализация базы данных стартовыми данными.
-            FillDatabase(builder);
         }
 
         /// <summary>
@@ -93,117 +94,128 @@ namespace CarProjectMVC.Areas.Identity.Data
             builder.Ignore<IdentityRole<int>>();
         }
 
-        /// <summary>
-        /// Инициализация базы данных стартовыми данными.
-        /// </summary>
-        private void FillDatabase(ModelBuilder builder)
+        private void FillDatabase()
         {
-
-            #region Марки
-            builder.Entity<Brand>().HasData(
-                new Brand() { Id = 1, Name = "Audi" },
-                new Brand() { Id = 2, Name = "BMW" },
-                new Brand() { Id = 3, Name = "Mercedes-Benz" }
-            );
-            #endregion
-
-            #region Модели
-            builder.Entity<CarModel>().HasData(
-                new CarModel() { Id = 1, Name = "A3", BrandId = 1 },
-                new CarModel() { Id = 2, Name = "A5", BrandId = 1 },
-                new CarModel() { Id = 3, Name = "A6", BrandId = 1 },
-                new CarModel() { Id = 4, Name = "X3", BrandId = 2 },
-                new CarModel() { Id = 5, Name = "X5", BrandId = 2 },
-                new CarModel() { Id = 6, Name = "X6", BrandId = 2 },
-                new CarModel() { Id = 7, Name = "GLC", BrandId = 3 },
-                new CarModel() { Id = 8, Name = "GLB", BrandId = 3 },
-                new CarModel() { Id = 9, Name = "GLE", BrandId = 3 }
-            );
-            #endregion
-
-            #region Цвета
-            builder.Entity<CarColor>().HasData(
-                new CarColor { Id = 1, Name = "Red" },
-                new CarColor { Id = 2, Name = "Blue" },
-                new CarColor { Id = 3, Name = "Green" },
-                new CarColor { Id = 4, Name = "Yellow" },
-                new CarColor { Id = 5, Name = "Gray" },
-                new CarColor { Id = 6, Name = "Black" },
-                new CarColor { Id = 7, Name = "Dark Blue" },
-                new CarColor { Id = 8, Name = "White" }
-            );
-            #endregion
-
-            #region ЦветаМодели
-            builder.Entity<CarModelCarColor>().HasData(
-                new CarModelCarColor() { Id = 1, ModelId = 1, ColorId = 1 },
-                new CarModelCarColor() { Id = 2, ModelId = 1, ColorId = 2 },
-                new CarModelCarColor() { Id = 3, ModelId = 1, ColorId = 3 },
-
-                new CarModelCarColor() { Id = 4, ModelId = 2, ColorId = 2 },
-                new CarModelCarColor() { Id = 5, ModelId = 2, ColorId = 3 },
-                new CarModelCarColor() { Id = 6, ModelId = 2, ColorId = 4 },
-
-                new CarModelCarColor() { Id = 7, ModelId = 3, ColorId = 3 },
-                new CarModelCarColor() { Id = 8, ModelId = 3, ColorId = 4 },
-                new CarModelCarColor() { Id = 9, ModelId = 3, ColorId = 5 },
-
-                new CarModelCarColor() { Id = 10, ModelId = 4, ColorId = 1 },
-                new CarModelCarColor() { Id = 11, ModelId = 4, ColorId = 7 },
-                new CarModelCarColor() { Id = 12, ModelId = 4, ColorId = 3 },
-
-                new CarModelCarColor() { Id = 13, ModelId = 5, ColorId = 4 },
-                new CarModelCarColor() { Id = 14, ModelId = 5, ColorId = 5 },
-                new CarModelCarColor() { Id = 15, ModelId = 5, ColorId = 7 },
-
-                new CarModelCarColor() { Id = 16, ModelId = 6, ColorId = 5 },
-                new CarModelCarColor() { Id = 17, ModelId = 6, ColorId = 7 },
-                new CarModelCarColor() { Id = 18, ModelId = 6, ColorId = 8 },
-
-                new CarModelCarColor() { Id = 19, ModelId = 7, ColorId = 6 },
-                new CarModelCarColor() { Id = 20, ModelId = 7, ColorId = 1 },
-                new CarModelCarColor() { Id = 21, ModelId = 7, ColorId = 4 },
-
-                new CarModelCarColor() { Id = 22, ModelId = 8, ColorId = 2 },
-                new CarModelCarColor() { Id = 23, ModelId = 8, ColorId = 4 },
-                new CarModelCarColor() { Id = 24, ModelId = 8, ColorId = 6 },
-
-                new CarModelCarColor() { Id = 25, ModelId = 9, ColorId = 5 },
-                new CarModelCarColor() { Id = 26, ModelId = 9, ColorId = 6 },
-                new CarModelCarColor() { Id = 27, ModelId = 9, ColorId = 7 }
-            );
-            #endregion
-
-            #region Автомобили
-            builder.Entity<Car>().HasData(
-                new Car()
+            Colors.AddRange(
+                new CarColor { Name = "Red" },
+                new CarColor { Name = "Blue" },
+                new CarColor { Name = "Green" },
+                new CarColor { Name = "Yellow" },
+                new CarColor { Name = "Gray" },
+                new CarColor { Name = "Black" },
+                new CarColor { Name = "Dark Blue" },
+                new CarColor { Name = "White" });
+            SaveChanges();
+            Models.AddRange(
+                new CarModel()
                 {
-                    Id = 1,
-                    BrandId = 1,
-                    ModelId = 3,
-                    ColorId = 3,
+                    Name = "A3",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(1),
+                        Colors.ToList().ElementAt(4),
+                        Colors.ToList().ElementAt(5)
+                    }
                 },
-                new Car()
+                new CarModel()
                 {
-                    Id = 2,
-                    BrandId = 2,
-                    ModelId = 5,
-                    ColorId = 5,
+                    Name = "A5",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(2),
+                        Colors.ToList().ElementAt(4),
+                        Colors.ToList().ElementAt(5)
+                    }
                 },
-                new Car()
+                new CarModel()
                 {
-                    Id = 3,
-                    BrandId = 3,
-                    ModelId = 8,
-                    ColorId = 4,
-                });
-            #endregion
-
-            #region Роли
-            builder.Entity<Role>().HasData(
+                    Name = "A6",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(3),
+                        Colors.ToList().ElementAt(4),
+                        Colors.ToList().ElementAt(5)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "X3",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(3),
+                        Colors.ToList().ElementAt(1),
+                        Colors.ToList().ElementAt(5)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "X5",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(3),
+                        Colors.ToList().ElementAt(2),
+                        Colors.ToList().ElementAt(5)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "X6",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(3),
+                        Colors.ToList().ElementAt(6),
+                        Colors.ToList().ElementAt(5)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "GLE",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(1),
+                        Colors.ToList().ElementAt(6),
+                        Colors.ToList().ElementAt(2)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "GLB",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(1),
+                        Colors.ToList().ElementAt(4),
+                        Colors.ToList().ElementAt(5)
+                    }
+                },
+                new CarModel()
+                {
+                    Name = "GLC",
+                    Colors = new List<CarColor>() {
+                        Colors.ToList().ElementAt(1),
+                        Colors.ToList().ElementAt(2),
+                        Colors.ToList().ElementAt(3)
+                    }
+                }
+            );
+            SaveChanges();
+            foreach (CarColor color in Colors.ToList())
+            {
+                color.Models = Models.Where(model => model.Colors.Contains(color)).ToList();
+            }
+            SaveChanges();
+            Brands.AddRange(
+                new Brand()
+                {
+                    Name = "Audi",
+                    Models = Models.ToList().Where(m => m.Name.Contains('A')).ToList(),
+                },
+                new Brand()
+                {
+                    Name = "BMW",
+                    Models = Models.ToList().Where(m => m.Name.Contains('X')).ToList(),
+                },
+                new Brand()
+                {
+                    Name = "Mercedes-Benz",
+                    Models = Models.ToList().Where(m => m.Name.Contains("GL")).ToList(),
+                }
+            );
+            SaveChanges();
+            Roles.AddRange(
                 new Role()
                 {
-                    Id = 1,
                     Name = "Админ",
                     CanCreate = true,
                     CanRead = true,
@@ -213,7 +225,6 @@ namespace CarProjectMVC.Areas.Identity.Data
                 },
                 new Role()
                 {
-                    Id = 2,
                     Name = "Менеджер",
                     CanCreate = true,
                     CanRead = true,
@@ -223,7 +234,6 @@ namespace CarProjectMVC.Areas.Identity.Data
                 },
                 new Role()
                 {
-                    Id = 3,
                     Name = "Пользователь",
                     CanCreate = false,
                     CanRead = true,
@@ -231,16 +241,13 @@ namespace CarProjectMVC.Areas.Identity.Data
                     CanDelete = false,
                     CanManageUsers = false
                 });
-            #endregion
-
-            #region Пользователи
-            builder.Entity<User>().HasData(
-                new User() { Id = 1, Email = "admin456@mail.ru", Login = "admin", Password = "admin123", RoleId = 1 },
-                new User() { Id = 2, Email = "manager456@gmail.com", Login = "manager", Password = "manager123", RoleId = 2 },
-                new User() { Id = 3, Email = "user456@yandex.ru", Login = "user", Password = "user123", RoleId = 3 }
+            SaveChanges();
+            Users.AddRange(
+                new User() { Email = "admin456@mail.ru", Login = "admin", Password = "admin123", Role = Roles.Single(role => role.Name == "Админ") },
+                new User() { Email = "manager456@gmail.com", Login = "manager", Password = "manager123", Role = Roles.Single(role => role.Name == "Менеджер") },
+                new User() { Email = "user456@yandex.ru", Login = "user", Password = "user123", Role = Roles.Single(role => role.Name == "Пользователь") }
             );
-            #endregion
-
+            SaveChanges();
         }
     }
 }

@@ -16,11 +16,6 @@
         public required string Name { get; set; }
 
         /// <summary>
-        /// Идентификатор марки автомобиля.
-        /// </summary>
-        public int BrandId { get; set; }
-
-        /// <summary>
         /// Цвета, доступные для данной модели.
         /// </summary>
         public ICollection<CarColor> Colors { get; set; }

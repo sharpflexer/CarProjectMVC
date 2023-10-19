@@ -36,7 +36,7 @@ function LoadBrands() {
     $('#brand').empty();
 
     $.ajax({
-        url: '/ReadJS/GetBrands',
+        url: '/CascadeList/GetBrands',
         success: function (response) {
             if (response != null && response != undefined && response.length > 0) {
                 $('#brand').attr('disabled', false);
@@ -69,7 +69,7 @@ function LoadModels(brandId) {
 
 
     $.ajax({
-        url: '/ReadJS/GetModels?Id=' + brandId,
+        url: '/CascadeList/GetModels?Id=' + brandId,
         success: function (response) {
             if (response != null && response != undefined && response.length > 0) {
                 $('#model').attr('disabled', false);
@@ -96,7 +96,7 @@ function LoadColors(modelId) {
     $('#color').empty();
 
     $.ajax({
-        url: '/ReadJS/GetColors?Id=' + modelId,
+        url: '/CascadeList/GetColors?Id=' + modelId,
         success: function (response) {
             if (response != null && response != undefined && response.length > 0) {
                 $('#color').attr('disabled', false);

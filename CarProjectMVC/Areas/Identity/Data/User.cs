@@ -23,11 +23,6 @@ namespace CarProjectMVC.Areas.Identity.Data
         public required string Password { get; set; }
 
         /// <summary>
-        /// Идентификатор роли пользователя.
-        /// </summary> 
-        public required int RoleId { get; set; }
-
-        /// <summary>
         /// Роль пользователя, дает права на различные действия с таблицей.
         /// </summary> 
         public Role Role { get; set; }

@@ -158,7 +158,6 @@ namespace CarProjectMVC.Services.Implementations
                 Email = form["Email"],
                 Login = form["Login"],
                 Password = form["Password"],
-                RoleId = int.Parse(form["Roles"]),
                 Role = _context.Roles.Single(color => color.Id == int.Parse(form["Roles"]))
             };
             _context.Users.Remove(user);
@@ -177,7 +176,6 @@ namespace CarProjectMVC.Services.Implementations
                 Email = form["Email"],
                 Login = form["Login"],
                 Password = form["Password"],
-                RoleId = int.Parse(form["Roles"]),
                 Role = _context.Roles.Single(color => color.Id == int.Parse(form["Roles"]))
             };
             _context.Users.Update(user);
