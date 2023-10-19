@@ -6,13 +6,14 @@ channelTokenBroadcast.onmessage = function (event) {
 }
 
 self.addEventListener("fetch", event => {
-    if (!event.request.url.match('^.*(\/LogOut).*$')) {
+    if (event.request.url.match('^.*(\/LogOut).*$')) {
         channelTokenBroadcast.postMessage({ item: "AccessToken" });
     }
 
     if (!event.request.url.match('^.*(\/Login).*$') &&
         !event.request.url.match('^.*(\/Auth).*$') &&
-        event.request.url.match('^.*(localhost).*$')) {
+        (event.request.url.match('^.*(localhost).*$') ||
+        event.request.url.match('^.*(192.168.100.220).*$'))) {
 
         event.respondWith((async () => {
             const response =

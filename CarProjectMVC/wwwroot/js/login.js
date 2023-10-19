@@ -2,6 +2,7 @@
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/authenticationhandler.js");
 }
+
 const channelTokenBroadcast = new BroadcastChannel('channelToken');
 channelTokenBroadcast.onmessage = function (event) {
     localStorage.removeItem(event.data.item);
