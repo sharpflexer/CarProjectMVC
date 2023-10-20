@@ -1,0 +1,33 @@
+﻿networks:
+    car-app-network:
+        driver: bridge
+services:
+    car_app:
+        container_name: deploy-car-app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "82:82"
+            - "443:443"
+        networks:
+            - car-app-network
+        depends_on:
+            - car_app_db
+    car_app_db:
+        container_name: database_car_app
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 1234
+            POSTGRES_DB: carprojectdb
+        ports:
+            - "5430:5430"
+        networks:
+            - car-app-network
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        command: -p 5430
+volumes:
+    postgres-data:
+
